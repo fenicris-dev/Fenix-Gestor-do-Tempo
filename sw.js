@@ -1,7 +1,7 @@
-/* FÊNIX | Gestor de Tempo — service worker v1.0
+/* FÊNIX | Gestor de Tempo — service worker v1.1
    Rede primeiro (para receber atualizações) com cache como reserva offline. */
-const CACHE = 'fenix-tempo-v1.0';
-const ARQUIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'fenix-tempo-v1.1';
+const ARQUIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ARQUIVOS)).then(() => self.skipWaiting()));
