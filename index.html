@@ -104,7 +104,7 @@ input[type=color]{padding:2px;height:40px;width:54px}
 .item input[type=text]{flex:1}
 .item select{width:auto;max-width:140px}
 .item.tw{flex-wrap:wrap;padding:10px 0}
-.item.tw input[type=text]{flex:1 1 calc(100% - 64px);min-width:0}
+.item.tw input[type=text]{flex:1 1 calc(100% - 128px);min-width:0}
 .item.tw select{flex:1;max-width:none;min-width:0}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:99px;font-size:14px;z-index:80;max-width:90%;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
@@ -115,7 +115,7 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 <header>
   <img class="lg" src="icon-192.png" alt="" width="32" height="32">
   <div class="logo">FÊNIX <b>|</b> Gestor de Tempo</div>
-  <span class="ver">v1.1</span>
+  <span class="ver">v1.2</span>
   <div class="sp"></div>
   <button onclick="abrirSobre()">Sobre</button>
 </header>
@@ -131,8 +131,8 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 
 <script>
 'use strict';
-/* ===== FÊNIX | Gestor de Tempo v1.1 ===== */
-const VERSAO='1.1';
+/* ===== FÊNIX | Gestor de Tempo v1.2 ===== */
+const VERSAO='1.2';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -272,6 +272,34 @@ async function salvarMeta(id){
   await put('tarefas',t);fechar();render();
 }
 
+/* ---------- Aviso de limite, favoritas e comparação (v1.2) ---------- */
+function metasEstouradas(){
+  const d=diaAberto();if(!d)return [];const now=Date.now();
+  return S.regs.filter(r=>!r.fim&&r.diaId===d.id).map(r=>({r,t:tarefa(r.tarefaId)}))
+    .filter(x=>x.t&&x.t.meta&&x.t.meta.tipo==='max'&&x.t.meta.min>0)
+    .map(x=>({r:x.r,t:x.t,ms:tempoTarefaDia(x.t.id,d,now)}))
+    .filter(x=>x.ms>x.t.meta.min*MIN&&(!snooze['meta_'+x.t.id]||now>=snooze['meta_'+x.t.id]));
+}
+function adiarMeta(tid){snooze['meta_'+tid]=Date.now()+S.cfg.repetirMin*MIN;renderBanner();}
+async function favTar(id){const t=tarefa(id);if(!t)return;if(t.fav)delete t.fav;else t.fav=true;await put('tarefas',t);render();}
+function compRelHTML(ds0,now){
+  if(ui.per!=='7'&&ui.per!=='30')return '';
+  const ds=ds0.filter(d=>d.fim!=null); /* o dia em andamento é parcial e fica de fora */
+  const N=Number(ui.per)*DIA,ant=S.dias.filter(d=>d.fim!=null&&d.inicio>=now-2*N&&d.inicio<now-N);
+  if(!ant.length||!ds.length)return '';
+  const agr=lst=>{const c={};let err=0;lst.forEach(d=>{const st=statsDia(d,now);catTotais(st.regs,d,now).forEach(x=>{(c[x.nome]=c[x.nome]||{cor:x.cor,ms:0}).ms+=x.ms;});err+=st.erros.length;});return {c,err,n:lst.length};};
+  const a=agr(ds),b=agr(ant);
+  const nomes=Object.keys(a.c).concat(Object.keys(b.c).filter(k=>!(k in a.c)));
+  const med=(x,k)=>(x.c[k]?x.c[k].ms:0)/x.n;
+  nomes.sort((p,q)=>med(a,q)-med(a,p));
+  const seta=ms=>Math.abs(ms)<5*MIN?'≈ igual':(ms>0?'▲ +':'▼ −')+fmtDur(Math.abs(ms));
+  const lin=nomes.map(k=>{const cor=(a.c[k]||b.c[k]).cor,m1=med(a,k),m0=med(b,k);
+    return `<div class="item"><div style="flex:1"><span class="dot" style="background:${esc(cor)}"></span><b>${esc(k)}</b><div class="mut small">antes ${fmtDur(m0)}/dia → agora ${fmtDur(m1)}/dia</div></div><span class="mut">${seta(m1-m0)}</span></div>`;}).join('');
+  const e1=a.err/a.n,e0=b.err/b.n,dif=e1-e0,f=v=>v.toFixed(1).replace('.',',');
+  const dis=`<div class="item"><div style="flex:1"><b>Distrações por dia</b><div class="mut small">antes ${f(e0)} → agora ${f(e1)}</div></div><b class="${dif<-0.05?'ok':dif>0.05?'err':'mut'}">${Math.abs(dif)<0.05?'≈ igual':(dif>0?'▲ +':'▼ −')+f(Math.abs(dif))}</b></div>`;
+  return `<div class="card"><h3>Comparação com o período anterior</h3><p class="mut small" style="margin-bottom:6px">Médias por dia: últimos ${ui.per} dias × ${ui.per} dias anteriores (dias fechados: ${ds.length} agora, ${ant.length} antes).</p>${lin}${dis}</div>`;
+}
+
 /* ---------- Modal ---------- */
 function modal(html){const m=$('#modal');m.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;m.classList.add('on');}
 function fechar(){const m=$('#modal');m.classList.remove('on');m.innerHTML='';}
@@ -300,6 +328,8 @@ function renderHoje(){
   let h=`<div class="card dia"><div class="mut small">Acordou às ${fmtHM(d.inicio)} · ${fmtData(d.inicio)} <button class="edit" onclick="abrirEditarDia('${d.id}')">editar</button></div><div class="clock" data-since="${d.inicio}">00:00:00</div>
    <span class="st" onclick="go('rel')">${abertas.length} em andamento</span><span class="st" onclick="go('rel')">${st.erros.length} distraç${st.erros.length===1?'ão':'ões'} hoje</span></div>
    <button class="btn gold block" style="font-size:18px;padding:15px;margin:0 0 4px" onclick="abrirIniciar()">+ Iniciar tarefa</button>`;
+  const abIds=new Set(abertas.map(r=>r.tarefaId)),favs=S.tarefas.filter(t=>t.fav&&!abIds.has(t.id));
+  if(favs.length)h+=`<div class="chips" style="margin:8px 0 2px">${favs.map(t=>`<button class="chip" onclick="iniciar('${t.id}')">▶ ${esc(t.nome)}</button>`).join('')}</div>`;
   const mh=metasHTML(d);
   if(mh)h+=`<div class="sec">Metas de hoje</div><div class="card" id="metas">${mh}</div>`;
   h+=`<div class="sec">Em andamento</div>`;
@@ -329,9 +359,9 @@ function abrirIniciar(){
 function listaTarefas(){
   const q=($('#busca').value||'').trim().toLowerCase(),box=$('#lista');
   const abertas=new Set(S.regs.filter(r=>!r.fim).map(r=>r.tarefaId));
-  const ts=S.tarefas.filter(t=>!q||t.nome.toLowerCase().includes(q)).sort((a,b)=>usos(b.id)-usos(a.id)||a.nome.localeCompare(b.nome));
+  const ts=S.tarefas.filter(t=>!q||t.nome.toLowerCase().includes(q)).sort((a,b)=>(b.fav?1:0)-(a.fav?1:0)||usos(b.id)-usos(a.id)||a.nome.localeCompare(b.nome));
   let h=ts.map(t=>{const c=catId(t.catId),off=abertas.has(t.id);
-    return `<div class="it${off?' off':''}" ${off?'':`onclick="iniciar('${t.id}')"`}><span><span class="dot" style="background:${esc(c.cor)}"></span>${esc(t.nome)}</span><span class="mut small">${off?'em andamento':esc(c.nome)}</span></div>`;}).join('');
+    return `<div class="it${off?' off':''}" ${off?'':`onclick="iniciar('${t.id}')"`}><span><span class="dot" style="background:${esc(c.cor)}"></span>${t.fav?'⭐ ':''}${esc(t.nome)}</span><span class="mut small">${off?'em andamento':esc(c.nome)}</span></div>`;}).join('');
   const exato=S.tarefas.some(t=>t.nome.toLowerCase()===q);
   if(q&&!exato)h+=`<div class="it" onclick="novaTarefaPick()"><span><b>+ Criar “${esc($('#busca').value.trim())}”</b></span><span class="mut small">nova</span></div>`;
   if(!h)h='<div class="empty">Digite o nome para criar a primeira tarefa.</div>';
@@ -508,6 +538,7 @@ function renderRel(){
   h+=`<div class="card" style="margin-top:10px"><h3>Visão geral · ${ds.length} dia${ds.length===1?'':'s'}</h3><div class="grid"><div class="kpi"><span>${fmtDur(ac)}</span>acordado</div><div class="kpi"><span>${fmtDur(so)}</span>em tarefas</div><div class="kpi"><span>${fmtDur(sem)}</span>sem registro</div><div class="kpi"><span>${fmtDur(par)}</span>em paralelo</div></div>
    <p class="mut small">“Em tarefas” soma cada tarefa; “sem registro” é o tempo acordado sem nenhuma tarefa aberta; “em paralelo” é a sobreposição.</p></div>
    <div class="card"><h3>Por categoria</h3>${barras(Object.values(porCat).sort((a,b)=>b.ms-a.ms))}</div>`;
+  h+=compRelHTML(ds,now);
   h+=metasRelHTML(ds,now);
   const porTar={};
   regs.forEach(r=>{const x=(porTar[r.tarefaId||r.nome]=porTar[r.tarefaId||r.nome]||{nome:r.nome,ms:0,n:0});x.ms+=Math.max(0,(r.fim||now)-r.inicio);x.n++;});
@@ -535,14 +566,14 @@ function renderRel(){
 function renderAjustes(){
   const cfg=S.cfg,perm=('Notification' in window)?Notification.permission:'unsupported';
   let h=`<div class="card"><h3>Lembretes</h3>
-   <div class="sw"><span>Avisar sobre tarefas abertas há muito tempo</span><input type="checkbox" ${cfg.lembretes?'checked':''} onchange="setCfg('lembretes',this.checked)"></div>
+   <div class="sw"><span>Avisar sobre tarefas abertas há muito tempo e limites de meta estourados</span><input type="checkbox" ${cfg.lembretes?'checked':''} onchange="setCfg('lembretes',this.checked)"></div>
    <div class="sw"><span>Limite padrão (min) para tarefas sem histórico</span><input type="number" min="5" value="${cfg.limiteMin}" onchange="setCfg('limiteMin',Math.max(5,+this.value||60))"></div>
    <div class="sw"><span>Repetir aviso a cada (min)</span><input type="number" min="5" value="${cfg.repetirMin}" onchange="setCfg('repetirMin',Math.max(5,+this.value||30))"></div>
    <div class="sw"><span>Notificações do sistema</span><input type="checkbox" ${cfg.notif&&perm==='granted'?'checked':''} ${perm==='unsupported'?'disabled':''} onchange="ativarNotif(this)"></div>
    <p class="mut small">Depois de 3 registros de uma tarefa, o limite passa a ser calculado pela duração típica dela (cerca de 1,5×). As notificações funcionam com o app aberto ou em segundo plano; com o app fechado o aviso aparece ao abrir.</p></div>`;
   h+=`<div class="card"><h3>Categorias</h3>`+S.cats.map(c=>`<div class="item"><input type="color" value="${esc(c.cor)}" onchange="editCat('${c.id}','cor',this.value)"><input type="text" value="${esc(c.nome)}" onchange="editCat('${c.id}','nome',this.value)">${c.id==='c_outros'?'':`<button class="btn small danger" onclick="delCat('${c.id}')">✕</button>`}</div>`).join('')
    +`<div class="item"><input type="color" id="nc_cor" value="#2563eb"><input type="text" id="nc_nome" placeholder="Nova categoria"><button class="btn small gold" onclick="addCat()">Adicionar</button></div></div>`;
-  h+=`<div class="card"><h3>Tarefas</h3>`+(S.tarefas.length?S.tarefas.slice().sort((a,b)=>a.nome.localeCompare(b.nome)).map(t=>`<div class="item tw"><input type="text" value="${esc(t.nome)}" onchange="editTar('${t.id}',this.value)"><button class="btn small danger" onclick="delTar('${t.id}')">✕</button><select onchange="catTar('${t.id}',this.value)">${S.cats.map(c=>`<option value="${c.id}" ${c.id===t.catId?'selected':''}>${esc(c.nome)}</option>`).join('')}</select><button class="btn small${t.meta&&t.meta.min>0?' gold':''}" onclick="abrirMeta('${t.id}')">🎯 ${t.meta&&t.meta.min>0?esc(metaTxt(t)):'Meta'}</button></div>`).join(''):'<p class="mut small">Nenhuma tarefa ainda.</p>')
+  h+=`<div class="card"><h3>Tarefas</h3>`+(S.tarefas.length?S.tarefas.slice().sort((a,b)=>a.nome.localeCompare(b.nome)).map(t=>`<div class="item tw"><button class="btn small${t.fav?' gold':''}" onclick="favTar('${t.id}')" title="Atalho na tela Hoje">${t.fav?'⭐':'☆'}</button><input type="text" value="${esc(t.nome)}" onchange="editTar('${t.id}',this.value)"><button class="btn small danger" onclick="delTar('${t.id}')">✕</button><select onchange="catTar('${t.id}',this.value)">${S.cats.map(c=>`<option value="${c.id}" ${c.id===t.catId?'selected':''}>${esc(c.nome)}</option>`).join('')}</select><button class="btn small${t.meta&&t.meta.min>0?' gold':''}" onclick="abrirMeta('${t.id}')">🎯 ${t.meta&&t.meta.min>0?esc(metaTxt(t)):'Meta'}</button></div>`).join(''):'<p class="mut small">Nenhuma tarefa ainda.</p>')
    +`<div class="item"><input type="text" id="nt_nome" placeholder="Nova tarefa"><select id="nt_cat">${S.cats.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join('')}</select><button class="btn small gold" onclick="addTar()">Adicionar</button></div></div>`;
   h+=`<div class="card"><h3>Dados e instalação</h3>
    <button class="btn block" onclick="exportarJSON()">Exportar backup (JSON)</button>
@@ -615,7 +646,8 @@ function vencidas(){const now=Date.now();return S.regs.filter(r=>!r.fim&&now-r.i
 function renderBanner(){
   const b=$('#banner');if(!S.cfg.lembretes){b.innerHTML='';return;}
   const now=Date.now();
-  b.innerHTML=vencidas().map(r=>{const t=tipico(r.tarefaId);
+  const est=metasEstouradas(),ids=new Set(est.map(x=>x.r.id));
+  b.innerHTML=est.map(x=>`<div class="alerta"><b>🎯 ${esc(x.t.nome)}</b> passou do limite de hoje: ${fmtDur(x.ms)} (meta: até ${fmtDur(x.t.meta.min*MIN)}).<div class="acts"><button class="btn small navy" onclick="abrirEncerrar('${x.r.id}')">Encerrar</button><button class="btn small" onclick="adiarMeta('${x.t.id}')">Ainda estou nisso</button></div></div>`).join('')+vencidas().filter(r=>!ids.has(r.id)).map(r=>{const t=tipico(r.tarefaId);
     return `<div class="alerta"><b>⏰ ${esc(r.nome)}</b> está aberta há ${fmtDur(now-r.inicio)}${t?` (costuma levar ~${fmtDur(t)})`:''}. Já terminou?<div class="acts"><button class="btn small navy" onclick="abrirEncerrar('${r.id}')">Encerrar</button><button class="btn small" onclick="adiar('${r.id}')">Ainda estou nisso</button></div></div>`;}).join('');
 }
 function adiar(id){snooze[id]=Date.now()+S.cfg.repetirMin*MIN;renderBanner();}
@@ -630,7 +662,9 @@ function checar(){
   renderBanner();
   if(!S.cfg.notif||!('Notification' in window)||Notification.permission!=='granted')return;
   const now=Date.now();
-  vencidas().forEach(r=>{if(now-(notif[r.id]||0)>=S.cfg.repetirMin*MIN){notif[r.id]=now;notificar('Fênix · '+r.nome,'Aberta há '+fmtDur(now-r.inicio)+'. Já terminou?',r.id);}});
+  const est=metasEstouradas(),ids=new Set(est.map(x=>x.r.id));
+  est.forEach(x=>{const k='meta_'+x.t.id;if(now-(notif[k]||0)>=S.cfg.repetirMin*MIN){notif[k]=now;notificar('Fênix · limite de '+x.t.nome,'Já são '+fmtDur(x.ms)+' hoje (meta: até '+fmtDur(x.t.meta.min*MIN)+').',k);}});
+  vencidas().filter(r=>!ids.has(r.id)).forEach(r=>{if(now-(notif[r.id]||0)>=S.cfg.repetirMin*MIN){notif[r.id]=now;notificar('Fênix · '+r.nome,'Aberta há '+fmtDur(now-r.inicio)+'. Já terminou?',r.id);}});
 }
 let n=0;
 function tick(){
@@ -645,7 +679,7 @@ function abrirSobre(){
   modal(`<h3>FÊNIX | Gestor de Tempo</h3><p class="mut small">Versão ${VERSAO} · Fênix Soluções Tecnológicas</p>
    <p style="margin:10px 0">Cronometra o dia do <b>Acordei</b> ao <b>Dormir</b> e cada tarefa no meio, com encerramento manual e controle de esquecimentos.</p>
    <h3 style="font-size:16px;margin-top:14px">Changelog</h3>
-   <p><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
+   <p><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
    <ul class="cl"><li>Botões Acordei e Dormir, com cronômetro do dia.</li><li>Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.</li><li>Início de tarefa com lista, busca e criação de nova (com categoria) e opção “começou há X min”.</li><li>Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso entre o feito e o registro.</li><li>Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.</li><li>Categorias com cores e gerenciamento de tarefas.</li><li>Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.</li><li>Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.</li><li>Backup e restauração em JSON, exportação CSV; funciona offline e é instalável (PWA).</li></ul>
    <button class="btn gold block" onclick="fechar()">Fechar</button>`);
 }
