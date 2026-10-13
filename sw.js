@@ -1,7 +1,9 @@
-/* FÊNIX | Gestor de Tempo — service worker v1.4
-   Rede primeiro (para receber atualizações) com cache como reserva offline. */
-const CACHE = 'fenix-tempo-v1.4';
-const ARQUIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'];
+/* FÊNIX | Gestor de Tempo — service worker v2.0
+   Rede primeiro (para receber atualizações) com cache como reserva offline.
+   Também guarda o fenix-core e o Firebase SDK, para o app abrir e sincronizar sem internet. */
+const CACHE = 'fenix-tempo-v2.0';
+const ARQUIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const EXTERNOS = ['www.gstatic.com', 'fenicris-dev.github.io'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ARQUIVOS)).then(() => self.skipWaiting()));
@@ -17,14 +19,17 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  if (req.method !== 'GET') return;
+  const u = new URL(req.url);
+  const mesma = u.origin === self.location.origin;
+  if (!mesma && !EXTERNOS.includes(u.hostname)) return;
   e.respondWith(
     fetch(req)
       .then(r => {
         if (r.ok) { const cp = r.clone(); caches.open(CACHE).then(c => c.put(req, cp)); }
         return r;
       })
-      .catch(() => caches.match(req).then(m => m || caches.match('index.html')))
+      .catch(() => caches.match(req).then(m => m || (mesma ? caches.match('index.html') : Response.error())))
   );
 });
 

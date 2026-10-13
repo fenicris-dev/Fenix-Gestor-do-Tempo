@@ -1,0 +1,11 @@
+// ACRESCENTE este bloco no firestore.rules do projeto fenix-core-19e82,
+// dentro de:  match /databases/{database}/documents { ... }
+// (junto das outras regras; não apague nem altere nada do que já existe).
+//
+// O Firestore soma as permissões: este bloco só LIBERA os dados pessoais de cada
+// usuário (dados_pessoais/{uid}/...) para o próprio dono. Nada mais é liberado.
+
+    // ── Dados pessoais por usuário (Fênix Gestor de Tempo e outros apps pessoais) ──
+    match /dados_pessoais/{uid}/{colecao}/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
