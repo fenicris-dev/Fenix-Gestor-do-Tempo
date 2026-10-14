@@ -16,6 +16,7 @@
 :root{--navy:#041273;--navy2:#1a2bb0;--gold:#d4a62a;--gold-d:#a67f12;--gold-l:#fbf1cf;--bg:#f3f4fa;--card:#fff;--txt:#161a33;--mut:#6a6f8f;--bd:#e3e5f0;--ok:#188a52;--warn:#c9741a;--err:#c5303a;--r:14px}
 *{box-sizing:border-box;margin:0}
 html{-webkit-text-size-adjust:100%}
+html,body{overscroll-behavior-y:none}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);padding-bottom:calc(84px + env(safe-area-inset-bottom));-webkit-tap-highlight-color:transparent;font-size:16px;line-height:1.35}
 header{background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--gold)}
 header .lg{width:32px;height:32px;border-radius:8px;flex:none}
@@ -68,6 +69,9 @@ nav button.on{color:var(--navy);font-weight:800}
 nav button.on i{filter:none}
 #modal{position:fixed;inset:0;background:rgba(10,14,40,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
 #modal.on{display:flex}
+#modal{overscroll-behavior:contain}
+.sheet{overscroll-behavior:contain}
+.xf{position:sticky;top:0;float:right;margin:-6px -6px 0 8px;width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:#fff;color:var(--navy);font-size:18px;line-height:1;z-index:2;padding:0}
 .sheet{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
 @media(min-width:600px){#modal{align-items:center}.sheet{border-radius:20px}}
 @media(max-width:430px){header{gap:8px}header .logo{font-size:15px;white-space:nowrap}header .ver{display:none}}
@@ -110,9 +114,9 @@ input[type=color]{padding:2px;height:40px;width:54px}
 .run .row>div:first-child{min-width:0}
 header button#nuvem{position:relative;padding:6px 10px}
 #nvd{position:absolute;right:3px;top:3px;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--navy);background:#8a90b8}
-#nvd.s-ok{background:#35c47a}#nvd.s-conectando,#nvd.s-offline{background:#f0b13a}#nvd.s-erro{background:#ef5b66}
+#nvd.s-ok{background:#35c47a}#nvd.s-conectando,#nvd.s-offline,#nvd.s-pendente{background:#f0b13a}#nvd.s-erro,#nvd.s-bloqueado{background:#ef5b66}
 .dotst{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;background:#8a90b8}
-.dotst.s-ok{background:#35c47a}.dotst.s-conectando,.dotst.s-offline{background:#f0b13a}.dotst.s-erro{background:#ef5b66}
+.dotst.s-ok{background:#35c47a}.dotst.s-conectando,.dotst.s-offline,.dotst.s-pendente{background:#f0b13a}.dotst.s-erro,.dotst.s-bloqueado{background:#ef5b66}
 .devtag{display:inline-block;background:#e8ecff;color:var(--navy);border-radius:99px;padding:1px 8px;font-size:12px;font-weight:700}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:99px;font-size:14px;z-index:80;max-width:90%;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
@@ -123,7 +127,7 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 <header>
   <img class="lg" src="icon-192.png" alt="" width="32" height="32">
   <div class="logo">FÊNIX <b>|</b> Gestor de Tempo</div>
-  <span class="ver">v2.0</span>
+  <span class="ver">v3.1</span>
   <div class="sp"></div>
   <button id="nuvem" onclick="abrirConta()" title="Conta e sincronização">☁<i id="nvd" class="s-local"></i></button>
   <button onclick="abrirSobre()">Sobre</button>
@@ -136,12 +140,12 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
   <button data-t="rel" onclick="go('rel')"><i>📊</i>Relatórios</button>
   <button data-t="ajustes" onclick="go('ajustes')"><i>⚙</i>Ajustes</button>
 </nav>
-<div id="modal" onclick="if(event.target===this)fechar()"></div>
+<div id="modal"></div>
 
 <script>
 'use strict';
-/* ===== FÊNIX | Gestor de Tempo v2.0 ===== */
-const VERSAO='2.0';
+/* ===== FÊNIX | Gestor de Tempo v3.1 ===== */
+const VERSAO='3.1';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let OFFSET=0;const agora=()=>Date.now()+OFFSET;
@@ -516,7 +520,8 @@ async function criarCatEIniciar(){
 }
 
 /* ---------- Modal ---------- */
-function modal(html){const m=$('#modal');m.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;m.classList.add('on');}
+function modal(html){const m=$('#modal');m.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><button class="xf" onclick="fecharX()" aria-label="Fechar">✕</button>${html}</div>`;m.classList.add('on');}
+function fecharX(){ed=null;destCat=null;cbEnc=null;fechar();render();}
 function fechar(){const m=$('#modal');m.classList.remove('on');m.innerHTML='';}
 function erro(m){const e=$('#err');if(e)e.textContent=m;}
 
@@ -550,12 +555,12 @@ function renderHoje(){
   const pend=S.rotlog.filter(l=>l.diaId===d.id&&l.iniciouEm&&l.seq&&(()=>{while(l.prox<l.seq.length&&!tarefa(l.seq[l.prox]))l.prox++;return l.prox<l.seq.length;})());
   if(pend.length)h+=`<div class="sec">Rotinas em andamento</div><div class="card">${pend.map(l=>`<div class="item"><div style="flex:1"><b>${esc(l.nome)}</b><div class="mut small">próxima: ${esc(tarefa(l.seq[l.prox]).nome)} (${l.prox+1} de ${l.seq.length})</div></div><button class="btn small gold" onclick="rotProx('${l.id}','agora')">Iniciar</button><button class="btn small" onclick="rotProx('${l.id}','pular')">Pular</button></div>`).join('')}</div>`;
   const mh=metasHTML(d);
-  if(mh)h+=`<div class="sec">Metas de hoje</div><div class="card" id="metas">${mh}</div>`;
   h+=`<div class="sec">Em andamento</div>`;
   h+=abertas.length?abertas.map(r=>{const c=catDe(r),t=tipico(r.tarefaId);
     return `<div class="card run" style="border-left-color:${esc(c.cor)}"><div class="row"><div onclick="abrirEditarReg('${r.id}')" style="cursor:pointer"><b>${esc(r.nome)}</b><div class="mut small"><span class="dot" style="background:${esc(c.cor)}"></span>${esc(c.nome)} · ${r.retomaDe?'retomada':'início'} ${fmtHM(r.inicio)}${t?` · costuma levar ~${fmtDur(t)}`:''}${outro(r)?` · <span class="devtag">iniciada em ${esc(r.dispNome||'outro aparelho')}</span>`:''}</div></div><div style="text-align:right"><div class="timer" data-since="${agora()-sessaoMs(r)}">00:00:00</div><div style="display:flex;gap:6px;justify-content:flex-end"><button class="btn small" onclick="pausar('${r.id}')">⏸ Pausar</button><button class="btn small navy" onclick="abrirEncerrar('${r.id}')">Encerrar</button></div></div></div></div>`;}).join('')
    :`<div class="empty">Nenhuma tarefa aberta.</div>`;
   if(pz.length)h+=`<div class="sec">Pausadas</div>`+pz.map(r=>{const c=catDe(r);return `<div class="card run" style="border-left-color:${esc(c.cor)}"><div class="row"><div><b>⏸ ${esc(r.nome)}</b><div class="mut small"><span class="dot" style="background:${esc(c.cor)}"></span>${esc(c.nome)} · pausada às ${fmtHM(r.fim)} · acumulado ${fmtDur(sessaoMs(r))}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${tarefa(r.tarefaId)?`<button class="btn small gold" onclick="retomar('${r.tarefaId}')">▶ Retomar</button>`:''}<button class="btn small" onclick="concluirPausada('${r.id}')">Concluir</button></div></div></div>`;}).join('');
+  if(mh)h+=`<div class="sec">Metas de hoje</div><div class="card" id="metas">${mh}</div>`;
   if(fechadas.length){
     h+=`<div class="sec">Concluídas hoje</div><div class="card" style="padding:4px 14px">`+fechadas.map(r=>{const c=catDe(r);
       return `<div class="item" style="cursor:pointer" onclick="abrirEditarReg('${r.id}')"><div style="flex:1"><span class="dot" style="background:${esc(c.cor)}"></span><b>${esc(r.nome)}</b><div class="mut small">${fmtHM(r.inicio)}–${fmtHM(r.fim)} · ${fmtDur(r.fim-r.inicio)}</div></div>${r.esqueceu?`<span class="badge">esqueceu · ${fmtDur(r.atrasoMs)}</span>`:''}${pausaBadge(r)}</div>`;}).join('')+`</div>`;
@@ -907,15 +912,19 @@ function abrirSobre(){
   modal(`<h3>FÊNIX | Gestor de Tempo</h3><p class="mut small">Versão ${VERSAO} · Fênix Soluções Tecnológicas</p>
    <p style="margin:10px 0">Cronometra o dia do <b>Acordei</b> ao <b>Dormir</b> e cada tarefa no meio, com encerramento manual e controle de esquecimentos.</p>
    <h3 style="font-size:16px;margin-top:14px">Changelog</h3>
-   <p><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
+   <p><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
    <ul class="cl"><li>Botões Acordei e Dormir, com cronômetro do dia.</li><li>Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.</li><li>Início de tarefa com lista, busca e criação de nova (com categoria) e opção “começou há X min”.</li><li>Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso entre o feito e o registro.</li><li>Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.</li><li>Categorias com cores e gerenciamento de tarefas.</li><li>Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.</li><li>Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.</li><li>Backup e restauração em JSON, exportação CSV; funciona offline e é instalável (PWA).</li></ul>
    <button class="btn gold block" onclick="fechar()">Fechar</button>`);
 }
 
 /* ---------- Sincronização multi-aparelho (v2.0) ---------- */
 const CORE_URL='https://fenicris-dev.github.io/Fenix-Core/fenix-core.js',APP_ID='fenix-tempo';
+/* Projeto Firebase do Gestor (multiusuário). Cole aqui o firebaseConfig do projeto novo (Configurações do projeto › Seus apps › Web).
+   Enquanto estiver com COLE_AQUI, o app segue no modo anterior (só entrar, sem criar conta, usando o projeto do fenix-core). */
+const FIREBASE_CONFIG=window.__FIREBASE_CONFIG_TESTE||{apiKey:'COLE_AQUI',authDomain:'COLE_AQUI',projectId:'COLE_AQUI',storageBucket:'COLE_AQUI',messagingSenderId:'COLE_AQUI',appId:'COLE_AQUI'};
+const MULTI=!Object.values(FIREBASE_CONFIG).some(v=>/COLE_AQUI/.test(v));
 const COLS=['dias','cats','tarefas','regs','rotinas','rotlog','cfg'],CFG_SYNC=['limiteMin','repetirMin','lembretes'];
-const Sync={core:null,db:null,auth:null,mod:null,user:null,unsubs:[],nuvem:{},prim:{},estado:'local',msg:'',ultErro:0};
+const Sync={core:null,db:null,auth:null,acesso:null,mod:null,user:null,userAuth:null,perfil:null,admin:false,nPend:0,unPerfil:null,unsubs:[],nuvem:{},prim:{},estado:'local',msg:'',ultErro:0};
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 const lsDel=k=>{try{localStorage.removeItem(k);}catch(e){}};
@@ -929,7 +938,7 @@ function setEstado(e,msg){
   Sync.estado=e;Sync.msg=msg||'';
   const d=$('#nvd');if(d)d.className='s-'+e;
 }
-const TXT_ESTADO={local:'Somente neste aparelho',conectando:'Conectando…',ok:'Sincronizado',offline:'Sem internet — as alterações sobem quando voltar'};
+const TXT_ESTADO={local:'Somente neste aparelho',conectando:'Conectando…',ok:'Sincronizado',offline:'Sem internet — as alterações sobem quando voltar',pendente:'Aguardando aprovação do administrador',bloqueado:'Acesso bloqueado pelo administrador'};
 const txtEstado=()=>Sync.msg||(Sync.estado==='erro'?'Erro na sincronização':(TXT_ESTADO[Sync.estado]||''));
 
 /* fila (só para o caso de o módulo não estar carregado depois de a conta já ter sido usada aqui) */
@@ -1044,14 +1053,40 @@ async function syncBoot(){
   try{Sync.core=(await carregarCore()).FenixCore;}
   catch(e){Sync.core=null;setEstado('local','Não foi possível carregar o fenix-core (sem internet?).');return;}
   const C=Sync.core;
-  if(!C.initFirebaseComCache||!C.criarModuloSincronia){setEstado('erro','O fenix-core publicado ainda é anterior à v2.3. Publique o fenix-core.js v2.3.');return;}
+  if(!C.initFirebaseComCache||!C.criarModuloSincronia){setEstado('erro','O fenix-core publicado ainda é anterior à v2.3. Publique o fenix-core.js v2.3 ou superior.');return;}
+  if(MULTI&&!C.criarModuloAcesso){setEstado('erro','O fenix-core publicado ainda é anterior à v2.4. Publique o fenix-core.js v2.4.');return;}
   try{
-    const r=C.initFirebaseComCache();Sync.db=r.db;Sync.auth=C.criarModuloAuth(r.app);
+    const r=C.initFirebaseComCache(MULTI?FIREBASE_CONFIG:undefined);Sync.db=r.db;Sync.auth=C.criarModuloAuth(r.app);
+    if(MULTI)Sync.acesso=C.criarModuloAcesso(r.db);
     Sync.auth.aoMudarEstado(u=>{
-      if(u)syncIniciar(u);
-      else{syncParar();if(!lsGet('fenix_tempo_login_visto')){lsSet('fenix_tempo_login_visto','1');abrirConta();}}
+      if(u){Sync.userAuth=u;if(MULTI)aoLogar(u);else syncIniciar(u);}
+      else{
+        Sync.userAuth=null;Sync.perfil=null;Sync.admin=false;Sync.nPend=0;
+        if(Sync.unPerfil){Sync.unPerfil();Sync.unPerfil=null;}
+        syncParar();
+        if(!lsGet('fenix_tempo_login_visto')){lsSet('fenix_tempo_login_visto','1');abrirConta();}
+      }
     });
   }catch(e){setEstado('erro',String((e&&e.message)||e));}
+}
+/* multiusuário: o perfil (pendente / aprovado / bloqueado) decide se a sincronização liga */
+async function aoLogar(u){
+  if(Sync.user&&Sync.user.uid===u.uid&&Sync.mod)return;
+  try{
+    let p=await Sync.acesso.obter(u.uid);
+    if(!p){await Sync.acesso.solicitar(u.uid,u.email,lsGet('fenix_tempo_nome_pend')||'');p=await Sync.acesso.obter(u.uid);}
+    Sync.admin=await Sync.acesso.ehAdmin(u.uid);
+    aplicarPerfil(u,p);
+    if(Sync.unPerfil)Sync.unPerfil();
+    Sync.unPerfil=Sync.acesso.ouvir(u.uid,p2=>aplicarPerfil(u,p2),erroSync);
+    if(Sync.admin)Sync.acesso.listar('pendente').then(l=>{Sync.nPend=l.length;if(l.length)toast(l.length+' pedido'+(l.length===1?'':'s')+' de acesso aguardando você');if(ui.tab==='ajustes')render();}).catch(()=>{});
+  }catch(e){erroSync(e);}
+}
+function aplicarPerfil(u,p){
+  Sync.perfil=p;
+  if(p&&p.status==='aprovado'){if(!Sync.mod)syncIniciar(u);return;}
+  syncParar(true);setEstado(p&&p.status==='bloqueado'?'bloqueado':'pendente');
+  if(ui.tab==='ajustes')render();
 }
 async function syncIniciar(u){
   if(Sync.user&&Sync.user.uid===u.uid&&Sync.mod)return;
@@ -1076,37 +1111,64 @@ window.addEventListener('online',()=>{if(Sync.mod)setEstado('conectando');});
 window.addEventListener('offline',()=>{if(Sync.mod)setEstado('offline');});
 
 /* conta */
+const logadoAuth=()=>Sync.userAuth||Sync.user;
 function contaCardHTML(){
-  const u=Sync.user;
+  const u=logadoAuth();
   return `<div class="card"><h3>Conta e sincronização</h3><p class="small"><span class="dotst s-${Sync.estado}"></span>${esc(txtEstado())}</p>`
-   +(u?`<p class="mut small" style="margin-top:4px">${esc(u.email)} · este aparelho: <b>${esc(disp().nome||'sem nome')}</b></p>`:`<p class="mut small" style="margin-top:4px">Entre para ver e encerrar suas tarefas em qualquer aparelho.</p>`)
+   +(u?`<p class="mut small" style="margin-top:4px">${esc(u.email)} · este aparelho: <b>${esc(disp().nome||'sem nome')}</b></p>`+(Sync.admin&&Sync.nPend?`<p class="small" style="margin-top:4px"><b>${Sync.nPend}</b> pedido${Sync.nPend===1?'':'s'} de acesso aguardando você.</p>`:''):`<p class="mut small" style="margin-top:4px">Entre para ver e encerrar suas tarefas em qualquer aparelho.</p>`)
    +`<button class="btn block" onclick="abrirConta()">${u?'Gerenciar conta':'Entrar na conta'}</button></div>`;
 }
-function abrirConta(){
-  const u=Sync.user;let h=`<h3>☁ Conta e sincronização</h3>`;
+const LINK_PRIV='<a href="privacidade.html" target="_blank" rel="noopener" style="color:var(--navy2)">política de privacidade</a>';
+function abrirConta(modo){
+  const u=logadoAuth();let h=`<h3>☁ Conta e sincronização</h3>`;
   if(u){
-    h+=`<p class="mut small">Conectado como</p><p><b>${esc(u.email)}</b></p><p class="small" style="margin:8px 0"><span class="dotst s-${Sync.estado}"></span>${esc(txtEstado())}</p>
-     <label>Nome deste aparelho</label><input id="cn_disp" value="${esc(disp().nome)}" placeholder="Ex.: Celular S20, Tablet A16" maxlength="30" autocomplete="off">
+    h+=`<p class="mut small">Conectado como</p><p><b>${esc(u.email)}</b></p><p class="small" style="margin:8px 0"><span class="dotst s-${Sync.estado}"></span>${esc(txtEstado())}</p>`
+     +(Sync.estado==='pendente'?`<p class="mut small">Você pode usar o app normalmente neste aparelho. Quando for aprovado, a sincronização começa sozinha.</p>`:'')
+     +`<label>Nome deste aparelho</label><input id="cn_disp" value="${esc(disp().nome)}" placeholder="Ex.: Celular S20, Tablet A16" maxlength="30" autocomplete="off">
      <p class="mut small" style="margin-top:4px">Aparece nas tarefas iniciadas aqui quando você as vê em outro aparelho.</p>
-     <button class="btn gold block" onclick="salvarDisp()">Salvar</button><button class="btn block" onclick="sairConta()">Sair da conta</button><button class="link" onclick="fechar()">Fechar</button>`;
+     <button class="btn gold block" onclick="salvarDisp()">Salvar</button>`
+     +(Sync.admin?`<button class="btn block" onclick="abrirAprovacoes()">👥 Aprovações${Sync.nPend?' ('+Sync.nPend+')':''}</button>`:'')
+     +`<button class="btn block" onclick="sairConta()">Sair da conta</button>`
+     +(MULTI?`<button class="btn danger block" onclick="abrirExclusao()">Excluir minha conta e dados</button><p class="small" style="text-align:center;margin-top:8px">${LINK_PRIV}</p>`:'')
+     +`<button class="link" onclick="fechar()">Fechar</button>`;
   }else if(!Sync.auth){
     h+=`<p class="${Sync.estado==='erro'?'err':'mut'}" style="margin:8px 0">${esc(txtEstado()||'Carregando…')}</p><button class="btn block" onclick="fechar();syncBoot()">Tentar de novo</button><button class="link" onclick="fechar()">Continuar sem conta</button>`;
+  }else if(modo==='criar'&&MULTI){
+    h+=`<p class="mut small" style="margin-bottom:6px">Crie sua conta. O cadastro precisa ser aprovado pelo administrador antes de sincronizar; enquanto isso o app funciona neste aparelho.</p>
+     <label>Seu nome</label><input id="cn_nome" maxlength="60" autocomplete="name">
+     <label>E-mail</label><input id="cn_email" type="email" autocomplete="username" inputmode="email">
+     <label>Senha (mínimo 6 caracteres)</label><input id="cn_senha" type="password" autocomplete="new-password">
+     <div class="sw" style="margin-top:10px"><span>Li e aceito a ${LINK_PRIV}</span><input type="checkbox" id="cn_priv"></div>
+     <div class="erro" id="err"></div><button class="btn gold block" id="cn_ok" onclick="criarContaApp()">Criar conta</button>
+     <button class="link" onclick="abrirConta()">Já tenho conta</button>`;
   }else{
-    h+=`<p class="mut small" style="margin-bottom:6px">Use a mesma conta do Fênix Core. Seus dados ficam privados: só você os vê.</p>
+    h+=`<p class="mut small" style="margin-bottom:6px">${MULTI?'Entre com a sua conta. Seus dados ficam privados: só você os vê.':'Use a mesma conta do Fênix Core. Seus dados ficam privados: só você os vê.'}</p>
      <label>E-mail</label><input id="cn_email" type="email" autocomplete="username" inputmode="email">
      <label>Senha</label><input id="cn_senha" type="password" autocomplete="current-password">
      <div class="erro" id="err"></div><button class="btn gold block" id="cn_ok" onclick="entrarConta()">Entrar</button>
-     <button class="link" onclick="esqueciSenha()">Esqueci a senha</button><button class="link" onclick="fechar()">Continuar sem conta</button>`;
+     <button class="link" onclick="esqueciSenha()">Esqueci a senha</button>`
+     +(MULTI?`<button class="link" onclick="abrirConta('criar')">Não tenho conta — criar</button><p class="small" style="text-align:center">${LINK_PRIV}</p>`:'')
+     +`<button class="link" onclick="fechar()">Continuar sem conta</button>`;
   }
   modal(h);
 }
-const MSG_AUTH={'auth/invalid-credential':'E-mail ou senha incorretos.','auth/wrong-password':'E-mail ou senha incorretos.','auth/user-not-found':'E-mail ou senha incorretos.','auth/invalid-email':'E-mail inválido.','auth/too-many-requests':'Muitas tentativas. Aguarde um pouco.','auth/network-request-failed':'Sem conexão com a internet.'};
+const MSG_AUTH={'auth/invalid-credential':'E-mail ou senha incorretos.','auth/wrong-password':'E-mail ou senha incorretos.','auth/user-not-found':'E-mail ou senha incorretos.','auth/invalid-email':'E-mail inválido.','auth/too-many-requests':'Muitas tentativas. Aguarde um pouco.','auth/network-request-failed':'Sem conexão com a internet.','auth/email-already-in-use':'Este e-mail já tem conta. Use Entrar.','auth/weak-password':'Senha fraca: use ao menos 6 caracteres.'};
 async function entrarConta(){
   const e=$('#cn_email').value.trim(),p=$('#cn_senha').value;
   if(!e||!p){erro('Informe e-mail e senha.');return;}
   const b=$('#cn_ok');b.disabled=true;
   try{await Sync.auth.entrar(e,p);fechar();toast('Conectado');}
   catch(x){b.disabled=false;erro(MSG_AUTH[x&&x.code]||'Não foi possível entrar ('+((x&&x.code)||'erro')+').');}
+}
+async function criarContaApp(){
+  const n=($('#cn_nome').value||'').trim(),e=($('#cn_email').value||'').trim(),p=$('#cn_senha').value;
+  if(!n){erro('Informe seu nome.');return;}
+  if(!e||!p){erro('Informe e-mail e senha.');return;}
+  if(p.length<6){erro('A senha precisa ter ao menos 6 caracteres.');return;}
+  if(!$('#cn_priv').checked){erro('Aceite a política de privacidade para continuar.');return;}
+  const b=$('#cn_ok');b.disabled=true;lsSet('fenix_tempo_nome_pend',n);
+  try{await Sync.auth.criarConta(e,p);fechar();toast('Conta criada. Aguarde a aprovação.');}
+  catch(x){b.disabled=false;erro(MSG_AUTH[x&&x.code]||'Não foi possível criar a conta ('+((x&&x.code)||'erro')+').');}
 }
 async function esqueciSenha(){
   const e=($('#cn_email').value||'').trim();if(!e){erro('Digite seu e-mail acima.');return;}
@@ -1121,6 +1183,44 @@ async function sairConta(){
   if(!confirm('Sair desta conta? Os dados continuam neste aparelho, mas deixam de sincronizar.'))return;
   try{await Sync.auth.sair();}catch(e){}
   fechar();render();
+}
+/* administrador: aprovar e bloquear cadastros */
+async function abrirAprovacoes(){
+  modal(`<h3>👥 Aprovações</h3><p class="mut small">Carregando…</p>`);
+  try{
+    const ps=await Sync.acesso.listar(),ordem={pendente:0,bloqueado:1,aprovado:2},me=logadoAuth().uid;
+    ps.sort((a,b)=>((ordem[a.status]||0)-(ordem[b.status]||0))||String(a.nome||a.email).localeCompare(String(b.nome||b.email)));
+    Sync.nPend=ps.filter(p=>p.status==='pendente').length;
+    modal(`<h3>👥 Aprovações</h3>`+(ps.length?ps.map(p=>`<div class="item tw"><div style="flex:1;min-width:0"><b>${esc(p.nome||'(sem nome)')}</b><div class="mut small">${esc(p.email)} · ${esc(p.status)}</div></div>`
+      +(p.status!=='aprovado'?`<button class="btn small gold" onclick="decidir('${esc(p.uid)}','aprovado')">Aprovar</button>`:'')
+      +(p.status!=='bloqueado'&&p.uid!==me?`<button class="btn small danger" onclick="decidir('${esc(p.uid)}','bloqueado')">Bloquear</button>`:'')+`</div>`).join(''):'<div class="empty">Nenhum cadastro ainda.</div>')
+      +`<button class="btn block" onclick="abrirConta()">Voltar</button>`);
+  }catch(e){modal(`<h3>👥 Aprovações</h3><p class="err">Não foi possível carregar (${esc((e&&e.code)||'erro')}).</p><button class="btn block" onclick="abrirConta()">Voltar</button>`);}
+}
+async function decidir(uid,st){
+  try{await Sync.acesso.definirStatus(uid,st,logadoAuth().uid);}catch(e){toast('Não foi possível salvar');return;}
+  abrirAprovacoes();
+}
+/* excluir a própria conta e os dados na nuvem */
+function abrirExclusao(){
+  modal(`<h3>Excluir minha conta</h3><p class="mut small" style="margin:6px 0">Isso apaga a sua conta e todos os seus dados na nuvem (tarefas, registros, rotinas). Os dados que estão neste aparelho continuam nele. Não pode ser desfeito.</p>
+   <label>Digite sua senha para confirmar</label><input id="ex_senha" type="password" autocomplete="current-password">
+   <div class="erro" id="err"></div><button class="btn danger block" id="ex_ok" onclick="confirmarExclusao()">Excluir conta e dados</button><button class="link" onclick="abrirConta()">Cancelar</button>`);
+}
+async function confirmarExclusao(){
+  const p=$('#ex_senha').value;if(!p){erro('Digite a senha.');return;}
+  const b=$('#ex_ok');b.disabled=true;const me=logadoAuth().uid;
+  try{await Sync.auth.reautenticar(p);}
+  catch(x){b.disabled=false;erro(MSG_AUTH[x&&x.code]||'Senha incorreta.');return;}
+  try{
+    const m=Sync.mod||Sync.core.criarModuloSincronia(Sync.db,me,APP_ID);
+    syncParar(true);
+    await m.apagarTudo(COLS.concat(['sistema']));
+    try{await Sync.acesso.excluir(me);}catch(e){}
+    await Sync.auth.excluirConta(p);
+    lsDel('fenix_tempo_sync_uid');lsDel('fenix_tempo_merge_'+me);lsDel('fenix_tempo_fila');
+    fechar();toast('Conta excluída. Os dados deste aparelho continuam nele.');
+  }catch(x){b.disabled=false;erro('Não foi possível concluir ('+((x&&x.code)||'erro')+'). Tente de novo.');}
 }
 
 /* ---------- Inicialização ---------- */
