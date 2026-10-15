@@ -127,7 +127,7 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 <header>
   <img class="lg" src="icon-192.png" alt="" width="32" height="32">
   <div class="logo">FÊNIX <b>|</b> Gestor de Tempo</div>
-  <span class="ver">v3.3</span>
+  <span class="ver">v3.5</span>
   <div class="sp"></div>
   <button id="nuvem" onclick="abrirConta()" title="Conta e sincronização">☁<i id="nvd" class="s-local"></i></button>
   <button onclick="abrirSobre()">Sobre</button>
@@ -144,8 +144,8 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 
 <script>
 'use strict';
-/* ===== FÊNIX | Gestor de Tempo v3.3 ===== */
-const VERSAO='3.3';
+/* ===== FÊNIX | Gestor de Tempo v3.5 ===== */
+const VERSAO='3.5';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let OFFSET=0;const agora=()=>Date.now()+OFFSET;
@@ -200,7 +200,7 @@ function catDe(r){const t=tarefa(r.tarefaId);return catId(t?t.catId:r.catId);}
 const usos=id=>S.regs.filter(r=>r.tarefaId===id).length;
 
 function tipico(tid){
-  const m={};S.regs.filter(r=>r.tarefaId===tid).forEach(r=>{(m[sessKey(r)]=m[sessKey(r)]||[]).push(r);});
+  const m={};S.regs.filter(r=>r.tarefaId===tid&&!r.inst).forEach(r=>{(m[sessKey(r)]=m[sessKey(r)]||[]).push(r);});
   const ds=Object.values(m).filter(g=>g.every(r=>r.fim&&!r.esqueceu)&&!g.slice().sort((a,b)=>b.inicio-a.inicio)[0].pausada).map(g=>g.reduce((a,r)=>a+(r.fim-r.inicio),0)).sort((a,b)=>a-b);
   return ds.length<3?null:ds[Math.floor(ds.length/2)];
 }
@@ -320,6 +320,146 @@ function compRelHTML(ds0,now){
   const e1=a.err/a.n,e0=b.err/b.n,dif=e1-e0,f=v=>v.toFixed(1).replace('.',',');
   const dis=`<div class="item"><div style="flex:1"><b>Distrações por dia</b><div class="mut small">antes ${f(e0)} → agora ${f(e1)}</div></div><b class="${dif<-0.05?'ok':dif>0.05?'err':'mut'}">${Math.abs(dif)<0.05?'≈ igual':(dif>0?'▲ +':'▼ −')+f(Math.abs(dif))}</b></div>`;
   return `<div class="card"><h3>Comparação com o período anterior</h3><p class="mut small" style="margin-bottom:6px">Médias por dia: ${cal?(ui.per==='sem'?'esta semana × semana anterior':'este mês × mês anterior'):'últimos '+ui.per+' dias × '+ui.per+' dias anteriores'} (dias fechados: ${ds.length} agora, ${ant.length} antes).</p>${lin}${dis}</div>`;
+}
+
+/* ---------- Repetição por tarefa (v3.5) ---------- */
+/* t.rep = {modo:'vezes',n,per:'dia'|'sem',reg:'toque'|'cron',desde} | {modo:'dias',dias:[0..6],desde} | {modo:'ciclo',cada,desde}; rep.pulo = quando pulou */
+const ini0=ts=>{const d=new Date(ts);d.setHours(0,0,0,0);return d.getTime();};
+const maisDias=(ts,n)=>{const d=new Date(ts);d.setDate(d.getDate()+n);return d.getTime();};
+const iniSemana=ts=>maisDias(ini0(ts),-((new Date(ts).getDay()+6)%7));
+function repTxt(t){
+  const r=t.rep;if(!r)return '';
+  if(r.modo==='vezes')return r.n+'×/'+(r.per==='sem'?'sem':'dia');
+  if(r.modo==='dias')return r.dias.slice().sort((a,b)=>((a+6)%7)-((b+6)%7)).map(i=>DSEM[i]).join('·');
+  if(r.modo==='ciclo')return 'a cada '+r.cada+'d';
+  return '';
+}
+function ultFeito(t){let m=(t.rep&&t.rep.pulo)||0;for(const r of S.regs)if(r.tarefaId===t.id&&r.inicio>m)m=r.inicio;return m;}
+const ocorrencias=(t,de,ate)=>S.regs.filter(r=>r.tarefaId===t.id&&!r.retomaDe&&r.inicio>=de&&r.inicio<ate).length;
+/* situação da repetição agora; null = não aparece hoje */
+function repStatus(t,now){
+  const r=t.rep;if(!r)return null;now=now||agora();
+  const h0=ini0(now),desde0=ini0(r.desde||0);
+  if(r.modo==='vezes'){
+    const de=r.per==='sem'?iniSemana(now):h0,ate=maisDias(de,r.per==='sem'?7:1),cont=ocorrencias(t,de,ate);
+    return {modo:'vezes',cont,meta:r.n,feito:cont>=r.n,pend:cont<r.n,atraso:0,txt:cont+'/'+r.n+(r.per==='sem'?' na semana':' hoje')};
+  }
+  if(r.modo==='dias'){
+    let L=null;
+    for(let k=0;k<14;k++){const dt=maisDias(h0,-k);if(dt<desde0)break;if(r.dias.includes(new Date(dt).getDay())){L=dt;break;}}
+    if(L===null)return null;
+    const feito=ultFeito(t)>=L,atraso=Math.round((h0-L)/DIA);
+    if(feito)return atraso===0?{modo:'dias',feito:true,pend:false,atraso:0,txt:'feito hoje'}:null;
+    return {modo:'dias',feito:false,pend:true,atraso,txt:atraso===0?'para hoje':'atrasada há '+atraso+' dia'+(atraso===1?'':'s')};
+  }
+  if(r.modo==='ciclo'){
+    const u=ultFeito(t);
+    if(u&&ini0(u)===h0)return {modo:'ciclo',feito:true,pend:false,atraso:0,txt:'feito hoje'};
+    const venc=u?maisDias(ini0(u),r.cada):h0,atraso=Math.max(0,Math.round((h0-venc)/DIA));
+    if(h0<venc)return null;
+    return {modo:'ciclo',feito:false,pend:true,atraso,txt:atraso===0?'vence hoje':'atrasada há '+atraso+' dia'+(atraso===1?'':'s')};
+  }
+  return null;
+}
+function proximaCiclo(t){const u=ultFeito(t);return u?maisDias(ini0(u),t.rep.cada):null;}
+function repItens(){
+  const now=agora();
+  return S.tarefas.filter(t=>t.rep).map(t=>({t,s:repStatus(t,now)})).filter(x=>x.s)
+   .sort((a,b)=>(b.s.pend&&b.s.atraso>0)-(a.s.pend&&a.s.atraso>0)||(b.s.pend?1:0)-(a.s.pend?1:0)||b.s.atraso-a.s.atraso||a.t.nome.localeCompare(b.t.nome));
+}
+function repHojeHTML(){
+  const its=repItens();if(!its.length)return '';
+  const abIds=new Set(S.regs.filter(r=>!r.fim).map(r=>r.tarefaId));
+  return `<div class="sec">Para hoje</div><div class="card" style="padding:4px 14px" id="rephoje">`+its.map(({t,s})=>{
+    const c=catId(t.catId),aberta=abIds.has(t.id),cor=s.pend&&s.atraso>0?'err':(s.feito?'ok':'mut');
+    const nome=`<span class="dot" style="background:${esc(c.cor)}"></span><b>${esc(t.nome)}</b>`,sub=esc(repTxt(t));
+    if(s.modo==='vezes'){
+      const tq=t.rep.reg!=='cron',pct=Math.min(100,Math.round(s.cont/s.meta*100));
+      const ult=S.regs.filter(r=>r.tarefaId===t.id&&r.inst).sort((a,b)=>b.inicio-a.inicio)[0];
+      const btn=tq?`<button class="btn small gold" onclick="marcarFeito('${t.id}')">+1</button>${ult&&ult.inicio>=ini0(agora())?`<button class="btn small" onclick="desfazerFeito('${t.id}')" title="Desfazer o último" aria-label="Desfazer">↩</button>`:''}`
+        :(aberta?`<span class="mut small">em andamento</span>`:`<button class="btn small gold" onclick="iniciar('${t.id}')">▶</button>`);
+      return `<div class="item" style="display:block"><div class="row" style="gap:8px"><div style="flex:1;min-width:0">${nome}<div class="small"><span class="mut">${sub} · </span><span class="${cor}">${esc(s.txt)}${s.feito?' ✔':''}</span></div></div><div style="display:flex;gap:6px">${btn}</div></div><div class="tr" style="height:6px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:5px"><i style="display:block;height:100%;width:${pct}%;background:${s.feito?'var(--ok)':esc(c.cor)}"></i></div></div>`;
+    }
+    if(s.feito)return `<div class="item"><div style="flex:1">${nome}<div class="small"><span class="mut">${sub} · </span><span class="ok">${esc(s.txt)} ✔</span></div></div></div>`;
+    return `<div class="item"><div style="flex:1;min-width:0">${nome}<div class="small"><span class="mut">${sub} · </span><span class="${cor}">${esc(s.txt)}</span></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${aberta?`<span class="mut small">em andamento</span>`:`<button class="btn small gold" onclick="iniciar('${t.id}')">▶ Iniciar</button>`}<button class="btn small" onclick="marcarFeito('${t.id}')">✔ Já fiz</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button></div></div>`;
+  }).join('')+`</div>`;
+}
+async function marcarFeito(tid){
+  const d=diaAberto(),t=tarefa(tid);if(!t)return;
+  if(!d){toast('Toque em “Acordei” para começar o dia.');return;}
+  const now=agora(),r={id:uid(),diaId:d.id,tarefaId:t.id,nome:t.nome,catId:t.catId,inicio:Math.max(d.inicio,now),fim:Math.max(d.inicio,now),esqueceu:false,marcadoEm:now,atrasoMs:0,inst:true,dispId:disp().id,dispNome:disp().nome||''};
+  S.regs.push(r);await put('regs',r);delete snooze['rep_'+tid];
+  const s=repStatus(t);toast('“'+t.nome+'”'+(s&&s.modo==='vezes'?' · '+s.txt:' · feito'));render();
+}
+async function desfazerFeito(tid){
+  const r=S.regs.filter(x=>x.tarefaId===tid&&x.inst).sort((a,b)=>b.inicio-a.inicio)[0];if(!r)return;
+  S.regs=S.regs.filter(x=>x.id!==r.id);await del('regs',r.id);render();
+}
+async function pularRep(tid){
+  const t=tarefa(tid);if(!t||!t.rep)return;
+  t.rep.pulo=agora();await put('tarefas',t);delete snooze['rep_'+tid];toast('“'+t.nome+'” pulada');render();
+}
+function repAtrasadas(){
+  const d=diaAberto();if(!d)return [];const now=agora();
+  return repItens().filter(x=>x.s.pend&&x.s.atraso>0&&x.s.modo!=='vezes'&&!(snooze['rep_'+x.t.id]&&now<snooze['rep_'+x.t.id]));
+}
+function repAlertasHTML(){
+  const ab=new Set(S.regs.filter(r=>!r.fim).map(r=>r.tarefaId));
+  return repAtrasadas().map(({t,s})=>`<div class="alerta"><b>🔁 ${esc(t.nome)}</b> está ${esc(s.txt)}.<div class="acts">${ab.has(t.id)?'':`<button class="btn small navy" onclick="iniciar('${t.id}')">Iniciar</button>`}<button class="btn small" onclick="marcarFeito('${t.id}')">Já fiz</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button><button class="btn small" onclick="adiarRep('${t.id}')">Depois</button></div></div>`).join('');
+}
+function adiarRep(id){snooze['rep_'+id]=agora()+4*3600000;renderBanner();}
+/* editar a repetição de uma tarefa */
+function abrirRep(id){
+  const t=tarefa(id);if(!t)return;const r=t.rep||{};
+  modal(`<h3>Repetição · ${esc(t.nome)}</h3>
+   <label>Como essa tarefa se repete?</label><select id="rp_modo" onchange="repCampos()"><option value="" ${r.modo?'':'selected'}>Sem repetição</option><option value="vezes" ${r.modo==='vezes'?'selected':''}>Quantas vezes (ex.: beber água 8× por dia)</option><option value="dias" ${r.modo==='dias'?'selected':''}>Dias da semana (ex.: faxina seg, qui e dom)</option><option value="ciclo" ${r.modo==='ciclo'?'selected':''}>A cada N dias (ex.: faxina a cada 15 dias)</option></select>
+   <div id="rp_vezes" hidden><label>Meta de vezes</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_n" min="1" max="99" value="${r.modo==='vezes'?r.n:8}" inputmode="numeric" style="width:90px"><span>×</span><select id="rp_per" style="flex:1"><option value="dia" ${r.per!=='sem'?'selected':''}>por dia</option><option value="sem" ${r.per==='sem'?'selected':''}>por semana</option></select></div>
+    <label>Como registrar cada vez</label><select id="rp_reg"><option value="toque" ${r.reg!=='cron'?'selected':''}>Botão +1 (um toque, sem cronômetro)</option><option value="cron" ${r.reg==='cron'?'selected':''}>Iniciar e encerrar (com cronômetro)</option></select></div>
+   <div id="rp_dias" hidden><label>Em quais dias</label><div class="chips">${[1,2,3,4,5,6,0].map(i=>`<label class="chip" style="cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-transform:none;letter-spacing:0;font-weight:600"><input type="checkbox" id="rp_d${i}" ${r.modo==='dias'&&r.dias.includes(i)?'checked':''} style="width:auto;padding:0;margin:0;border:0;background:none;box-shadow:none">${DSEM[i]}</label>`).join('')}</div></div>
+   <div id="rp_ciclo" hidden><label>Repetir a cada</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_cada" min="1" max="365" value="${r.modo==='ciclo'?r.cada:15}" inputmode="numeric" style="width:90px"><span>dias, contando da última vez que fizer</span></div></div>
+   <p class="mut small" style="margin-top:8px" id="rp_ajuda"></p>
+   <div class="erro" id="err"></div><button class="btn gold block" onclick="salvarRep('${id}')">Salvar</button><button class="link" onclick="fechar()">Cancelar</button>`);
+  repCampos();
+}
+function repCampos(){
+  const m=$('#rp_modo').value;
+  ['vezes','dias','ciclo'].forEach(k=>{$('#rp_'+k).hidden=m!==k;});
+  $('#rp_ajuda').textContent={'':'Sem repetição, a tarefa só aparece quando você a inicia.',vezes:'Aparece em “Para hoje” com o contador. Cada início conta uma vez.',dias:'Aparece em “Para hoje” nos dias marcados e avisa se passar do dia sem fazer.',ciclo:'Aparece em “Para hoje” quando vence e avisa se atrasar. Ao fazer, o próximo prazo recomeça a contar.'}[m]||'';
+}
+async function salvarRep(id){
+  const t=tarefa(id);if(!t)return;const m=$('#rp_modo').value,ant=t.rep;let rep=null;
+  if(m==='vezes'){const n=parseInt($('#rp_n').value,10);if(!(n>=1&&n<=99)){erro('Informe quantas vezes (1 a 99).');return;}rep={modo:'vezes',n,per:$('#rp_per').value==='sem'?'sem':'dia',reg:$('#rp_reg').value==='cron'?'cron':'toque'};}
+  else if(m==='dias'){const dias=[0,1,2,3,4,5,6].filter(i=>$('#rp_d'+i).checked);if(!dias.length){erro('Marque pelo menos um dia.');return;}rep={modo:'dias',dias};}
+  else if(m==='ciclo'){const c=parseInt($('#rp_cada').value,10);if(!(c>=1&&c<=365)){erro('Informe o intervalo em dias (1 a 365).');return;}rep={modo:'ciclo',cada:c};}
+  if(rep){rep.desde=ant&&ant.modo===rep.modo&&ant.desde?ant.desde:agora();if(ant&&ant.pulo&&ant.modo===rep.modo)rep.pulo=ant.pulo;t.rep=rep;}else delete t.rep;
+  await put('tarefas',t);fechar();render();
+}
+/* relatório de repetições */
+function repRelHTML(ds,now){
+  const ts=S.tarefas.filter(t=>t.rep);if(!ts.length||!ds.length)return '';
+  const datas=new Set(ds.map(d=>dataLocal(d.inicio))),a=ini0(ds[0].inicio),b=ini0(Math.max(...ds.map(d=>d.fim||now)));
+  const f1=v=>v.toFixed(1).replace('.',',');
+  const linhas=ts.map(t=>{
+    const r=t.rep,regs=S.regs.filter(x=>x.tarefaId===t.id&&!x.retomaDe&&datas.has(dataLocal(x.inicio))),cab=`<b>${esc(t.nome)}</b><div class="mut small">${esc(repTxt(t))}</div>`;
+    let res='';
+    if(r.modo==='vezes'&&r.per==='dia'){
+      const por={};regs.forEach(x=>{const k=dataLocal(x.inicio);por[k]=(por[k]||0)+1;});
+      const dias=[...datas],ok=dias.filter(k=>(por[k]||0)>=r.n).length;
+      res=`<b class="${ok===dias.length?'ok':''}">${ok}/${dias.length} dias</b><div class="mut small">média ${f1(regs.length/dias.length)}/dia</div>`;
+    }else if(r.modo==='vezes'){
+      const sem=new Set(ds.map(d=>iniSemana(d.inicio)));
+      res=`<b>${f1(regs.length/sem.size)}/semana</b><div class="mut small">meta ${r.n}</div>`;
+    }else if(r.modo==='dias'){
+      const prog=[];for(let dt=a;dt<=b;dt=maisDias(dt,1))if(dt>=ini0(r.desde||0)&&r.dias.includes(new Date(dt).getDay()))prog.push(dt);
+      const ok=prog.filter((dt,i)=>{const fim=i+1<prog.length?prog[i+1]:maisDias(dt,7);return S.regs.some(x=>x.tarefaId===t.id&&!x.retomaDe&&x.inicio>=dt&&x.inicio<fim);}).length;
+      res=prog.length?`<b class="${ok===prog.length?'ok':''}">${ok}/${prog.length} dias</b><div class="mut small">programados</div>`:`<span class="mut small">sem dias programados</span>`;
+    }else{
+      const ini=regs.map(x=>x.inicio).sort((p,q)=>p-q),iv=[];for(let i=1;i<ini.length;i++)iv.push((ini0(ini[i])-ini0(ini[i-1]))/DIA);
+      res=`<b>${regs.length}×</b><div class="mut small">${iv.length?'intervalo médio '+f1(iv.reduce((x,y)=>x+y,0)/iv.length)+' dias · meta '+r.cada:'meta a cada '+r.cada+' dias'}</div>`;
+    }
+    return `<div class="item"><div style="flex:1">${cab}</div><div style="text-align:right">${res}</div></div>`;
+  }).join('');
+  return `<div class="card"><h3>Repetições</h3>${linhas}</div>`;
 }
 
 /* ---------- Rotinas (v1.3) ---------- */
@@ -547,7 +687,7 @@ function renderHoje(){
      +(ult?`<div class="card tap" onclick="verDia('${ult.id}')"><div class="mut small">Último dia</div><b>${fmtData(ult.inicio)}</b> · ${fmtHM(ult.inicio)} → ${ult.fim?fmtHM(ult.fim):'?'}<div class="mut small">Toque para ver os detalhes</div></div>`:'');
     return;
   }
-  const st=statsDia(d),abertas=st.regs.filter(r=>!r.fim).sort((a,b)=>a.inicio-b.inicio),pz=pausadasDia(d),pzIds=new Set(pz.map(r=>r.id)),fechadas=st.regs.filter(r=>r.fim&&!pzIds.has(r.id)).sort((a,b)=>b.fim-a.fim);
+  const st=statsDia(d),abertas=st.regs.filter(r=>!r.fim).sort((a,b)=>a.inicio-b.inicio),pz=pausadasDia(d),pzIds=new Set(pz.map(r=>r.id)),fechadas=st.regs.filter(r=>r.fim&&!r.inst&&!pzIds.has(r.id)).sort((a,b)=>b.fim-a.fim);
   let h=`<div class="card dia"><div class="mut small">Acordou às ${fmtHM(d.inicio)} · ${fmtData(d.inicio)}${outro(d)?` · em ${esc(d.dispNome||'outro aparelho')}`:''} <button class="edit" onclick="abrirEditarDia('${d.id}')">editar</button></div><div class="clock" data-since="${d.inicio}">00:00:00</div>
    <span class="st" onclick="go('rel')">${abertas.length} em andamento${pz.length?` · ${pz.length} pausada${pz.length===1?'':'s'}`:''}</span><span class="st" onclick="go('rel')">${st.erros.length} distraç${st.erros.length===1?'ão':'ões'} hoje</span></div>
    <button class="btn gold block" style="font-size:18px;padding:15px;margin:0 0 4px" onclick="abrirIniciar()">+ Iniciar tarefa</button>`;
@@ -563,6 +703,7 @@ function renderHoje(){
     return `<div class="card run" style="border-left-color:${esc(c.cor)}"><div class="row"><div onclick="abrirEditarReg('${r.id}')" style="cursor:pointer"><b>${esc(r.nome)}</b><div class="mut small"><span class="dot" style="background:${esc(c.cor)}"></span>${esc(c.nome)} · ${r.retomaDe?'retomada':'início'} ${fmtHM(r.inicio)}${t?` · costuma levar ~${fmtDur(t)}`:''}${outro(r)?` · <span class="devtag">iniciada em ${esc(r.dispNome||'outro aparelho')}</span>`:''}</div></div><div style="text-align:right"><div class="timer" data-since="${agora()-sessaoMs(r)}">00:00:00</div><div style="display:flex;gap:6px;justify-content:flex-end"><button class="btn small" onclick="pausar('${r.id}')">⏸ Pausar</button><button class="btn small navy" onclick="abrirEncerrar('${r.id}')">Encerrar</button></div></div></div></div>`;}).join('')
    :`<div class="empty">Nenhuma tarefa aberta.</div>`;
   if(pz.length)h+=`<div class="sec">Pausadas</div>`+pz.map(r=>{const c=catDe(r);return `<div class="card run" style="border-left-color:${esc(c.cor)}"><div class="row"><div><b>⏸ ${esc(r.nome)}</b><div class="mut small"><span class="dot" style="background:${esc(c.cor)}"></span>${esc(c.nome)} · pausada às ${fmtHM(r.fim)} · acumulado ${fmtDur(sessaoMs(r))}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${tarefa(r.tarefaId)?`<button class="btn small gold" onclick="retomar('${r.tarefaId}')">▶ Retomar</button>`:''}<button class="btn small" onclick="concluirPausada('${r.id}')">Concluir</button></div></div></div>`;}).join('');
+  h+=repHojeHTML();
   if(mh)h+=`<div class="sec">Metas de hoje</div><div class="card" id="metas">${mh}</div>`;
   if(fechadas.length){
     h+=`<div class="sec">Concluídas hoje</div><div class="card" style="padding:4px 14px">`+fechadas.map(r=>{const c=catDe(r);
@@ -815,13 +956,14 @@ function renderRel(){
   h+=compRelHTML(ds,now);
   if(ui.per==='sem'||ui.per==='mes')h+=diaADiaHTML(ds,now)+horariosHTML(ds);
   h+=metasRelHTML(ds,now);
+  h+=repRelHTML(ds,now);
   h+=rotRelHTML(ds);
   const porTar={};
   regs.forEach(r=>{const x=(porTar[r.tarefaId||r.nome]=porTar[r.tarefaId||r.nome]||{nome:r.nome,ms:0,n:0});x.ms+=Math.max(0,(r.fim||now)-r.inicio);x.n+=r.retomaDe?0:1;});
   const top=Object.values(porTar).sort((a,b)=>b.ms-a.ms).slice(0,8);
   h+=`<div class="card"><h3>Tarefas que mais tomam tempo</h3>`+top.map(x=>`<div class="item"><div style="flex:1"><b>${esc(x.nome)}</b><div class="mut small">${x.n} vez${x.n===1?'':'es'}</div></div><b>${fmtDur(x.ms)}</b></div>`).join('')+`</div>`;
   /* Disciplina */
-  const fech=regs.filter(r=>r.fim&&!r.pausada),erros=fech.filter(r=>r.esqueceu).sort((a,b)=>b.fim-a.fim);
+  const fech=regs.filter(r=>r.fim&&!r.pausada&&!r.inst),erros=fech.filter(r=>r.esqueceu).sort((a,b)=>b.fim-a.fim);
   const atTot=erros.reduce((a,r)=>a+r.atrasoMs,0),acerto=fech.length?Math.round((fech.length-erros.length)/fech.length*100):100;
   const maior=erros.reduce((a,r)=>Math.max(a,r.atrasoMs),0);
   h+=`<div class="sec">Disciplina</div><div class="card"><div class="grid"><div class="kpi"><span>${acerto}%</span>encerradas na hora</div><div class="kpi"><span>${erros.length}</span>distrações</div><div class="kpi"><span>${erros.length?fmtDur(atTot/erros.length):'—'}</span>atraso médio</div><div class="kpi"><span>${erros.length?fmtDur(maior):'—'}</span>maior atraso</div></div>`;
@@ -849,10 +991,11 @@ function renderAjustes(){
    <p class="mut small">Depois de 3 registros de uma tarefa, o limite passa a ser calculado pela duração típica dela (cerca de 1,5×). As notificações funcionam com o app aberto ou em segundo plano; com o app fechado o aviso aparece ao abrir.</p></div>`;
   h+=`<div class="card"><h3>Categorias</h3>`+S.cats.map(c=>`<div class="item"><input type="color" value="${esc(c.cor)}" onchange="editCat('${c.id}','cor',this.value)"><input type="text" value="${esc(c.nome)}" onchange="editCat('${c.id}','nome',this.value)">${c.id==='c_outros'?'':`<button class="btn small danger" onclick="delCat('${c.id}')">✕</button>`}</div>`).join('')
    +`<div class="item"><input type="color" id="nc_cor" value="#2563eb"><input type="text" id="nc_nome" placeholder="Nova categoria"><button class="btn small gold" onclick="addCat()">Adicionar</button></div></div>`;
-  h+=`<div class="card"><h3>Tarefas</h3>`+(S.tarefas.length?S.tarefas.slice().sort((a,b)=>a.nome.localeCompare(b.nome)).map(t=>`<div class="item tw"><button class="btn small${t.fav?' gold':''}" onclick="favTar('${t.id}')" title="Atalho na tela Hoje">${t.fav?'⭐':'☆'}</button><input type="text" value="${esc(t.nome)}" onchange="editTar('${t.id}',this.value)"><button class="btn small danger" onclick="delTar('${t.id}')">✕</button><select onchange="catTar('${t.id}',this.value)">${S.cats.map(c=>`<option value="${c.id}" ${c.id===t.catId?'selected':''}>${esc(c.nome)}</option>`).join('')}<option value="__nova">+ Nova categoria…</option></select><button class="btn small${t.meta&&t.meta.min>0?' gold':''}" onclick="abrirMeta('${t.id}')">🎯 ${t.meta&&t.meta.min>0?esc(metaTxt(t)):'Meta'}</button></div>`).join(''):'<p class="mut small">Nenhuma tarefa ainda.</p>')
+  h+=`<div class="card"><h3>Tarefas</h3>`+(S.tarefas.length?S.tarefas.slice().sort((a,b)=>a.nome.localeCompare(b.nome)).map(t=>`<div class="item tw"><button class="btn small${t.fav?' gold':''}" onclick="favTar('${t.id}')" title="Atalho na tela Hoje">${t.fav?'⭐':'☆'}</button><input type="text" value="${esc(t.nome)}" onchange="editTar('${t.id}',this.value)"><button class="btn small danger" onclick="delTar('${t.id}')">✕</button><select onchange="catTar('${t.id}',this.value)">${S.cats.map(c=>`<option value="${c.id}" ${c.id===t.catId?'selected':''}>${esc(c.nome)}</option>`).join('')}<option value="__nova">+ Nova categoria…</option></select><button class="btn small${t.meta&&t.meta.min>0?' gold':''}" onclick="abrirMeta('${t.id}')">🎯 ${t.meta&&t.meta.min>0?esc(metaTxt(t)):'Meta'}</button><button class="btn small${t.rep?' gold':''}" onclick="abrirRep('${t.id}')">🔁 ${t.rep?esc(repTxt(t)):'Repetir'}</button></div>`).join(''):'<p class="mut small">Nenhuma tarefa ainda.</p>')
    +`<div class="item"><input type="text" id="nt_nome" placeholder="Nova tarefa" value="${esc(ui.ntNome||'')}"><select id="nt_cat" onchange="if(this.value==='__nova'){ui.ntNome=$('#nt_nome').value;abrirNovaCat({tipo:'nt'});}">${S.cats.map(c=>`<option value="${c.id}"${c.id===ui.ntCat?' selected':''}>${esc(c.nome)}</option>`).join('')}<option value="__nova">+ Nova categoria…</option></select><button class="btn small gold" onclick="addTar()">Adicionar</button></div></div>`;
   h+=rotinasCardHTML();
   h+=contaCardHTML();
+  h+=bkpCardHTML();
   h+=`<div class="card"><h3>Dados e instalação</h3>
    <button class="btn block" onclick="exportarJSON()">Exportar backup (JSON)</button>
    <button class="btn block" onclick="exportarCSV()">Exportar registros (CSV)</button>
@@ -904,19 +1047,30 @@ async function importarJSON(inp){
     if(j.app!=='fenix-tempo'||!Array.isArray(j.dias)||!Array.isArray(j.regs)||!Array.isArray(j.cats)||!Array.isArray(j.tarefas))throw 0;
     if((j.rotinas&&!Array.isArray(j.rotinas))||(j.rotlog&&!Array.isArray(j.rotlog)))throw 0;
     if([...j.dias,...j.regs,...j.cats,...j.tarefas,...(j.rotinas||[]),...(j.rotlog||[])].some(o=>!o||!ok.test(o.id)))throw 0;
-    if(!confirm('Importar vai SUBSTITUIR todos os dados atuais.'+(Sync.mod?'\n\nA sincronização está ativa: isso também substitui os dados na nuvem e nos seus outros aparelhos.':'')+'\n\nContinuar?'))return;
-    const SS=['dias','cats','tarefas','regs','rotinas','rotlog'];
-    for(const st of SS)await clear(st);
-    for(const st of SS)for(const o of (j[st]||[]))await put(st,o);
-    S.dias=j.dias;S.cats=j.cats;S.tarefas=j.tarefas;S.regs=j.regs;S.rotinas=j.rotinas||[];S.rotlog=j.rotlog||[];
-    if(!S.cats.some(c=>c.id==='c_outros')){S.cats.push({...OUTROS});await put('cats',{...OUTROS});}
-    if(j.cfg&&typeof j.cfg==='object'){for(const k of ['limiteMin','repetirMin','lembretes','notif'])if(k in j.cfg){S.cfg[k]=j.cfg[k];await put('cfg',{key:k,value:j.cfg[k]});}}
-    ui.hist=null;toast('Backup importado');render();
+    if(!confirm('Importar vai SUBSTITUIR todos os dados atuais.'+(Sync.mod?'\n\nA sincronização está ativa: isso também substitui os dados na nuvem e nos seus outros aparelhos. Antes, o app guarda um backup na nuvem do estado atual.':'')+'\n\nContinuar?'))return;
+    await bkpSeguranca('antes de importar');
+    await restaurarDados(j);toast('Backup importado');
   }catch(e){toast('Arquivo inválido');}
+}
+function validarBackup(j){
+  const ok=/^[\w-]+$/;
+  if(!j||j.app!=='fenix-tempo'||!Array.isArray(j.dias)||!Array.isArray(j.regs)||!Array.isArray(j.cats)||!Array.isArray(j.tarefas))return false;
+  if((j.rotinas&&!Array.isArray(j.rotinas))||(j.rotlog&&!Array.isArray(j.rotlog)))return false;
+  return ![...j.dias,...j.regs,...j.cats,...j.tarefas,...(j.rotinas||[]),...(j.rotlog||[])].some(o=>!o||!ok.test(o.id));
+}
+async function restaurarDados(j){
+  const SS=['dias','cats','tarefas','regs','rotinas','rotlog'];
+  for(const st of SS)await clear(st);
+  for(const st of SS)for(const o of (j[st]||[]))await put(st,o);
+  S.dias=j.dias;S.cats=j.cats;S.tarefas=j.tarefas;S.regs=j.regs;S.rotinas=j.rotinas||[];S.rotlog=j.rotlog||[];
+  if(!S.cats.some(c=>c.id==='c_outros')){S.cats.push({...OUTROS});await put('cats',{...OUTROS});}
+  if(j.cfg&&typeof j.cfg==='object'){for(const k of ['limiteMin','repetirMin','lembretes','notif'])if(k in j.cfg){S.cfg[k]=j.cfg[k];await put('cfg',{key:k,value:j.cfg[k]});}}
+  ui.hist=null;render();
 }
 async function apagarTudo(){
   if(!confirm(Sync.mod?'Apagar TODOS os dados? A sincronização está ativa: isso apaga também na nuvem e em TODOS os seus aparelhos. Não pode ser desfeito.':'Apagar TODOS os dados do app neste aparelho? Isso não pode ser desfeito.'))return;
   if(!confirm('Tem certeza? Faça um backup antes se precisar.'))return;
+  await bkpSeguranca('antes de apagar tudo');
   for(const st of ['dias','cats','tarefas','regs','rotinas','rotlog','cfg'])await clear(st);
   S.dias=[];S.cats=[];S.tarefas=[];S.regs=[];S.rotinas=[];S.rotlog=[];await semear();ui.hist=null;render();toast('Dados apagados');
 }
@@ -941,7 +1095,7 @@ function diaLongoHTML(){
 }
 function adiarDia(id){snooze['dia_'+id]=agora()+2*3600000;renderBanner();}
 function renderBanner(){
-  const b=$('#banner'),rot=diaLongoHTML()+rotAlertasHTML();if(!S.cfg.lembretes){b.innerHTML=rot;return;}
+  const b=$('#banner'),rot=diaLongoHTML()+repAlertasHTML()+rotAlertasHTML();if(!S.cfg.lembretes){b.innerHTML=rot;return;}
   const now=agora();
   const est=metasEstouradas(),ids=new Set(est.map(x=>x.r.id));
   b.innerHTML=rot+est.map(x=>`<div class="alerta"><b>🎯 ${esc(x.t.nome)}</b> passou do limite de hoje: ${fmtDur(x.ms)} (meta: até ${fmtDur(x.t.meta.min*MIN)}).<div class="acts"><button class="btn small navy" onclick="abrirEncerrar('${x.r.id}')">Encerrar</button><button class="btn small" onclick="adiarMeta('${x.t.id}')">Ainda estou nisso</button></div></div>`).join('')+vencidas().filter(r=>!ids.has(r.id)).map(r=>{const t=tipico(r.tarefaId);
@@ -955,7 +1109,7 @@ function notificar(t,corpo,tag){
   }catch(e){}
 }
 function checar(){
-  renderBanner();
+  renderBanner();bkpAuto();
   if(!S.cfg.lembretes)return;
   if(!S.cfg.notif||!('Notification' in window)||Notification.permission!=='granted')return;
   const now=agora();
@@ -977,7 +1131,7 @@ function abrirSobre(){
   modal(`<h3>FÊNIX | Gestor de Tempo</h3><p class="mut small">Versão ${VERSAO} · Fênix Soluções Tecnológicas</p>
    <p style="margin:10px 0">Cronometra o dia do <b>Acordei</b> ao <b>Dormir</b> e cada tarefa no meio, com encerramento manual e controle de esquecimentos.</p>
    <h3 style="font-size:16px;margin-top:14px">Changelog</h3>
-   <p><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
+   <p><b>v3.5</b> — repetição das tarefas</p><ul class="cl"><li>Em Ajustes › Tarefas, o botão 🔁 define como a tarefa se repete: <b>quantas vezes</b> (ex.: água 8× por dia, com botão +1 ou com cronômetro), <b>dias da semana</b> (ex.: faxina seg, qui e dom) ou <b>a cada N dias</b> (ex.: faxina a cada 15 dias, contando da última vez).</li><li>Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou do dia sem fazer vira um aviso no topo.</li><li>Relatórios ganharam o card “Repetições” (dias cumpridos, média por dia ou semana, intervalo médio).</li></ul><p style="margin-top:12px"><b>v3.4</b> — backup na nuvem</p><ul class="cl"><li>Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia (as 20 mais recentes) e você restaura qualquer uma em Ajustes › Backup na nuvem.</li><li>Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na nuvem.</li><li>Os backups são privados e apagados junto com a conta.</li></ul><p style="margin-top:12px"><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
    <ul class="cl"><li>Botões Acordei e Dormir, com cronômetro do dia.</li><li>Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.</li><li>Início de tarefa com lista, busca e criação de nova (com categoria) e opção “começou há X min”.</li><li>Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso entre o feito e o registro.</li><li>Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.</li><li>Categorias com cores e gerenciamento de tarefas.</li><li>Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.</li><li>Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.</li><li>Backup e restauração em JSON, exportação CSV; funciona offline e é instalável (PWA).</li></ul>
    <button class="btn gold block" onclick="fechar()">Fechar</button>`);
 }
@@ -989,7 +1143,7 @@ const CORE_URL='https://fenicris-dev.github.io/Fenix-Core/fenix-core.js',APP_ID=
 const FIREBASE_CONFIG=window.__FIREBASE_CONFIG_TESTE||{apiKey:'COLE_AQUI',authDomain:'COLE_AQUI',projectId:'COLE_AQUI',storageBucket:'COLE_AQUI',messagingSenderId:'COLE_AQUI',appId:'COLE_AQUI'};
 const MULTI=!Object.values(FIREBASE_CONFIG).some(v=>/COLE_AQUI/.test(v));
 const COLS=['dias','cats','tarefas','regs','rotinas','rotlog','cfg'],CFG_SYNC=['limiteMin','repetirMin','lembretes'];
-const Sync={core:null,db:null,auth:null,acesso:null,mod:null,user:null,userAuth:null,perfil:null,admin:false,nPend:0,unPerfil:null,unsubs:[],nuvem:{},prim:{},estado:'local',msg:'',ultErro:0};
+const Sync={bkp:{},bkpPronto:false,bkpBusy:false,bkpErroAte:0,core:null,db:null,auth:null,acesso:null,mod:null,user:null,userAuth:null,perfil:null,admin:false,nPend:0,unPerfil:null,unsubs:[],nuvem:{},prim:{},estado:'local',msg:'',ultErro:0};
 const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 const lsDel=k=>{try{localStorage.removeItem(k);}catch(e){}};
@@ -1065,7 +1219,7 @@ function aoNuvem(col,ms,meta){
   }
   if(!meta.doCache){
     setEstado(navigator.onLine===false?'offline':'ok');
-    if(!Sync.prim[col]){Sync.prim[col]=true;if(COLS.every(c=>Sync.prim[c]))mesclar();}
+    if(!Sync.prim[col]){Sync.prim[col]=true;if(COLS.every(c=>Sync.prim[c])){mesclar();setTimeout(bkpAuto,4000);}}
   }
   if(mudou)renderSoon();
 }
@@ -1165,15 +1319,123 @@ async function syncIniciar(u){
   Sync.mod=Sync.core.criarModuloSincronia(Sync.db,u.uid,APP_ID);
   setEstado(navigator.onLine===false?'offline':'conectando');
   COLS.forEach(c=>Sync.unsubs.push(Sync.mod.ouvir(c,(m,meta)=>aoNuvem(c,m,meta),erroSync)));
+  Sync.bkp={};Sync.bkpPronto=false;Sync.bkpBusy=false;Sync.bkpErroAte=0;
+  Sync.unsubs.push(Sync.mod.ouvir(BK_META,(ms,meta)=>{
+    for(const x of ms){if(x.tipo==='removed')delete Sync.bkp[x.id];else Sync.bkp[x.id]={...x.dados,id:x.id};}
+    if(!meta.doCache)Sync.bkpPronto=true;
+    if(ui.tab==='ajustes'&&!document.querySelector('#modal .sheet'))renderSoon();
+  },erroSync));
   Sync.mod.medirRelogio().then(o=>{OFFSET=Math.abs(o)<2000?0:o;}).catch(()=>{});
   if(!disp().nome)setTimeout(()=>{if(Sync.user&&!disp().nome)abrirConta();},350);else if(ui.tab==='ajustes')render();
 }
 function syncParar(silencioso){
-  Sync.unsubs.forEach(f=>{try{f();}catch(e){}});Sync.unsubs=[];Sync.mod=null;Sync.user=null;
+  Sync.unsubs.forEach(f=>{try{f();}catch(e){}});Sync.unsubs=[];Sync.mod=null;Sync.user=null;Sync.bkp={};Sync.bkpPronto=false;
   setEstado('local');if(!silencioso&&ui.tab==='ajustes')render();
 }
 window.addEventListener('online',()=>{if(Sync.mod)setEstado('conectando');});
 window.addEventListener('offline',()=>{if(Sync.mod)setEstado('offline');});
+
+/* ---------- Backup na nuvem (v3.4) ---------- */
+const BK_META='bkp_meta',BK_DADOS='bkp_dados',BK_MAX=20,BK_CHUNK=600000;
+const b64=u8=>{let t='';for(let i=0;i<u8.length;i+=8192)t+=String.fromCharCode.apply(null,u8.subarray(i,i+8192));return btoa(t);};
+const unb64=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0));
+async function lerStream(rs){const rd=rs.getReader(),ps=[];let n=0;for(;;){const {done,value}=await rd.read();if(done)break;ps.push(value);n+=value.length;}const o=new Uint8Array(n);let k=0;for(const x of ps){o.set(x,k);k+=x.length;}return o;}
+async function comprimir(txt){
+  if(typeof CompressionStream==='undefined'||typeof TextEncoder==='undefined')return {enc:'txt',d:txt};
+  try{const cs=new CompressionStream('gzip'),w=cs.writable.getWriter();w.write(new TextEncoder().encode(txt));w.close();return {enc:'gz',d:b64(await lerStream(cs.readable))};}
+  catch(e){return {enc:'txt',d:txt};}
+}
+async function descomprimir(enc,d){
+  if(enc!=='gz')return d;
+  const ds=new DecompressionStream('gzip'),w=ds.writable.getWriter();w.write(unb64(d));w.close();
+  return new TextDecoder().decode(await lerStream(ds.readable));
+}
+const snapshotDados=()=>({app:'fenix-tempo',versao:VERSAO,dias:S.dias,cats:S.cats,tarefas:S.tarefas,regs:S.regs,rotinas:S.rotinas,rotlog:S.rotlog,cfg:S.cfg});
+const dataLocal=ts=>{const d=new Date(ts);return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());};
+async function bkpCriar(motivo){
+  if(!Sync.mod)throw new Error('sem sincronização');
+  const ts=agora(),d=new Date(ts),id=dataLocal(ts)+'-'+pad(d.getHours())+pad(d.getMinutes())+pad(d.getSeconds())+String(d.getMilliseconds()).padStart(3,'0');
+  const c=await comprimir(JSON.stringify(snapshotDados())),n=Math.max(1,Math.ceil(c.d.length/BK_CHUNK));
+  const partes=[];for(let i=0;i<n;i++)partes.push({id:id+'_'+i,bk:id,i,d:c.d.slice(i*BK_CHUNK,(i+1)*BK_CHUNK)});
+  await Sync.mod.salvarVarios(BK_DADOS,partes);
+  const meta={id,ts,motivo:motivo||'automático',enc:c.enc,n,bytes:c.d.length,dias:S.dias.length,regs:S.regs.length,tarefas:S.tarefas.length,aparelho:disp().nome||''};
+  await Sync.mod.salvar(BK_META,meta);
+  Sync.bkp[id]=meta;
+  bkpPodar().catch(()=>{});
+  return meta;
+}
+async function bkpPodar(){
+  const lista=Object.values(Sync.bkp).sort((a,b)=>b.ts-a.ts);
+  for(const m of lista.slice(BK_MAX)){
+    await Sync.mod.excluir(BK_META,m.id);delete Sync.bkp[m.id];
+    for(let i=0;i<(m.n||1);i++)await Sync.mod.excluir(BK_DADOS,m.id+'_'+i);
+  }
+}
+/* um backup automático por dia, na primeira abertura com a nuvem em dia */
+async function bkpAuto(){
+  if(!Sync.mod||!Sync.bkpPronto||Sync.bkpBusy||Sync.estado!=='ok'||!S.dias.length)return;
+  if(!COLS.every(c=>Sync.prim[c]))return;
+  const now=agora();if(now<(Sync.bkpErroAte||0))return;
+  const hoje0=dataLocal(now);
+  if(Object.values(Sync.bkp).some(m=>dataLocal(m.ts)===hoje0))return;
+  Sync.bkpBusy=true;
+  try{await bkpCriar('automático');}catch(e){Sync.bkpErroAte=now+10*MIN;}
+  Sync.bkpBusy=false;
+  if(ui.tab==='ajustes'&&!document.querySelector('#modal .sheet'))renderSoon();
+}
+/* cópia de segurança antes de algo que apaga ou substitui dados (não bloqueia se falhar) */
+async function bkpSeguranca(motivo){
+  if(!Sync.mod||!S.dias.length)return;
+  try{await Promise.race([bkpCriar(motivo),new Promise((_,rj)=>setTimeout(()=>rj(0),8000))]);}catch(e){}
+}
+function bkpCardHTML(){
+  if(!Sync.mod)return '';
+  const l=Object.values(Sync.bkp).sort((a,b)=>b.ts-a.ts),u=l[0];
+  return `<div class="card"><h3>Backup na nuvem</h3><p class="mut small">Uma cópia por dia é guardada na sua conta (mantemos as ${BK_MAX} mais recentes). Se algo for apagado por engano, você restaura aqui.</p>
+   <p class="small" style="margin:8px 0">${u?`Último backup: <b>${esc(fmtDataHora(u.ts))}</b> · ${l.length} guardado${l.length===1?'':'s'}`:(Sync.bkpPronto?'Ainda não há backup. O primeiro é feito automaticamente.':'Consultando…')}</p>
+   <button class="btn block" id="bk_agora" onclick="bkpAgora()">Fazer backup agora</button><button class="btn block" onclick="abrirBackups()" ${l.length?'':'disabled'}>Ver backups e restaurar</button></div>`;
+}
+async function bkpAgora(){
+  const b=$('#bk_agora');if(b)b.disabled=true;
+  try{await bkpCriar('manual');toast('Backup feito');}catch(e){toast('Não foi possível fazer o backup agora.');}
+  if(ui.tab==='ajustes')render();
+}
+const fmtKB=b=>b<1024?b+' B':(b/1024).toFixed(b<10240?1:0).replace('.',',')+' KB';
+function abrirBackups(){
+  const l=Object.values(Sync.bkp).sort((a,b)=>b.ts-a.ts);
+  modal(`<h3>Backups na nuvem</h3><p class="mut small" style="margin-bottom:6px">Restaurar substitui os dados atuais (neste e nos outros aparelhos). Antes, o app guarda um backup do estado atual.</p>`
+   +(l.length?l.map(m=>`<div class="item"><div style="flex:1"><b>${esc(fmtDataHora(m.ts))}</b><div class="mut small">${esc(m.motivo||'')}${m.aparelho?' · '+esc(m.aparelho):''}<br>${m.dias} dia${m.dias===1?'':'s'} · ${m.regs} registro${m.regs===1?'':'s'} · ${fmtKB(m.bytes||0)}</div></div><button class="btn small gold" onclick="restaurarBackup('${m.id}')">Restaurar</button></div>`).join(''):'<div class="empty">Nenhum backup ainda.</div>')
+   +`<div class="erro" id="err"></div><button class="link" onclick="fechar()">Fechar</button>`);
+}
+/* lê as partes de um backup (a coleção é escutada só até chegar tudo) */
+function bkpLer(m){
+  return new Promise((ok,no)=>{
+    const got={};let un=null,fim=false;
+    const acaba=(f,v)=>{if(fim)return;fim=true;clearTimeout(tm);try{un&&un();}catch(e){}f(v);};
+    const tm=setTimeout(()=>acaba(no,new Error('tempo esgotado')),30000);
+    un=Sync.mod.ouvir(BK_DADOS,ms=>{
+      for(const x of ms)if(x.tipo!=='removed'&&x.dados&&x.dados.bk===m.id)got[x.dados.i]=x.dados.d;
+      if(Object.keys(got).length>=(m.n||1)){
+        const t=[];for(let i=0;i<(m.n||1);i++)t.push(got[i]);
+        acaba(ok,t.join(''));
+      }
+    },e=>acaba(no,e));
+    if(fim&&un)try{un();}catch(e){}
+  });
+}
+async function restaurarBackup(id){
+  const m=Sync.bkp[id];if(!m||!Sync.mod)return;
+  if(!confirm('Restaurar o backup de '+fmtDataHora(m.ts)+'?\n\nOs dados atuais serão SUBSTITUÍDOS por ele, neste e nos seus outros aparelhos. Antes, o app guarda um backup do estado atual.'))return;
+  toast('Restaurando… aguarde');
+  let j;
+  try{
+    const txt=await descomprimir(m.enc,await bkpLer(m));
+    j=JSON.parse(txt);if(!validarBackup(j))throw new Error('inválido');
+  }catch(e){erro('Não foi possível ler esse backup ('+((e&&e.message)||'erro')+'). Seus dados não foram alterados.');return;}
+  await bkpSeguranca('antes de restaurar');
+  try{await restaurarDados(j);}catch(e){erro('Falha ao restaurar. Tente de novo.');return;}
+  fechar();toast('Backup restaurado');render();
+}
 
 /* conta */
 const logadoAuth=()=>Sync.userAuth||Sync.user;
@@ -1280,7 +1542,7 @@ async function confirmarExclusao(){
   try{
     const m=Sync.mod||Sync.core.criarModuloSincronia(Sync.db,me,APP_ID);
     syncParar(true);
-    await m.apagarTudo(COLS.concat(['sistema']));
+    await m.apagarTudo(COLS.concat(['sistema',BK_META,BK_DADOS]));
     try{await Sync.acesso.excluir(me);}catch(e){}
     await Sync.auth.excluirConta(p);
     lsDel('fenix_tempo_sync_uid');lsDel('fenix_tempo_merge_'+me);lsDel('fenix_tempo_fila');
