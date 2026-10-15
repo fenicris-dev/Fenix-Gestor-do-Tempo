@@ -113,6 +113,7 @@ input[type=color]{padding:2px;height:40px;width:54px}
 .run .btn{white-space:nowrap}
 .run .row>div:first-child{min-width:0}
 header button#nuvem{position:relative;padding:6px 10px}
+#npend{position:absolute;left:-6px;top:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:99px;background:#ef5b66;color:#fff;font:700 11px/18px system-ui,sans-serif;text-align:center;border:1.5px solid var(--navy);box-sizing:border-box}
 #nvd{position:absolute;right:3px;top:3px;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--navy);background:#8a90b8}
 #nvd.s-ok{background:#35c47a}#nvd.s-conectando,#nvd.s-offline,#nvd.s-pendente{background:#f0b13a}#nvd.s-erro,#nvd.s-bloqueado{background:#ef5b66}
 .dotst{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;background:#8a90b8}
@@ -127,9 +128,9 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 <header>
   <img class="lg" src="icon-192.png" alt="" width="32" height="32">
   <div class="logo">FÊNIX <b>|</b> Gestor de Tempo</div>
-  <span class="ver">v3.5</span>
+  <span class="ver">v3.6</span>
   <div class="sp"></div>
-  <button id="nuvem" onclick="abrirConta()" title="Conta e sincronização">☁<i id="nvd" class="s-local"></i></button>
+  <button id="nuvem" onclick="abrirConta()" title="Conta e sincronização">☁<i id="nvd" class="s-local"></i><b id="npend" hidden></b></button>
   <button onclick="abrirSobre()">Sobre</button>
 </header>
 <div class="banner" id="banner"></div>
@@ -144,8 +145,8 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 
 <script>
 'use strict';
-/* ===== FÊNIX | Gestor de Tempo v3.5 ===== */
-const VERSAO='3.5';
+/* ===== FÊNIX | Gestor de Tempo v3.6 ===== */
+const VERSAO='3.6';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let OFFSET=0;const agora=()=>Date.now()+OFFSET;
@@ -1095,7 +1096,7 @@ function diaLongoHTML(){
 }
 function adiarDia(id){snooze['dia_'+id]=agora()+2*3600000;renderBanner();}
 function renderBanner(){
-  const b=$('#banner'),rot=diaLongoHTML()+repAlertasHTML()+rotAlertasHTML();if(!S.cfg.lembretes){b.innerHTML=rot;return;}
+  const b=$('#banner'),rot=aprAlertaHTML()+diaLongoHTML()+repAlertasHTML()+rotAlertasHTML();if(!S.cfg.lembretes){b.innerHTML=rot;return;}
   const now=agora();
   const est=metasEstouradas(),ids=new Set(est.map(x=>x.r.id));
   b.innerHTML=rot+est.map(x=>`<div class="alerta"><b>🎯 ${esc(x.t.nome)}</b> passou do limite de hoje: ${fmtDur(x.ms)} (meta: até ${fmtDur(x.t.meta.min*MIN)}).<div class="acts"><button class="btn small navy" onclick="abrirEncerrar('${x.r.id}')">Encerrar</button><button class="btn small" onclick="adiarMeta('${x.t.id}')">Ainda estou nisso</button></div></div>`).join('')+vencidas().filter(r=>!ids.has(r.id)).map(r=>{const t=tipico(r.tarefaId);
@@ -1123,15 +1124,15 @@ function tick(){
   const now=agora();
   document.querySelectorAll('[data-since]').forEach(el=>{el.textContent=fmtClock(now-Number(el.dataset.since));});
 }
-setInterval(()=>{tick();if(++n%30===0)checar();if(n%15===0)metasAoVivo();},1000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){checar();tick();}});
+setInterval(()=>{tick();if(++n%30===0)checar();if(n%15===0)metasAoVivo();if(n%300===0&&!document.hidden)atualizarPend();},1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){checar();tick();atualizarPend();}});
 
 /* ---------- Sobre ---------- */
 function abrirSobre(){
   modal(`<h3>FÊNIX | Gestor de Tempo</h3><p class="mut small">Versão ${VERSAO} · Fênix Soluções Tecnológicas</p>
    <p style="margin:10px 0">Cronometra o dia do <b>Acordei</b> ao <b>Dormir</b> e cada tarefa no meio, com encerramento manual e controle de esquecimentos.</p>
    <h3 style="font-size:16px;margin-top:14px">Changelog</h3>
-   <p><b>v3.5</b> — repetição das tarefas</p><ul class="cl"><li>Em Ajustes › Tarefas, o botão 🔁 define como a tarefa se repete: <b>quantas vezes</b> (ex.: água 8× por dia, com botão +1 ou com cronômetro), <b>dias da semana</b> (ex.: faxina seg, qui e dom) ou <b>a cada N dias</b> (ex.: faxina a cada 15 dias, contando da última vez).</li><li>Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou do dia sem fazer vira um aviso no topo.</li><li>Relatórios ganharam o card “Repetições” (dias cumpridos, média por dia ou semana, intervalo médio).</li></ul><p style="margin-top:12px"><b>v3.4</b> — backup na nuvem</p><ul class="cl"><li>Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia (as 20 mais recentes) e você restaura qualquer uma em Ajustes › Backup na nuvem.</li><li>Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na nuvem.</li><li>Os backups são privados e apagados junto com a conta.</li></ul><p style="margin-top:12px"><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
+   <p><b>v3.6</b> — aviso de aprovações</p><ul class="cl"><li>Para o administrador: um selo vermelho com o número de pedidos de acesso pendentes aparece no ☁, e um aviso no topo leva direto às Aprovações. A consulta é refeita sozinha a cada 5 minutos e sempre que o app volta para a tela.</li></ul><p style="margin-top:12px"><b>v3.5</b> — repetição das tarefas</p><ul class="cl"><li>Em Ajustes › Tarefas, o botão 🔁 define como a tarefa se repete: <b>quantas vezes</b> (ex.: água 8× por dia, com botão +1 ou com cronômetro), <b>dias da semana</b> (ex.: faxina seg, qui e dom) ou <b>a cada N dias</b> (ex.: faxina a cada 15 dias, contando da última vez).</li><li>Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou do dia sem fazer vira um aviso no topo.</li><li>Relatórios ganharam o card “Repetições” (dias cumpridos, média por dia ou semana, intervalo médio).</li></ul><p style="margin-top:12px"><b>v3.4</b> — backup na nuvem</p><ul class="cl"><li>Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia (as 20 mais recentes) e você restaura qualquer uma em Ajustes › Backup na nuvem.</li><li>Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na nuvem.</li><li>Os backups são privados e apagados junto com a conta.</li></ul><p style="margin-top:12px"><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
    <ul class="cl"><li>Botões Acordei e Dormir, com cronômetro do dia.</li><li>Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.</li><li>Início de tarefa com lista, busca e criação de nova (com categoria) e opção “começou há X min”.</li><li>Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso entre o feito e o registro.</li><li>Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.</li><li>Categorias com cores e gerenciamento de tarefas.</li><li>Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.</li><li>Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.</li><li>Backup e restauração em JSON, exportação CSV; funciona offline e é instalável (PWA).</li></ul>
    <button class="btn gold block" onclick="fechar()">Fechar</button>`);
 }
@@ -1280,7 +1281,7 @@ async function syncBoot(){
     Sync.auth.aoMudarEstado(u=>{
       if(u){Sync.userAuth=u;if(MULTI)aoLogar(u);else syncIniciar(u);}
       else{
-        Sync.userAuth=null;Sync.perfil=null;Sync.admin=false;Sync.nPend=0;
+        Sync.userAuth=null;Sync.perfil=null;Sync.admin=false;Sync.nPend=0;badgePend();renderBanner();
         if(Sync.unPerfil){Sync.unPerfil();Sync.unPerfil=null;}
         syncParar();
         if(!lsGet('fenix_tempo_login_visto')){lsSet('fenix_tempo_login_visto','1');abrirConta();}
@@ -1298,7 +1299,8 @@ async function aoLogar(u){
     aplicarPerfil(u,p);
     if(Sync.unPerfil)Sync.unPerfil();
     Sync.unPerfil=Sync.acesso.ouvir(u.uid,p2=>aplicarPerfil(u,p2),erroSync);
-    if(Sync.admin)Sync.acesso.listar('pendente').then(l=>{Sync.nPend=l.length;if(l.length)toast(l.length+' pedido'+(l.length===1?'':'s')+' de acesso aguardando você');if(ui.tab==='ajustes')render();}).catch(()=>{});
+    Sync.pendVisto=false;badgePend();
+    if(Sync.admin)atualizarPend();
   }catch(e){erroSync(e);}
 }
 function aplicarPerfil(u,p){
@@ -1511,13 +1513,39 @@ async function sairConta(){
   try{await Sync.auth.sair();}catch(e){}
   fechar();render();
 }
+/* administrador: aviso de cadastros pendentes (selo no ☁, aviso no topo e consulta a cada 5 min) */
+function badgePend(){
+  const el=$('#npend');if(!el)return;
+  const n=Sync.admin?Sync.nPend:0;el.hidden=!n;el.textContent=n>9?'9+':String(n);
+  el.title=n?n+' pedido'+(n===1?'':'s')+' de acesso aguardando':'';
+}
+function aprAlertaHTML(){
+  if(!Sync.admin||!Sync.nPend||(snooze.apr&&agora()<snooze.apr))return '';
+  const n=Sync.nPend;
+  return `<div class="alerta"><b>👥 ${n} pedido${n===1?'':'s'} de acesso aguardando você.</b><div class="acts"><button class="btn small navy" onclick="abrirAprovacoes()">Ver pedidos</button><button class="btn small" onclick="adiarApr()">Depois</button></div></div>`;
+}
+function adiarApr(){snooze.apr=agora()+2*3600000;renderBanner();}
+let pendBusy=false;
+async function atualizarPend(){
+  if(!Sync.admin||!Sync.acesso||pendBusy||navigator.onLine===false)return;
+  pendBusy=true;
+  try{
+    const l=await Sync.acesso.listar('pendente'),ant=Sync.nPend;
+    Sync.nPend=l.length;
+    if(l.length>ant&&Sync.pendVisto)toast(l.length>1?l.length+' pedidos de acesso aguardando você':'Novo pedido de acesso');
+    Sync.pendVisto=true;
+    if(l.length>ant)delete snooze.apr;
+    badgePend();renderBanner();if(ui.tab==='ajustes'&&!document.querySelector('#modal .sheet'))renderSoon();
+  }catch(e){}
+  pendBusy=false;
+}
 /* administrador: aprovar e bloquear cadastros */
 async function abrirAprovacoes(){
   modal(`<h3>👥 Aprovações</h3><p class="mut small">Carregando…</p>`);
   try{
     const ps=await Sync.acesso.listar(),ordem={pendente:0,bloqueado:1,aprovado:2},me=logadoAuth().uid;
     ps.sort((a,b)=>((ordem[a.status]||0)-(ordem[b.status]||0))||String(a.nome||a.email).localeCompare(String(b.nome||b.email)));
-    Sync.nPend=ps.filter(p=>p.status==='pendente').length;
+    Sync.nPend=ps.filter(p=>p.status==='pendente').length;badgePend();renderBanner();
     modal(`<h3>👥 Aprovações</h3>`+(ps.length?ps.map(p=>`<div class="item tw"><div style="flex:1;min-width:0"><b>${esc(p.nome||'(sem nome)')}</b><div class="mut small">${esc(p.email)} · ${esc(p.status)}</div></div>`
       +(p.status!=='aprovado'?`<button class="btn small gold" onclick="decidir('${esc(p.uid)}','aprovado')">Aprovar</button>`:'')
       +(p.status!=='bloqueado'&&p.uid!==me?`<button class="btn small danger" onclick="decidir('${esc(p.uid)}','bloqueado')">Bloquear</button>`:'')+`</div>`).join(''):'<div class="empty">Nenhum cadastro ainda.</div>')
