@@ -128,7 +128,7 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 <header>
   <img class="lg" src="icon-192.png" alt="" width="32" height="32">
   <div class="logo">FÊNIX <b>|</b> Gestor de Tempo</div>
-  <span class="ver">v3.6</span>
+  <span class="ver">v3.7</span>
   <div class="sp"></div>
   <button id="nuvem" onclick="abrirConta()" title="Conta e sincronização">☁<i id="nvd" class="s-local"></i><b id="npend" hidden></b></button>
   <button onclick="abrirSobre()">Sobre</button>
@@ -145,8 +145,8 @@ ul.cl{padding-left:18px;margin:6px 0}ul.cl li{margin:3px 0;font-size:14px}
 
 <script>
 'use strict';
-/* ===== FÊNIX | Gestor de Tempo v3.6 ===== */
-const VERSAO='3.6';
+/* ===== FÊNIX | Gestor de Tempo v3.7 ===== */
+const VERSAO='3.7';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let OFFSET=0;const agora=()=>Date.now()+OFFSET;
@@ -331,11 +331,12 @@ const iniSemana=ts=>maisDias(ini0(ts),-((new Date(ts).getDay()+6)%7));
 function repTxt(t){
   const r=t.rep;if(!r)return '';
   if(r.modo==='vezes')return r.n+'×/'+(r.per==='sem'?'sem':'dia');
-  if(r.modo==='dias')return r.dias.slice().sort((a,b)=>((a+6)%7)-((b+6)%7)).map(i=>DSEM[i]).join('·');
+  if(r.modo==='dias')return r.dias.slice().sort((a,b)=>((a+6)%7)-((b+6)%7)).map(i=>DSEM[i]).join('·')+(r.doses?' · '+r.doses.n+'×/dia':'');
   if(r.modo==='ciclo')return 'a cada '+r.cada+'d';
   return '';
 }
 function ultFeito(t){let m=(t.rep&&t.rep.pulo)||0;for(const r of S.regs)if(r.tarefaId===t.id&&r.inicio>m)m=r.inicio;return m;}
+const hmTs=(h0,hm)=>{const [h,m]=String(hm).split(':').map(Number),d=new Date(h0);d.setHours(h||0,m||0,0,0);return d.getTime();};
 const ocorrencias=(t,de,ate)=>S.regs.filter(r=>r.tarefaId===t.id&&!r.retomaDe&&r.inicio>=de&&r.inicio<ate).length;
 /* situação da repetição agora; null = não aparece hoje */
 function repStatus(t,now){
@@ -344,6 +345,21 @@ function repStatus(t,now){
   if(r.modo==='vezes'){
     const de=r.per==='sem'?iniSemana(now):h0,ate=maisDias(de,r.per==='sem'?7:1),cont=ocorrencias(t,de,ate);
     return {modo:'vezes',cont,meta:r.n,feito:cont>=r.n,pend:cont<r.n,atraso:0,txt:cont+'/'+r.n+(r.per==='sem'?' na semana':' hoje')};
+  }
+  if(r.modo==='dias'&&r.doses){
+    if(h0<desde0||!r.dias.includes(new Date(h0).getDay()))return null;
+    const D=r.doses,n=D.n,tom=ocorrencias(t,h0,maisDias(h0,1)),pul=(r.puladas&&r.puladas[dataLocal(h0)])||0,cont=Math.min(n,tom+pul);
+    if(cont>=n)return {modo:'dias',doses:true,feito:true,pend:false,devida:false,atraso:0,cont:tom,meta:n,txt:tom+'/'+n+' hoje'};
+    let devida=false,prox=null,txt=tom+'/'+n+' hoje';
+    if(D.tipo==='horarios'){
+      prox=hmTs(h0,D.horarios[cont]);devida=now>=prox;
+      txt+=devida?(now-prox>=30*MIN?' · atrasada desde ':' · agora, das ')+D.horarios[cont]:' · próxima às '+D.horarios[cont];
+    }else if(D.tipo==='intervalo'){
+      const ult=S.regs.filter(x=>x.tarefaId===t.id&&!x.retomaDe&&x.inicio>=h0&&x.inicio<maisDias(h0,1)).reduce((m,x)=>Math.max(m,x.inicio),0);
+      prox=ult?ult+D.intervaloMin*MIN:0;devida=now>=prox;
+      txt+=devida?' · pode tomar agora':' · próxima a partir das '+fmtHM(prox);
+    }
+    return {modo:'dias',doses:true,feito:false,pend:true,devida,prox,atraso:0,cont:tom,meta:n,txt};
   }
   if(r.modo==='dias'){
     let L=null;
@@ -366,7 +382,7 @@ function proximaCiclo(t){const u=ultFeito(t);return u?maisDias(ini0(u),t.rep.cad
 function repItens(){
   const now=agora();
   return S.tarefas.filter(t=>t.rep).map(t=>({t,s:repStatus(t,now)})).filter(x=>x.s)
-   .sort((a,b)=>(b.s.pend&&b.s.atraso>0)-(a.s.pend&&a.s.atraso>0)||(b.s.pend?1:0)-(a.s.pend?1:0)||b.s.atraso-a.s.atraso||a.t.nome.localeCompare(b.t.nome));
+   .sort((a,b)=>(b.s.devida?1:0)-(a.s.devida?1:0)||(b.s.pend&&b.s.atraso>0)-(a.s.pend&&a.s.atraso>0)||(b.s.pend?1:0)-(a.s.pend?1:0)||b.s.atraso-a.s.atraso||a.t.nome.localeCompare(b.t.nome));
 }
 function repHojeHTML(){
   const its=repItens();if(!its.length)return '';
@@ -381,6 +397,12 @@ function repHojeHTML(){
         :(aberta?`<span class="mut small">em andamento</span>`:`<button class="btn small gold" onclick="iniciar('${t.id}')">▶</button>`);
       return `<div class="item" style="display:block"><div class="row" style="gap:8px"><div style="flex:1;min-width:0">${nome}<div class="small"><span class="mut">${sub} · </span><span class="${cor}">${esc(s.txt)}${s.feito?' ✔':''}</span></div></div><div style="display:flex;gap:6px">${btn}</div></div><div class="tr" style="height:6px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:5px"><i style="display:block;height:100%;width:${pct}%;background:${s.feito?'var(--ok)':esc(c.cor)}"></i></div></div>`;
     }
+    if(s.doses){
+      const pct=Math.min(100,Math.round(s.cont/s.meta*100)),cron=t.rep.reg==='cron';
+      const ult=S.regs.filter(r=>r.tarefaId===t.id&&r.inst&&r.inicio>=ini0(agora())).sort((a,b)=>b.inicio-a.inicio)[0];
+      const btn=s.feito?'':`${cron?(aberta?`<span class="mut small">em andamento</span>`:`<button class="btn small gold" onclick="iniciar('${t.id}')">▶</button>`):''}<button class="btn small ${cron?'':'gold'}" onclick="tomarDose('${t.id}')">✔ ${cron?'Feito':'Tomei'}</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button>`;
+      return `<div class="item" style="display:block"><div class="row" style="gap:8px;align-items:flex-start"><div style="flex:1;min-width:0">${nome}<div class="small"><span class="mut">${sub} · </span><span class="${s.devida?'err':(s.feito?'ok':'mut')}">${esc(s.txt)}${s.feito?' ✔':''}</span></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${btn}${ult?`<button class="btn small" onclick="desfazerFeito('${t.id}')" title="Desfazer o último" aria-label="Desfazer">↩</button>`:''}</div></div><div class="tr" style="height:6px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:5px"><i style="display:block;height:100%;width:${pct}%;background:${s.feito?'var(--ok)':esc(c.cor)}"></i></div></div>`;
+    }
     if(s.feito)return `<div class="item"><div style="flex:1">${nome}<div class="small"><span class="mut">${sub} · </span><span class="ok">${esc(s.txt)} ✔</span></div></div></div>`;
     return `<div class="item"><div style="flex:1;min-width:0">${nome}<div class="small"><span class="mut">${sub} · </span><span class="${cor}">${esc(s.txt)}</span></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${aberta?`<span class="mut small">em andamento</span>`:`<button class="btn small gold" onclick="iniciar('${t.id}')">▶ Iniciar</button>`}<button class="btn small" onclick="marcarFeito('${t.id}')">✔ Já fiz</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button></div></div>`;
   }).join('')+`</div>`;
@@ -392,47 +414,99 @@ async function marcarFeito(tid){
   S.regs.push(r);await put('regs',r);delete snooze['rep_'+tid];
   const s=repStatus(t);toast('“'+t.nome+'”'+(s&&s.modo==='vezes'?' · '+s.txt:' · feito'));render();
 }
+/* registrar uma dose; antes do horário ou do intervalo pede confirmação */
+async function tomarDose(tid){
+  const t=tarefa(tid),s=t&&repStatus(t);
+  if(s&&s.doses&&!s.feito&&!s.devida&&s.prox){
+    const falta=s.prox-agora();
+    if(t.rep.doses.tipo==='intervalo'&&!confirm('Ainda faltam '+fmtDur(falta)+' do intervalo mínimo entre doses (próxima a partir das '+fmtHM(s.prox)+').\n\nRegistrar “'+t.nome+'” mesmo assim?'))return;
+    if(t.rep.doses.tipo==='horarios'&&falta>60*MIN&&!confirm('Esta dose está prevista para '+fmtHM(s.prox)+'.\n\nRegistrar “'+t.nome+'” agora?'))return;
+  }
+  return marcarFeito(tid);
+}
 async function desfazerFeito(tid){
   const r=S.regs.filter(x=>x.tarefaId===tid&&x.inst).sort((a,b)=>b.inicio-a.inicio)[0];if(!r)return;
+  if(!confirm('Desfazer o último registro de “'+r.nome+'” ('+fmtHM(r.inicio)+')?'))return;
   S.regs=S.regs.filter(x=>x.id!==r.id);await del('regs',r.id);render();
 }
 async function pularRep(tid){
   const t=tarefa(tid);if(!t||!t.rep)return;
-  t.rep.pulo=agora();await put('tarefas',t);delete snooze['rep_'+tid];toast('“'+t.nome+'” pulada');render();
+  if(t.rep.doses){const k=dataLocal(agora());t.rep.puladas={[k]:((t.rep.puladas||{})[k]||0)+1};}
+  else t.rep.pulo=agora();
+  await put('tarefas',t);delete snooze['rep_'+tid];toast(t.rep.doses?'Dose de “'+t.nome+'” pulada':'“'+t.nome+'” pulada');render();
 }
 function repAtrasadas(){
   const d=diaAberto();if(!d)return [];const now=agora();
-  return repItens().filter(x=>x.s.pend&&x.s.atraso>0&&x.s.modo!=='vezes'&&!(snooze['rep_'+x.t.id]&&now<snooze['rep_'+x.t.id]));
+  return repItens().filter(x=>((x.s.pend&&x.s.atraso>0&&x.s.modo!=='vezes'&&!x.s.doses)||(x.s.doses&&x.s.devida))&&!(snooze['rep_'+x.t.id]&&now<snooze['rep_'+x.t.id]));
 }
 function repAlertasHTML(){
   const ab=new Set(S.regs.filter(r=>!r.fim).map(r=>r.tarefaId));
-  return repAtrasadas().map(({t,s})=>`<div class="alerta"><b>🔁 ${esc(t.nome)}</b> está ${esc(s.txt)}.<div class="acts">${ab.has(t.id)?'':`<button class="btn small navy" onclick="iniciar('${t.id}')">Iniciar</button>`}<button class="btn small" onclick="marcarFeito('${t.id}')">Já fiz</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button><button class="btn small" onclick="adiarRep('${t.id}')">Depois</button></div></div>`).join('');
+  return repAtrasadas().map(({t,s})=>s.doses
+   ?`<div class="alerta"><b>💊 ${esc(t.nome)}</b> — dose ${s.cont+1} de ${s.meta}: ${esc(s.txt.replace(/^\d+\/\d+ hoje · /,''))}.<div class="acts"><button class="btn small navy" onclick="tomarDose('${t.id}')">${t.rep.reg==='cron'?'Feito':'Tomei'}</button><button class="btn small" onclick="pularRep('${t.id}')">Pular dose</button><button class="btn small" onclick="adiarRep('${t.id}')">Depois</button></div></div>`
+   :`<div class="alerta"><b>🔁 ${esc(t.nome)}</b> está ${esc(s.txt)}.<div class="acts">${ab.has(t.id)?'':`<button class="btn small navy" onclick="iniciar('${t.id}')">Iniciar</button>`}<button class="btn small" onclick="marcarFeito('${t.id}')">Já fiz</button><button class="btn small" onclick="pularRep('${t.id}')">Pular</button><button class="btn small" onclick="adiarRep('${t.id}')">Depois</button></div></div>`).join('');
 }
-function adiarRep(id){snooze['rep_'+id]=agora()+4*3600000;renderBanner();}
+function adiarRep(id){const t=tarefa(id);snooze['rep_'+id]=agora()+(t&&t.rep&&t.rep.doses?Math.min(S.cfg.repetirMin,30):240)*MIN;renderBanner();}
 /* editar a repetição de uma tarefa */
 function abrirRep(id){
-  const t=tarefa(id);if(!t)return;const r=t.rep||{};
+  const t=tarefa(id);if(!t)return;const r=t.rep||{},dsx=(r.modo==='dias'&&r.doses)?r.doses:{n:1,tipo:'livre'};repHorTmp=dsx.horarios||[];
   modal(`<h3>Repetição · ${esc(t.nome)}</h3>
    <label>Como essa tarefa se repete?</label><select id="rp_modo" onchange="repCampos()"><option value="" ${r.modo?'':'selected'}>Sem repetição</option><option value="vezes" ${r.modo==='vezes'?'selected':''}>Quantas vezes (ex.: beber água 8× por dia)</option><option value="dias" ${r.modo==='dias'?'selected':''}>Dias da semana (ex.: faxina seg, qui e dom)</option><option value="ciclo" ${r.modo==='ciclo'?'selected':''}>A cada N dias (ex.: faxina a cada 15 dias)</option></select>
    <div id="rp_vezes" hidden><label>Meta de vezes</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_n" min="1" max="99" value="${r.modo==='vezes'?r.n:8}" inputmode="numeric" style="width:90px"><span>×</span><select id="rp_per" style="flex:1"><option value="dia" ${r.per!=='sem'?'selected':''}>por dia</option><option value="sem" ${r.per==='sem'?'selected':''}>por semana</option></select></div>
     <label>Como registrar cada vez</label><select id="rp_reg"><option value="toque" ${r.reg!=='cron'?'selected':''}>Botão +1 (um toque, sem cronômetro)</option><option value="cron" ${r.reg==='cron'?'selected':''}>Iniciar e encerrar (com cronômetro)</option></select></div>
-   <div id="rp_dias" hidden><label>Em quais dias</label><div class="chips">${[1,2,3,4,5,6,0].map(i=>`<label class="chip" style="cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-transform:none;letter-spacing:0;font-weight:600"><input type="checkbox" id="rp_d${i}" ${r.modo==='dias'&&r.dias.includes(i)?'checked':''} style="width:auto;padding:0;margin:0;border:0;background:none;box-shadow:none">${DSEM[i]}</label>`).join('')}</div></div>
+   <div id="rp_dias" hidden><label>Em quais dias</label><div class="chips">${[1,2,3,4,5,6,0].map(i=>`<label class="chip" style="cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-transform:none;letter-spacing:0;font-weight:600"><input type="checkbox" id="rp_d${i}" ${r.modo==='dias'&&r.dias.includes(i)?'checked':''} style="width:auto;padding:0;margin:0;border:0;background:none;box-shadow:none">${DSEM[i]}</label>`).join('')}</div>
+    <label>Quantas vezes por dia nesses dias</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_dn" min="1" max="12" value="${dsx.n}" inputmode="numeric" style="width:90px" onchange="repDoses()"><span>× por dia</span></div>
+    <label>Como espaçar as vezes</label><select id="rp_dt" onchange="repDoses()"><option value="livre" ${dsx.tipo==='livre'?'selected':''}>Livre (sem horário)</option><option value="horarios" ${dsx.tipo==='horarios'?'selected':''}>Horários fixos (ex.: 08:00, 14:00, 20:00)</option><option value="intervalo" ${dsx.tipo==='intervalo'?'selected':''}>Intervalo mínimo entre as vezes (ex.: 8h)</option></select>
+    <div id="rp_dh" hidden></div>
+    <div id="rp_di" hidden><label>Intervalo mínimo entre as vezes</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_dih" min="0" max="23" value="${Math.floor((dsx.intervaloMin||480)/60)}" inputmode="numeric" style="width:80px"><span>h</span><input type="number" id="rp_dim" min="0" max="59" value="${(dsx.intervaloMin||480)%60}" inputmode="numeric" style="width:80px"><span>min</span></div></div>
+    <div id="rp_dr" hidden><label>Como registrar cada vez</label><select id="rp_dreg"><option value="toque" ${r.reg!=='cron'?'selected':''}>Um toque (“Tomei”)</option><option value="cron" ${r.reg==='cron'?'selected':''}>Iniciar e encerrar (com cronômetro)</option></select></div></div>
    <div id="rp_ciclo" hidden><label>Repetir a cada</label><div class="row" style="justify-content:flex-start"><input type="number" id="rp_cada" min="1" max="365" value="${r.modo==='ciclo'?r.cada:15}" inputmode="numeric" style="width:90px"><span>dias, contando da última vez que fizer</span></div></div>
    <p class="mut small" style="margin-top:8px" id="rp_ajuda"></p>
    <div class="erro" id="err"></div><button class="btn gold block" onclick="salvarRep('${id}')">Salvar</button><button class="link" onclick="fechar()">Cancelar</button>`);
   repCampos();
 }
+let repHorTmp=[];
+function repDoses(){
+  const n=Math.max(1,Math.min(12,parseInt($('#rp_dn').value,10)||1)),tp=$('#rp_dt').value;
+  const at=[...document.querySelectorAll('#rp_dh input')].map(i=>i.value);if(at.length)repHorTmp=at;
+  $('#rp_dh').hidden=tp!=='horarios';$('#rp_di').hidden=tp!=='intervalo';$('#rp_dr').hidden=!(n>1||tp!=='livre');
+  if(tp==='horarios'){
+    let h='<label>Horário de cada vez</label><div class="chips">';
+    for(let i=0;i<n;i++){const v=repHorTmp[i]||(n===1?'08:00':hhmm(480+Math.round(i*720/(n-1))));h+=`<input type="time" value="${v}" style="width:auto;margin:4px 6px 0 0">`;}
+    $('#rp_dh').innerHTML=h+'</div>';
+  }
+}
 function repCampos(){
   const m=$('#rp_modo').value;
   ['vezes','dias','ciclo'].forEach(k=>{$('#rp_'+k).hidden=m!==k;});
-  $('#rp_ajuda').textContent={'':'Sem repetição, a tarefa só aparece quando você a inicia.',vezes:'Aparece em “Para hoje” com o contador. Cada início conta uma vez.',dias:'Aparece em “Para hoje” nos dias marcados e avisa se passar do dia sem fazer.',ciclo:'Aparece em “Para hoje” quando vence e avisa se atrasar. Ao fazer, o próximo prazo recomeça a contar.'}[m]||'';
+  if(m==='dias')repDoses();
+  $('#rp_ajuda').textContent={'':'Sem repetição, a tarefa só aparece quando você a inicia.',vezes:'Aparece em “Para hoje” com o contador. Cada início conta uma vez.',dias:'Aparece em “Para hoje” nos dias marcados. Com mais de uma vez por dia (ex.: remédio 3×), o app avisa a cada horário ou quando o intervalo mínimo passar; sem isso, avisa se passar do dia sem fazer.',ciclo:'Aparece em “Para hoje” quando vence e avisa se atrasar. Ao fazer, o próximo prazo recomeça a contar.'}[m]||'';
 }
 async function salvarRep(id){
   const t=tarefa(id);if(!t)return;const m=$('#rp_modo').value,ant=t.rep;let rep=null;
   if(m==='vezes'){const n=parseInt($('#rp_n').value,10);if(!(n>=1&&n<=99)){erro('Informe quantas vezes (1 a 99).');return;}rep={modo:'vezes',n,per:$('#rp_per').value==='sem'?'sem':'dia',reg:$('#rp_reg').value==='cron'?'cron':'toque'};}
-  else if(m==='dias'){const dias=[0,1,2,3,4,5,6].filter(i=>$('#rp_d'+i).checked);if(!dias.length){erro('Marque pelo menos um dia.');return;}rep={modo:'dias',dias};}
+  else if(m==='dias'){
+    const dias=[0,1,2,3,4,5,6].filter(i=>$('#rp_d'+i).checked);if(!dias.length){erro('Marque pelo menos um dia.');return;}
+    rep={modo:'dias',dias};
+    const dn=parseInt($('#rp_dn').value,10),tp=$('#rp_dt').value;
+    if(!(dn>=1&&dn<=12)){erro('Informe quantas vezes por dia (1 a 12).');return;}
+    if(dn>1||tp!=='livre'){
+      const D={n:dn,tipo:tp};
+      if(tp==='horarios'){
+        const hs=[...document.querySelectorAll('#rp_dh input')].map(i=>i.value);
+        if(hs.length!==dn||hs.some(v=>!v)){erro('Preencha o horário de cada vez.');return;}
+        const o=hs.slice().sort();if(o.some((v,i)=>i&&v===o[i-1])){erro('Há horários repetidos.');return;}
+        D.horarios=o;
+      }else if(tp==='intervalo'){
+        const M=(parseInt($('#rp_dih').value,10)||0)*60+(parseInt($('#rp_dim').value,10)||0);
+        if(M<10){erro('O intervalo mínimo deve ser de pelo menos 10 minutos.');return;}
+        if((dn-1)*M>1380){erro('Com esse intervalo, as '+dn+' vezes não cabem em um dia.');return;}
+        D.intervaloMin=M;
+      }
+      rep.doses=D;rep.reg=$('#rp_dreg').value==='cron'?'cron':'toque';
+    }
+  }
   else if(m==='ciclo'){const c=parseInt($('#rp_cada').value,10);if(!(c>=1&&c<=365)){erro('Informe o intervalo em dias (1 a 365).');return;}rep={modo:'ciclo',cada:c};}
-  if(rep){rep.desde=ant&&ant.modo===rep.modo&&ant.desde?ant.desde:agora();if(ant&&ant.pulo&&ant.modo===rep.modo)rep.pulo=ant.pulo;t.rep=rep;}else delete t.rep;
+  if(rep){rep.desde=ant&&ant.modo===rep.modo&&ant.desde?ant.desde:agora();if(ant&&ant.pulo&&ant.modo===rep.modo)rep.pulo=ant.pulo;if(ant&&ant.puladas&&rep.doses)rep.puladas=ant.puladas;t.rep=rep;}else delete t.rep;
   await put('tarefas',t);fechar();render();
 }
 /* relatório de repetições */
@@ -452,6 +526,12 @@ function repRelHTML(ds,now){
       res=`<b>${f1(regs.length/sem.size)}/semana</b><div class="mut small">meta ${r.n}</div>`;
     }else if(r.modo==='dias'){
       const prog=[];for(let dt=a;dt<=b;dt=maisDias(dt,1))if(dt>=ini0(r.desde||0)&&r.dias.includes(new Date(dt).getDay()))prog.push(dt);
+      if(r.doses){
+        const n=r.doses.n,por={},h0=ini0(now);S.regs.filter(x=>x.tarefaId===t.id&&!x.retomaDe).forEach(x=>{const k=dataLocal(x.inicio);por[k]=(por[k]||0)+1;});
+        const dd=prog.filter(dt=>dt!==h0||(por[dataLocal(dt)]||0)>=n);
+        let tom=0,cheios=0;dd.forEach(dt=>{const c=Math.min(por[dataLocal(dt)]||0,n);tom+=c;if(c>=n)cheios++;});
+        return `<div class="item"><div style="flex:1">${cab}</div><div style="text-align:right">${dd.length?`<b class="${cheios===dd.length?'ok':''}">${tom}/${n*dd.length} vezes</b><div class="mut small">${cheios}/${dd.length} dias completos</div>`:(prog.length?`<span class="mut small">hoje em andamento · ${Math.min(por[dataLocal(h0)]||0,n)}/${n}</span>`:'<span class="mut small">sem dias programados</span>')}</div></div>`;
+      }
       const ok=prog.filter((dt,i)=>{const fim=i+1<prog.length?prog[i+1]:maisDias(dt,7);return S.regs.some(x=>x.tarefaId===t.id&&!x.retomaDe&&x.inicio>=dt&&x.inicio<fim);}).length;
       res=prog.length?`<b class="${ok===prog.length?'ok':''}">${ok}/${prog.length} dias</b><div class="mut small">programados</div>`:`<span class="mut small">sem dias programados</span>`;
     }else{
@@ -1117,6 +1197,7 @@ function checar(){
   const dl=diaLongo();if(dl&&now-(notif['dia_'+dl.id]||0)>=2*3600000){notif['dia_'+dl.id]=now;notificar('Fênix · esqueceu de dormir?','Seu dia está aberto há '+fmtDur(now-dl.inicio)+'. Toque para corrigir.','dia_'+dl.id);}
   const est=metasEstouradas(),ids=new Set(est.map(x=>x.r.id));
   est.forEach(x=>{const k='meta_'+x.t.id;if(now-(notif[k]||0)>=S.cfg.repetirMin*MIN){notif[k]=now;notificar('Fênix · limite de '+x.t.nome,'Já são '+fmtDur(x.ms)+' hoje (meta: até '+fmtDur(x.t.meta.min*MIN)+').',k);}});
+  repAtrasadas().forEach(({t,s})=>{const k='rep_'+t.id;if(now-(notif[k]||0)>=S.cfg.repetirMin*MIN){notif[k]=now;notificar(s.doses?'Fênix · 💊 '+t.nome:'Fênix · 🔁 '+t.nome,s.doses?('Dose '+(s.cont+1)+' de '+s.meta+': '+s.txt.replace(/^\d+\/\d+ hoje · /,'')):('Está '+s.txt+'.'),k);}});
   vencidas().filter(r=>!ids.has(r.id)).forEach(r=>{if(now-(notif[r.id]||0)>=S.cfg.repetirMin*MIN){notif[r.id]=now;notificar('Fênix · '+r.nome,'Aberta há '+fmtDur(sessaoMs(r,now))+'. Já terminou?',r.id);}});
 }
 let n=0;
@@ -1132,7 +1213,7 @@ function abrirSobre(){
   modal(`<h3>FÊNIX | Gestor de Tempo</h3><p class="mut small">Versão ${VERSAO} · Fênix Soluções Tecnológicas</p>
    <p style="margin:10px 0">Cronometra o dia do <b>Acordei</b> ao <b>Dormir</b> e cada tarefa no meio, com encerramento manual e controle de esquecimentos.</p>
    <h3 style="font-size:16px;margin-top:14px">Changelog</h3>
-   <p><b>v3.6</b> — aviso de aprovações</p><ul class="cl"><li>Para o administrador: um selo vermelho com o número de pedidos de acesso pendentes aparece no ☁, e um aviso no topo leva direto às Aprovações. A consulta é refeita sozinha a cada 5 minutos e sempre que o app volta para a tela.</li></ul><p style="margin-top:12px"><b>v3.5</b> — repetição das tarefas</p><ul class="cl"><li>Em Ajustes › Tarefas, o botão 🔁 define como a tarefa se repete: <b>quantas vezes</b> (ex.: água 8× por dia, com botão +1 ou com cronômetro), <b>dias da semana</b> (ex.: faxina seg, qui e dom) ou <b>a cada N dias</b> (ex.: faxina a cada 15 dias, contando da última vez).</li><li>Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou do dia sem fazer vira um aviso no topo.</li><li>Relatórios ganharam o card “Repetições” (dias cumpridos, média por dia ou semana, intervalo médio).</li></ul><p style="margin-top:12px"><b>v3.4</b> — backup na nuvem</p><ul class="cl"><li>Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia (as 20 mais recentes) e você restaura qualquer uma em Ajustes › Backup na nuvem.</li><li>Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na nuvem.</li><li>Os backups são privados e apagados junto com a conta.</li></ul><p style="margin-top:12px"><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
+   <p><b>v3.7</b> — várias vezes por dia</p><ul class="cl"><li>Na repetição por dias da semana, agora dá para definir <b>quantas vezes por dia</b> (ex.: remédio 3× nas segundas, quartas e sextas), com <b>horários fixos</b> (08:00, 14:00, 20:00) ou <b>intervalo mínimo</b> entre as vezes (ex.: 8h).</li><li>Em “Para hoje” aparece o contador (1/3), o horário da próxima e os botões Tomei, Pular e ↩. Na hora de cada vez, aviso no topo (e notificação, se ativada) com Tomei / Pular dose / Depois.</li><li>Tomar antes do intervalo mínimo pede confirmação. Desfazer um registro também pede confirmação. O relatório mostra quantas vezes foram cumpridas.</li></ul><p style="margin-top:12px"><b>v3.6</b> — aviso de aprovações</p><ul class="cl"><li>Para o administrador: um selo vermelho com o número de pedidos de acesso pendentes aparece no ☁, e um aviso no topo leva direto às Aprovações. A consulta é refeita sozinha a cada 5 minutos e sempre que o app volta para a tela.</li></ul><p style="margin-top:12px"><b>v3.5</b> — repetição das tarefas</p><ul class="cl"><li>Em Ajustes › Tarefas, o botão 🔁 define como a tarefa se repete: <b>quantas vezes</b> (ex.: água 8× por dia, com botão +1 ou com cronômetro), <b>dias da semana</b> (ex.: faxina seg, qui e dom) ou <b>a cada N dias</b> (ex.: faxina a cada 15 dias, contando da última vez).</li><li>Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou do dia sem fazer vira um aviso no topo.</li><li>Relatórios ganharam o card “Repetições” (dias cumpridos, média por dia ou semana, intervalo médio).</li></ul><p style="margin-top:12px"><b>v3.4</b> — backup na nuvem</p><ul class="cl"><li>Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia (as 20 mais recentes) e você restaura qualquer uma em Ajustes › Backup na nuvem.</li><li>Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na nuvem.</li><li>Os backups são privados e apagados junto com a conta.</li></ul><p style="margin-top:12px"><b>v3.3</b> — painel semanal e mensal</p><ul class="cl"><li>Em Relatórios, novos períodos “Semana” (segunda a domingo) e “Mês”, com setas ◀ ▶ para ver semanas e meses anteriores.</li><li>Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card “Horários” (média de acordar e dormir, dia mais cedo e mais tarde).</li></ul><p style="margin-top:12px"><b>v3.2</b> — esqueci de dormir</p><ul class="cl"><li>Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou acordado” silencia por 2 horas.</li></ul><p style="margin-top:12px"><b>v3.1</b> — tela Hoje</p><ul class="cl"><li>“Em andamento” (e “Pausadas”) agora vêm antes de “Metas de hoje”: primeiro o que está acontecendo, depois o acompanhamento das metas.</li></ul><p style="margin-top:12px"><b>v3.0</b> — várias pessoas</p><ul class="cl"><li>Qualquer pessoa pode criar a própria conta (☁ › Não tenho conta). O cadastro é liberado pelo administrador; enquanto aguarda, o app funciona normalmente no aparelho.</li><li>Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia cadastros em ☁ › Aprovações.</li><li>Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.</li></ul><p style="margin-top:12px"><b>v2.1</b> — janelas mais seguras</p><ul class="cl"><li>Toda janela agora tem um ✕ para fechar. Tocar fora dela ou rolar para cima não fecha mais nem atualiza a tela.</li></ul><p style="margin-top:12px"><b>v2.0</b> — vários aparelhos, uma conta</p><ul class="cl"><li>Entre com a conta do Fênix Core (☁ no topo). O que você inicia, pausa ou encerra em um aparelho aparece no outro em tempo real.</li><li>Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na tela da conta.</li><li>Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar (tarefas e categorias com o mesmo nome são unidas).</li><li>Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições simultâneas vale a última alteração.</li><li>Relógios dos aparelhos são alinhados pelo horário do servidor.</li><li>Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app aberto.</li></ul><p style="margin-top:12px"><b>v1.4</b> — pausa e categorias livres</p><ul class="cl"><li>Pausar e retomar: a tarefa em andamento ganhou o botão ⏸ Pausar. Ela vai para “Pausadas” com o tempo acumulado, e dali você retoma (▶) ou conclui. Retomar de novo soma ao que já foi feito.</li><li>O tempo pausado não conta como tempo da tarefa (nem para metas e relatórios) e aparece como “sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.</li><li>Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam concluídas com o tempo acumulado.</li><li>Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” (nome e cor), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.</li></ul><p style="margin-top:12px"><b>v1.3</b> — rotinas</p><ul class="cl"><li>Modelos de rotina (Ajustes › Rotinas): marque quais tarefas fazem parte; cada uma pode começar “junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina sem apagar nada.</li><li>Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do término da anterior, pular ou deixar para depois (fica em “Rotinas em andamento”).</li><li>Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min” com Iniciar agora, Adiar 10 min e Hoje não.</li><li>Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup inclui rotinas.</li><li>Banco de dados atualizado para a versão 2 sem perder nenhum registro.</li></ul><p style="margin-top:12px"><b>v1.2</b> — refinando o dia a dia</p><ul class="cl"><li>Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando (ex.: TV), aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.</li><li>Tarefas favoritas: toque na ☆ em Ajustes › Tarefas e ela vira um atalho ▶ na tela Hoje, que inicia a tarefa com um toque. Favoritas também ficam no topo da lista de iniciar.</li><li>Relatórios: comparação das médias por dia com o período anterior (7 ou 30 dias), por categoria, incluindo as distrações. O dia em andamento fica de fora por ser parcial.</li></ul><p style="margin-top:12px"><b>v1.1</b> — metas por tarefa e ícone oficial</p><ul class="cl"><li>Metas diárias por tarefa: “pelo menos” (ex.: estudar 2h) ou “no máximo” (ex.: TV até 1h), definidas em Ajustes › Tarefas (botão 🎯).</li><li>Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia (Dormir e Histórico).</li><li>Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento não conta como falha antes de terminar.</li><li>Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.</li><li>Correção: “0 distraçãoões” agora aparece como “0 distrações” (singular e plural); cabeçalho ajustado para telas pequenas.</li></ul><p style="margin-top:12px"><b>v1.0</b> — versão inicial</p>
    <ul class="cl"><li>Botões Acordei e Dormir, com cronômetro do dia.</li><li>Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.</li><li>Início de tarefa com lista, busca e criação de nova (com categoria) e opção “começou há X min”.</li><li>Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso entre o feito e o registro.</li><li>Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.</li><li>Categorias com cores e gerenciamento de tarefas.</li><li>Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.</li><li>Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.</li><li>Backup e restauração em JSON, exportação CSV; funciona offline e é instalável (PWA).</li></ul>
    <button class="btn gold block" onclick="fechar()">Fechar</button>`);
 }
