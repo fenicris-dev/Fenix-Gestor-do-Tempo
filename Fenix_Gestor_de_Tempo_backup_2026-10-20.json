@@ -1,0 +1,1136 @@
+{
+ "app": "fenix-tempo",
+ "versao": "3.8",
+ "dias": [
+  {
+   "inicio": 1791984600000,
+   "id": "mv864v4nylukr",
+   "dispNome": "Moto G",
+   "dispId": "dmv7aq9bx844sj",
+   "fim": 1792045560000
+  },
+  {
+   "id": "mv9ia4om2tcvo",
+   "inicio": 1792066763830,
+   "fim": 1792502994440,
+   "dispNome": "Moto G",
+   "dispId": "dmv7aq9bx844sj"
+  }
+ ],
+ "cats": [
+  {
+   "id": "c_casa",
+   "nome": "Casa",
+   "cor": "#84cc16"
+  },
+  {
+   "id": "c_descanso",
+   "nome": "Descanso",
+   "cor": "#14b8a6"
+  },
+  {
+   "id": "c_estudo",
+   "nome": "Estudo",
+   "cor": "#10b981"
+  },
+  {
+   "id": "c_higiene",
+   "nome": "Higiene",
+   "cor": "#3b82f6"
+  },
+  {
+   "id": "c_lazer",
+   "nome": "Lazer",
+   "cor": "#a855f7"
+  },
+  {
+   "id": "c_outros",
+   "nome": "Outros",
+   "cor": "#94a3b8"
+  },
+  {
+   "id": "c_refeicao",
+   "nome": "Refeição",
+   "cor": "#f59e0b"
+  },
+  {
+   "id": "c_saude",
+   "nome": "Saúde",
+   "cor": "#ef4444"
+  },
+  {
+   "id": "c_trabalho",
+   "nome": "Trabalho",
+   "cor": "#6366f1"
+  },
+  {
+   "cor": "#0000ff",
+   "nome": "Codar",
+   "id": "mv86uh714qe14"
+  },
+  {
+   "id": "mv86x1x8ubaua",
+   "cor": "#414dba",
+   "nome": "Ação"
+  },
+  {
+   "id": "mv870d3olvfbk",
+   "nome": "Organização",
+   "cor": "#2563eb"
+  },
+  {
+   "cor": "#db2777",
+   "id": "mv87vo8h1zrj8",
+   "nome": "Desenvolvimento Pessoal"
+  },
+  {
+   "nome": "Manutenção",
+   "id": "mv87xkpa8ytey",
+   "cor": "#2563eb"
+  },
+  {
+   "nome": "Veículos",
+   "id": "mv8dt0a1akki6",
+   "cor": "#ea580c"
+  },
+  {
+   "id": "mv8oi8pseezmt",
+   "cor": "#0d9488",
+   "nome": "Comportamento"
+  }
+ ],
+ "tarefas": [
+  {
+   "meta": {
+    "tipo": "max",
+    "min": 20
+   },
+   "catId": "c_refeicao",
+   "nome": "Café da manhã",
+   "fav": true,
+   "id": "mv864h06417c8"
+  },
+  {
+   "nome": "Almoço",
+   "catId": "c_refeicao",
+   "meta": {
+    "tipo": "min",
+    "min": 30
+   },
+   "id": "mv864h0ebv09s",
+   "fav": true
+  },
+  {
+   "id": "mv864h0h530ez",
+   "nome": "Jantar",
+   "catId": "c_refeicao",
+   "meta": {
+    "tipo": "max",
+    "min": 20
+   }
+  },
+  {
+   "id": "mv864h0mzgjvc",
+   "nome": "Banho",
+   "meta": {
+    "min": 20,
+    "tipo": "max"
+   },
+   "catId": "c_higiene",
+   "fav": true
+  },
+  {
+   "id": "mv864h0r8c7ub",
+   "nome": "Assistir TV",
+   "catId": "c_lazer",
+   "meta": {
+    "min": 120,
+    "tipo": "max"
+   }
+  },
+  {
+   "meta": {
+    "tipo": "min",
+    "min": 60
+   },
+   "id": "mv864h0t7418q",
+   "catId": "c_estudo",
+   "nome": "Estudar"
+  },
+  {
+   "nome": "Ler",
+   "meta": {
+    "tipo": "min",
+    "min": 30
+   },
+   "catId": "c_estudo",
+   "id": "mv864h0zhs97i"
+  },
+  {
+   "meta": {
+    "tipo": "min",
+    "min": 30
+   },
+   "nome": "Conversando com Deus",
+   "fav": true,
+   "catId": "c_outros",
+   "id": "mv866h779qdhk"
+  },
+  {
+   "fav": true,
+   "id": "mv86tujmmno4w",
+   "meta": {
+    "min": 2,
+    "tipo": "min"
+   },
+   "catId": "c_estudo",
+   "nome": "Codar"
+  },
+  {
+   "nome": "Exercício Ocular",
+   "catId": "mv86x1x8ubaua",
+   "meta": {
+    "tipo": "min",
+    "min": 15
+   },
+   "fav": true,
+   "id": "mv86xotteg8om"
+  },
+  {
+   "nome": "Alongamento",
+   "fav": true,
+   "catId": "mv86x1x8ubaua",
+   "id": "mv871at4d1mbe"
+  },
+  {
+   "meta": {
+    "min": 10,
+    "tipo": "min"
+   },
+   "nome": "Planejamento Financeiro",
+   "fav": true,
+   "catId": "mv87vo8h1zrj8",
+   "id": "mv87vo8soibz4"
+  },
+  {
+   "id": "mv88ka9ujx79q",
+   "nome": "preparo de Refeição",
+   "catId": "c_refeicao"
+  },
+  {
+   "catId": "c_casa",
+   "id": "mv89760vfcr0t",
+   "nome": "Lavar Louças"
+  },
+  {
+   "nome": "Redes Sociais",
+   "catId": "c_lazer",
+   "id": "mv8arykwh62s8"
+  },
+  {
+   "nome": "Manutenção OER-0C32",
+   "catId": "mv8dt0a1akki6",
+   "id": "mv8dt0ak83725"
+  },
+  {
+   "nome": "99/UBER",
+   "catId": "c_trabalho",
+   "id": "mv8py6m5mj2p7"
+  },
+  {
+   "nome": "Beber Água",
+   "catId": "c_saude",
+   "id": "mv9jmh77x6fpj",
+   "fav": true
+  },
+  {
+   "catId": "mv8dt0a1akki6",
+   "nome": "Organizar Ferramentas",
+   "id": "mv9p8bx6b0c7t"
+  },
+  {
+   "id": "mv9t5dez8za53",
+   "catId": "c_casa",
+   "nome": "Faxina Básica"
+  },
+  {
+   "nome": "Faxina Média",
+   "id": "mv9ti8w3t7xdb",
+   "catId": "c_casa"
+  },
+  {
+   "catId": "c_casa",
+   "nome": "Faxina Pesada",
+   "id": "mv9tikdtpo6ty"
+  },
+  {
+   "nome": "Lavar Banheiro",
+   "id": "mv9tis0wjpo6a",
+   "catId": "c_casa"
+  },
+  {
+   "catId": "c_casa",
+   "nome": "Lavar Roupa",
+   "id": "mv9tj2suwzhh0"
+  },
+  {
+   "nome": "Trocar Roupa de Cama",
+   "id": "mv9tjhup939bk",
+   "catId": "c_casa"
+  }
+ ],
+ "regs": [
+  {
+   "dispId": "dmv7aq9bx844sj",
+   "tarefaId": "mv866h779qdhk",
+   "dispNome": "Moto G",
+   "esqueceu": true,
+   "id": "mv866h7cfok2j",
+   "atrasoMs": 773755,
+   "inicio": 1791985920000,
+   "nome": "Conversando com Deus",
+   "diaId": "mv864v4nylukr",
+   "catId": "c_outros",
+   "fim": 1791986520000,
+   "marcadoEm": 1791987293755
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "inicio": 1791987510759,
+   "catId": "mv86x1x8ubaua",
+   "id": "mv873gmfe9g96",
+   "nome": "Exercício Ocular",
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "fim": 1791988245901,
+   "esqueceu": false,
+   "marcadoEm": 1791988245901,
+   "tarefaId": "mv86xotteg8om",
+   "dispNome": "Moto G"
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "esqueceu": false,
+   "inicio": 1791988248399,
+   "tarefaId": "mv871at4d1mbe",
+   "dispNome": "Moto G",
+   "catId": "mv86x1x8ubaua",
+   "marcadoEm": 1791988720711,
+   "id": "mv87j9sff6lux",
+   "fim": 1791988720711,
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "nome": "Alongamento",
+   "retomaDe": "mv873p7wu4gd5",
+   "sessaoId": "mv873p7wu4gd5"
+  },
+  {
+   "id": "mv87vo8y8gsd6",
+   "fim": 1791988834844,
+   "nome": "Planejamento Financeiro",
+   "atrasoMs": 0,
+   "diaId": "mv864v4nylukr",
+   "inicio": 1791988827009,
+   "marcadoEm": 1791988834844,
+   "esqueceu": false,
+   "pausada": true,
+   "tarefaId": "mv87vo8soibz4",
+   "dispNome": "Moto G",
+   "dispId": "dmv7aq9bx844sj",
+   "catId": "mv87vo8h1zrj8"
+  },
+  {
+   "esqueceu": false,
+   "dispNome": "Moto G",
+   "inicio": 1791989243950,
+   "tarefaId": "mv864h0mzgjvc",
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "pausada": true,
+   "marcadoEm": 1791989256855,
+   "id": "mv884lymrw6mg",
+   "fim": 1791989256855,
+   "nome": "Banho",
+   "catId": "c_higiene",
+   "diaId": "mv864v4nylukr"
+  },
+  {
+   "esqueceu": false,
+   "diaId": "mv864v4nylukr",
+   "tarefaId": "mv86tujmmno4w",
+   "dispNome": "Moto G",
+   "catId": "c_estudo",
+   "atrasoMs": 0,
+   "inicio": 1791989260679,
+   "nome": "Codar",
+   "fim": 1791989607485,
+   "dispId": "dmv7aq9bx844sj",
+   "id": "mv884yvbspv5g",
+   "marcadoEm": 1791989607485
+  },
+  {
+   "catId": "c_higiene",
+   "nome": "Banho",
+   "diaId": "mv864v4nylukr",
+   "sessaoId": "mv884lymrw6mg",
+   "retomaDe": "mv884lymrw6mg",
+   "dispNome": "Moto G",
+   "tarefaId": "mv864h0mzgjvc",
+   "dispId": "dmv7aq9bx844sj",
+   "esqueceu": false,
+   "id": "mv88cl9o2ygo9",
+   "atrasoMs": 0,
+   "inicio": 1791989616300,
+   "fim": 1791989621506,
+   "marcadoEm": 1791989621506,
+   "pausada": true
+  },
+  {
+   "marcadoEm": 1791990926192,
+   "id": "mv88kabefc7ce",
+   "pausada": false,
+   "inicio": 1791989640000,
+   "esqueceu": false,
+   "dispNome": "Moto G",
+   "tarefaId": "mv88ka9ujx79q",
+   "dispId": "dmv7aq9bx844sj",
+   "fim": 1791990926192,
+   "atrasoMs": 0,
+   "nome": "preparo de Refeição",
+   "catId": "c_refeicao",
+   "diaId": "mv864v4nylukr"
+  },
+  {
+   "atrasoMs": 0,
+   "esqueceu": false,
+   "dispNome": "Moto G",
+   "fim": 1791990960000,
+   "tarefaId": "mv864h0mzgjvc",
+   "sessaoId": "mv884lymrw6mg",
+   "nome": "Banho",
+   "id": "mv894tu1f03wd",
+   "marcadoEm": 1791991018390,
+   "inicio": 1791990300000,
+   "catId": "c_higiene",
+   "retomaDe": "mv88cl9o2ygo9",
+   "dispId": "dmv7aq9bx844sj",
+   "diaId": "mv864v4nylukr"
+  },
+  {
+   "fim": 1791991800000,
+   "marcadoEm": 1791992531278,
+   "diaId": "mv864v4nylukr",
+   "esqueceu": true,
+   "tarefaId": "mv89760vfcr0t",
+   "dispNome": "Moto G",
+   "inicio": 1791991020000,
+   "id": "mv897618l9wro",
+   "nome": "Lavar Louças",
+   "catId": "c_casa",
+   "atrasoMs": 731278,
+   "dispId": "dmv7aq9bx844sj"
+  },
+  {
+   "atrasoMs": 1499626,
+   "catId": "c_refeicao",
+   "dispId": "dmv7aq9bx844sj",
+   "dispNome": "Moto G",
+   "inicio": 1791991589100,
+   "tarefaId": "mv88ka9ujx79q",
+   "diaId": "mv864v4nylukr",
+   "esqueceu": true,
+   "id": "mv89ivho887xt",
+   "nome": "preparo de Refeição",
+   "marcadoEm": 1791995099626,
+   "fim": 1791993600000
+  },
+  {
+   "inicio": 1791992220000,
+   "atrasoMs": 660350,
+   "dispId": "dmv7aq9bx844sj",
+   "fim": 1791993000000,
+   "esqueceu": true,
+   "dispNome": "Moto G",
+   "tarefaId": "mv864h0mzgjvc",
+   "catId": "c_higiene",
+   "id": "mv89x1q7aotz3",
+   "marcadoEm": 1791993660350,
+   "diaId": "mv864v4nylukr",
+   "nome": "Banho"
+  },
+  {
+   "atrasoMs": 0,
+   "dispId": "dmv7aq9bx844sj",
+   "dispNome": "Moto G",
+   "tarefaId": "mv864h0r8c7ub",
+   "inicio": 1791992260681,
+   "esqueceu": false,
+   "marcadoEm": 1791993134655,
+   "fim": 1791993134655,
+   "catId": "c_lazer",
+   "nome": "Assistir TV",
+   "id": "mv89x9oq30d35",
+   "pausada": true,
+   "diaId": "mv864v4nylukr"
+  },
+  {
+   "marcadoEm": 1791992520437,
+   "retomaDe": "mv87vo8y8gsd6",
+   "sessaoId": "mv87vo8y8gsd6",
+   "nome": "Planejamento Financeiro",
+   "id": "mv89xja3vylhd",
+   "fim": 1791992520437,
+   "diaId": "mv864v4nylukr",
+   "inicio": 1791992273115,
+   "atrasoMs": 0,
+   "esqueceu": false,
+   "dispId": "dmv7aq9bx844sj",
+   "tarefaId": "mv87vo8soibz4",
+   "catId": "mv87vo8h1zrj8",
+   "dispNome": "Moto G"
+  },
+  {
+   "id": "mv8aqz7qrglsw",
+   "nome": "Lavar Louça",
+   "diaId": "mv6jhjld4ybqn",
+   "atrasoMs": 3637370,
+   "marcadoEm": 1791998737370,
+   "dispId": "dmv7axpk6gr1cn",
+   "tarefaId": "mv6lerg4gpjw3",
+   "catId": "c_casa",
+   "dispNome": "A-16",
+   "esqueceu": true,
+   "inicio": 1791993646789,
+   "fim": 1791995100000
+  },
+  {
+   "dispId": "dmv7axpk6gr1cn",
+   "inicio": 1791993692636,
+   "id": "mv8aryl8t2lyn",
+   "tarefaId": "mv8arykwh62s8",
+   "dispNome": "A-16",
+   "esqueceu": false,
+   "diaId": "mv864v4nylukr",
+   "fim": 1791996988121,
+   "marcadoEm": 1791996988121,
+   "atrasoMs": 0,
+   "catId": "c_lazer",
+   "nome": "Redes Sociais"
+  },
+  {
+   "dispNome": "",
+   "tarefaId": "mv87vo8soibz4",
+   "dispId": "dmv8bla7dgv7wc",
+   "esqueceu": false,
+   "marcadoEm": 1791995145879,
+   "inicio": 1791993600000,
+   "atrasoMs": 0,
+   "id": "mv8bmcuytbgeo",
+   "catId": "mv87vo8h1zrj8",
+   "fim": 1791995100000,
+   "diaId": "mv864v4nylukr",
+   "nome": "Planejamento Financeiro"
+  },
+  {
+   "inicio": 1791993600000,
+   "marcadoEm": 1791995181452,
+   "id": "mv8bn9u8ygw3b",
+   "dispId": "dmv8bla7dgv7wc",
+   "diaId": "mv864v4nylukr",
+   "atrasoMs": 0,
+   "nome": "Café da manhã",
+   "catId": "c_refeicao",
+   "fim": 1791994680000,
+   "esqueceu": false,
+   "tarefaId": "mv864h06417c8",
+   "dispNome": ""
+  },
+  {
+   "dispId": "dmv7axpk6gr1cn",
+   "marcadoEm": 1791999142257,
+   "inicio": 1791998780355,
+   "nome": "Manutenção OER-0C32",
+   "catId": "mv8dt0a1akki6",
+   "atrasoMs": 0,
+   "pausada": true,
+   "id": "mv8dt0as0je1s",
+   "dispNome": "A-16",
+   "diaId": "mv864v4nylukr",
+   "tarefaId": "mv8dt0ak83725",
+   "fim": 1791999142257,
+   "esqueceu": false
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "dispId": "dmv7axpk6gr1cn",
+   "marcadoEm": 1791999560792,
+   "catId": "c_estudo",
+   "inicio": 1791999150197,
+   "pausada": true,
+   "fim": 1791999560792,
+   "atrasoMs": 0,
+   "id": "mv8e0xo6s3uu5",
+   "tarefaId": "mv86tujmmno4w",
+   "dispNome": "A-16",
+   "esqueceu": false,
+   "nome": "Codar"
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "catId": "mv8dt0a1akki6",
+   "retomaDe": "mv8dt0as0je1s",
+   "sessaoId": "mv8dt0as0je1s",
+   "id": "mv8fjffznpg6r",
+   "inicio": 1792001692653,
+   "esqueceu": false,
+   "fim": 1792013758611,
+   "tarefaId": "mv8dt0ak83725",
+   "dispNome": "A-16",
+   "nome": "Manutenção OER-0C32",
+   "marcadoEm": 1792013758611,
+   "dispId": "dmv7axpk6gr1cn",
+   "atrasoMs": 0
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "nome": "preparo de Refeição",
+   "dispId": "dmv7axpk6gr1cn",
+   "inicio": 1792013787756,
+   "fim": 1792017482568,
+   "marcadoEm": 1792017482568,
+   "id": "mv8mqo316bx0q",
+   "tarefaId": "mv88ka9ujx79q",
+   "dispNome": "A-16",
+   "esqueceu": false,
+   "atrasoMs": 0,
+   "catId": "c_refeicao"
+  },
+  {
+   "esqueceu": false,
+   "dispNome": "A-16",
+   "tarefaId": "mv89760vfcr0t",
+   "atrasoMs": 0,
+   "marcadoEm": 1792014684769,
+   "inicio": 1792013903851,
+   "id": "mv8mt5nwzp62j",
+   "fim": 1792014684768,
+   "catId": "c_casa",
+   "diaId": "mv864v4nylukr",
+   "dispId": "dmv7axpk6gr1cn",
+   "nome": "Lavar Louças"
+  },
+  {
+   "diaId": "mv864v4nylukr",
+   "sessaoId": "mv8e0xo6s3uu5",
+   "fim": 1792018800520,
+   "marcadoEm": 1792018800520,
+   "atrasoMs": 0,
+   "nome": "Codar",
+   "retomaDe": "mv8e0xo6s3uu5",
+   "esqueceu": false,
+   "dispId": "dmv8nbbhwcmwdb",
+   "tarefaId": "mv86tujmmno4w",
+   "dispNome": "Samsung Book E30",
+   "inicio": 1792014689632,
+   "id": "mv8nclb6cd5g6",
+   "catId": "c_estudo"
+  },
+  {
+   "tarefaId": "mv864h0r8c7ub",
+   "dispNome": "Samsung Book E30",
+   "retomaDe": "mv89x9oq30d35",
+   "diaId": "mv864v4nylukr",
+   "id": "mv8ncodt89fju",
+   "esqueceu": false,
+   "fim": 1792019142741,
+   "atrasoMs": 0,
+   "inicio": 1792014693616,
+   "dispId": "dmv8nbbhwcmwdb",
+   "marcadoEm": 1792019142741,
+   "catId": "c_lazer",
+   "nome": "Assistir TV",
+   "sessaoId": "mv89x9oq30d35"
+  },
+  {
+   "esqueceu": false,
+   "tarefaId": "mv8oi8qd68c1l",
+   "fim": 1792019148157,
+   "dispNome": "Moto G",
+   "catId": "mv8oi8pseezmt",
+   "atrasoMs": 0,
+   "diaId": "mv864v4nylukr",
+   "id": "mv8oi8qo7akjp",
+   "inicio": 1792016753856,
+   "nome": "Rede Social",
+   "marcadoEm": 1792019148157,
+   "dispId": "dmv7aq9bx844sj"
+  },
+  {
+   "tarefaId": "mv8p140q8288h",
+   "dispNome": "Notebook",
+   "esqueceu": false,
+   "diaId": "mv864v4nylukr",
+   "marcadoEm": 1792018016608,
+   "atrasoMs": 0,
+   "inicio": 1792017513650,
+   "fim": 1792018016608,
+   "dispId": "dmv8ny5pgj5w55",
+   "id": "mv8p140rl1amg",
+   "nome": "Janta",
+   "catId": "c_saude"
+  },
+  {
+   "atrasoMs": 0,
+   "nome": "99/UBER",
+   "fim": 1792045432490,
+   "dispNome": "A-16",
+   "diaId": "mv864v4nylukr",
+   "tarefaId": "mv8py6m5mj2p7",
+   "esqueceu": false,
+   "marcadoEm": 1792045432490,
+   "id": "mv8py6mjcp6i3",
+   "dispId": "dmv7axpk6gr1cn",
+   "catId": "c_trabalho",
+   "inicio": 1792019177226
+  },
+  {
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "inicio": 1792069730750,
+   "marcadoEm": 1792069766437,
+   "pausada": true,
+   "tarefaId": "mv864h06417c8",
+   "dispNome": "Moto G",
+   "esqueceu": false,
+   "catId": "c_refeicao",
+   "fim": 1792069766437,
+   "diaId": "mv9ia4om2tcvo",
+   "nome": "Café da manhã",
+   "id": "mv9k1pz3h9y8n"
+  },
+  {
+   "nome": "Assistir TV",
+   "diaId": "mv9ia4om2tcvo",
+   "marcadoEm": 1792069763533,
+   "atrasoMs": 0,
+   "id": "mv9k1pzoz9udf",
+   "pausada": true,
+   "tarefaId": "mv864h0r8c7ub",
+   "dispNome": "Moto G",
+   "esqueceu": false,
+   "fim": 1792069763533,
+   "dispId": "dmv7aq9bx844sj",
+   "inicio": 1792069730750,
+   "catId": "c_lazer"
+  },
+  {
+   "diaId": "mv9ia4om2tcvo",
+   "atrasoMs": 0,
+   "inicio": 1792069730750,
+   "dispId": "dmv7aq9bx844sj",
+   "esqueceu": false,
+   "id": "mv9k1pzxs62i7",
+   "tarefaId": "mv8arykwh62s8",
+   "dispNome": "Moto G",
+   "marcadoEm": 1792069786089,
+   "fim": 1792069786089,
+   "pausada": true,
+   "nome": "Redes Sociais",
+   "catId": "c_lazer"
+  },
+  {
+   "marcadoEm": 1792069784312,
+   "pausada": false,
+   "atrasoMs": 0,
+   "nome": "Conversando com Deus",
+   "dispId": "dmv7aq9bx844sj",
+   "esqueceu": false,
+   "fim": 1792069740000,
+   "tarefaId": "mv866h779qdhk",
+   "inicio": 1792065480000,
+   "dispNome": "Moto G",
+   "catId": "c_outros",
+   "id": "mv9k1q01bxv3k",
+   "diaId": "mv9ia4om2tcvo"
+  },
+  {
+   "esqueceu": false,
+   "tarefaId": "mv86xotteg8om",
+   "dispNome": "Moto G",
+   "catId": "mv86x1x8ubaua",
+   "inicio": 1792069737203,
+   "fim": 1792070887828,
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "nome": "Exercício Ocular",
+   "marcadoEm": 1792070887828,
+   "id": "mv9k1uyc7jx6d",
+   "diaId": "mv9ia4om2tcvo"
+  },
+  {
+   "id": "mv9k28u92sfkz",
+   "atrasoMs": 0,
+   "marcadoEm": 1792069770602,
+   "dispNome": "Moto G",
+   "nome": "Alongamento",
+   "tarefaId": "mv871at4d1mbe",
+   "diaId": "mv9ia4om2tcvo",
+   "esqueceu": false,
+   "catId": "mv86x1x8ubaua",
+   "inicio": 1792069740000,
+   "dispId": "dmv7aq9bx844sj",
+   "fim": 1792069800000,
+   "pausada": true
+  },
+  {
+   "diaId": "mv9ia4om2tcvo",
+   "retomaDe": "mv9k28u92sfkz",
+   "esqueceu": false,
+   "nome": "Alongamento",
+   "tarefaId": "mv871at4d1mbe",
+   "dispNome": "Moto G",
+   "marcadoEm": 1792071571796,
+   "id": "mv9l47m3b33t8",
+   "atrasoMs": 0,
+   "dispId": "dmv7aq9bx844sj",
+   "inicio": 1792070700000,
+   "fim": 1792071540000,
+   "catId": "mv86x1x8ubaua",
+   "sessaoId": "mv9k28u92sfkz"
+  },
+  {
+   "atrasoMs": 0,
+   "nome": "Lavar Louças",
+   "catId": "c_casa",
+   "fim": 1792073640000,
+   "dispNome": "Moto G",
+   "tarefaId": "mv89760vfcr0t",
+   "esqueceu": false,
+   "marcadoEm": 1792073956191,
+   "dispId": "dmv7aq9bx844sj",
+   "inicio": 1792072020000,
+   "diaId": "mv9ia4om2tcvo",
+   "id": "mv9lezs8xcbbu"
+  },
+  {
+   "retomaDe": "mv9k1pzoz9udf",
+   "dispNome": "Moto G",
+   "tarefaId": "mv864h0r8c7ub",
+   "dispId": "dmv7aq9bx844sj",
+   "atrasoMs": 0,
+   "sessaoId": "mv9k1pzoz9udf",
+   "marcadoEm": 1792084634010,
+   "esqueceu": false,
+   "nome": "Assistir TV",
+   "inicio": 1792072645272,
+   "fim": 1792084634010,
+   "diaId": "mv9ia4om2tcvo",
+   "catId": "c_lazer",
+   "id": "mv9ls6u0eofag"
+  },
+  {
+   "id": "mv9lscce43ksg",
+   "sessaoId": "mv9k1pz3h9y8n",
+   "catId": "c_refeicao",
+   "fim": 1792072659807,
+   "inicio": 1792072652413,
+   "dispId": "dmv7aq9bx844sj",
+   "nome": "Café da manhã",
+   "pausada": true,
+   "atrasoMs": 0,
+   "diaId": "mv9ia4om2tcvo",
+   "retomaDe": "mv9k1pz3h9y8n",
+   "esqueceu": false,
+   "tarefaId": "mv864h06417c8",
+   "dispNome": "Moto G",
+   "marcadoEm": 1792072659807
+  },
+  {
+   "atrasoMs": 0,
+   "catId": "c_refeicao",
+   "id": "mv9mrpw1j6u8v",
+   "marcadoEm": 1792074388169,
+   "dispNome": "Moto G",
+   "tarefaId": "mv88ka9ujx79q",
+   "fim": 1792074360000,
+   "esqueceu": false,
+   "dispId": "dmv7aq9bx844sj",
+   "inicio": 1792073700000,
+   "nome": "preparo de Refeição",
+   "diaId": "mv9ia4om2tcvo"
+  },
+  {
+   "esqueceu": false,
+   "inicio": 1792077420000,
+   "nome": "Banho",
+   "fim": 1792078080000,
+   "diaId": "mv9ia4om2tcvo",
+   "atrasoMs": 0,
+   "catId": "c_higiene",
+   "marcadoEm": 1792078084198,
+   "tarefaId": "mv864h0mzgjvc",
+   "dispId": "dmv7aq9bx844sj",
+   "id": "mv9p03nem0w6e",
+   "dispNome": "Moto G"
+  },
+  {
+   "nome": "Organizar Ferramentas",
+   "inicio": 1792078437245,
+   "atrasoMs": 0,
+   "id": "mv9p8by6ds729",
+   "tarefaId": "mv9p8bx6b0c7t",
+   "fim": 1792079941837,
+   "pausada": true,
+   "dispNome": "Moto G",
+   "diaId": "mv9ia4om2tcvo",
+   "catId": "mv8dt0a1akki6",
+   "marcadoEm": 1792079941837,
+   "esqueceu": false,
+   "dispId": "dmv7aq9bx844sj"
+  },
+  {
+   "inicio": 1792080879598,
+   "catId": "c_refeicao",
+   "diaId": "mv9ia4om2tcvo",
+   "esqueceu": false,
+   "nome": "Café da manhã",
+   "dispNome": "Moto G",
+   "retomaDe": "mv9lscce43ksg",
+   "marcadoEm": 1792081955240,
+   "fim": 1792081955240,
+   "dispId": "dmv7aq9bx844sj",
+   "tarefaId": "mv864h06417c8",
+   "atrasoMs": 0,
+   "sessaoId": "mv9k1pz3h9y8n",
+   "id": "mv9qooha2tpvt"
+  },
+  {
+   "esqueceu": false,
+   "nome": "Redes Sociais",
+   "inicio": 1792080891224,
+   "fim": 1792084637410,
+   "sessaoId": "mv9k1pzxs62i7",
+   "marcadoEm": 1792084637410,
+   "atrasoMs": 0,
+   "dispId": "dmv7aq9bx844sj",
+   "id": "mv9qoxg8glsxw",
+   "tarefaId": "mv8arykwh62s8",
+   "diaId": "mv9ia4om2tcvo",
+   "retomaDe": "mv9k1pzxs62i7",
+   "dispNome": "Moto G",
+   "catId": "c_lazer"
+  },
+  {
+   "dispId": "dmv7aq9bx844sj",
+   "fim": 1792084843670,
+   "atrasoMs": 0,
+   "marcadoEm": 1792084843670,
+   "tarefaId": "mv87vo8soibz4",
+   "dispNome": "Moto G",
+   "catId": "mv87vo8h1zrj8",
+   "diaId": "mv9ia4om2tcvo",
+   "esqueceu": false,
+   "inicio": 1792084643139,
+   "id": "mv9sxcg4exyfa",
+   "nome": "Planejamento Financeiro"
+  },
+  {
+   "tarefaId": "mv9p8bx6b0c7t",
+   "retomaDe": "mv9p8by6ds729",
+   "dispNome": "Moto G",
+   "id": "mv9t1p6dw3t3w",
+   "sessaoId": "mv9p8by6ds729",
+   "nome": "Organizar Ferramentas",
+   "inicio": 1792084846261,
+   "fim": 1792084974098,
+   "atrasoMs": 0,
+   "marcadoEm": 1792084974098,
+   "dispId": "dmv7aq9bx844sj",
+   "diaId": "mv9ia4om2tcvo",
+   "esqueceu": false,
+   "catId": "mv8dt0a1akki6"
+  },
+  {
+   "esqueceu": false,
+   "fim": 1792085547351,
+   "inicio": 1792085017656,
+   "catId": "c_casa",
+   "diaId": "mv9ia4om2tcvo",
+   "atrasoMs": 0,
+   "dispId": "dmv7aq9bx844sj",
+   "dispNome": "Moto G",
+   "tarefaId": "mv9t5dez8za53",
+   "marcadoEm": 1792085547351,
+   "id": "mv9t5dfcrx4in",
+   "nome": "Faxina Básica"
+  },
+  {
+   "dispNome": "Moto G",
+   "tarefaId": "mv89760vfcr0t",
+   "inicio": 1792086591925,
+   "atrasoMs": 0,
+   "catId": "c_casa",
+   "diaId": "mv9ia4om2tcvo",
+   "fim": 1792502994440,
+   "marcadoEm": 1792502994440,
+   "id": "mv9u34515isyj",
+   "esqueceu": false,
+   "dispId": "dmv7aq9bx844sj",
+   "nome": "Lavar Louças"
+  },
+  {
+   "esqueceu": false,
+   "id": "mv9ug3gzkif80",
+   "inicio": 1792087197587,
+   "fim": 1792502940000,
+   "atrasoMs": 0,
+   "catId": "c_estudo",
+   "diaId": "mv9ia4om2tcvo",
+   "marcadoEm": 1792502990200,
+   "nome": "Codar",
+   "dispId": "dmv7aq9bx844sj",
+   "dispNome": "Moto G",
+   "tarefaId": "mv86tujmmno4w"
+  }
+ ],
+ "rotinas": [
+  {
+   "nome": "Fênix",
+   "horario": {
+    "ativo": false,
+    "hora": "06:30",
+    "dias": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   "id": "mv9jzhm1m712k",
+   "itens": [
+    {
+     "ativo": true,
+     "modo": "seq",
+     "tarefaId": "mv866h779qdhk"
+    },
+    {
+     "modo": "seq",
+     "ativo": true,
+     "tarefaId": "mv86xotteg8om"
+    },
+    {
+     "ativo": true,
+     "tarefaId": "mv9jmh77x6fpj",
+     "modo": "seq"
+    },
+    {
+     "ativo": true,
+     "modo": "seq",
+     "tarefaId": "mv871at4d1mbe"
+    },
+    {
+     "tarefaId": "mv89760vfcr0t",
+     "modo": "seq",
+     "ativo": true
+    },
+    {
+     "ativo": true,
+     "modo": "seq",
+     "tarefaId": "mv88ka9ujx79q"
+    },
+    {
+     "modo": "seq",
+     "tarefaId": "mv864h0mzgjvc",
+     "ativo": true
+    },
+    {
+     "modo": "junto",
+     "tarefaId": "mv864h06417c8",
+     "ativo": true
+    },
+    {
+     "ativo": true,
+     "modo": "junto",
+     "tarefaId": "mv864h0r8c7ub"
+    },
+    {
+     "ativo": true,
+     "modo": "junto",
+     "tarefaId": "mv8arykwh62s8"
+    },
+    {
+     "tarefaId": "mv87vo8soibz4",
+     "ativo": true,
+     "modo": "seq"
+    },
+    {
+     "modo": "junto",
+     "ativo": false,
+     "tarefaId": "mv8py6m5mj2p7"
+    },
+    {
+     "tarefaId": "mv864h0ebv09s",
+     "modo": "junto",
+     "ativo": false
+    },
+    {
+     "ativo": false,
+     "modo": "junto",
+     "tarefaId": "mv86tujmmno4w"
+    },
+    {
+     "ativo": false,
+     "tarefaId": "mv864h0t7418q",
+     "modo": "junto"
+    },
+    {
+     "ativo": false,
+     "tarefaId": "mv864h0h530ez",
+     "modo": "junto"
+    },
+    {
+     "modo": "junto",
+     "ativo": false,
+     "tarefaId": "mv864h0zhs97i"
+    },
+    {
+     "modo": "junto",
+     "ativo": false,
+     "tarefaId": "mv8dt0ak83725"
+    }
+   ]
+  }
+ ],
+ "rotlog": [
+  {
+   "previsto": null,
+   "prox": 8,
+   "seq": [
+    "mv866h779qdhk",
+    "mv86xotteg8om",
+    "mv9jmh77x6fpj",
+    "mv871at4d1mbe",
+    "mv89760vfcr0t",
+    "mv88ka9ujx79q",
+    "mv864h0mzgjvc",
+    "mv87vo8soibz4"
+   ],
+   "nome": "Água",
+   "atrasoMs": 0,
+   "id": "L_mv9k1q056ctm2",
+   "iniciouEm": 1792069730750,
+   "diaId": "mv9ia4om2tcvo",
+   "pulou": false,
+   "rotinaId": "mv9jzhm1m712k"
+  }
+ ],
+ "cfg": {
+  "limiteMin": 60,
+  "repetirMin": 30,
+  "lembretes": true,
+  "notif": false
+ }
+}
