@@ -1,0 +1,10 @@
+FÊNIX | Gestor de Tempo v4.5 (core c 4.8, Livro das Regras v4.8)
+
+Publicar no repositório Fenix-Gestor-do-Tempo (raiz): index.html, sw.js, manifest.json e os ícones (icon-*.png, apple-touch-icon.png).
+  index.html .......................... app publicado (cópia neutra)
+  fenix-gestor-de-tempo-v4.5.html ..... cópia idêntica com a versão no nome (só controle interno; não publicar)
+  sw.js ............................... service worker (cache fenix-tempo-v4.5)
+  manifest.json, icon-*.png ........... PWA (sem mudança)
+  firestore.rules ..................... sem mudança nesta versão (nenhuma coleção nova)
+  fenix-gestor-de-tempo-manual-v4.5.md/.pdf ... manual do usuário (o MD também está dentro do app)
+Remover do repositório, se existirem: termos.html e privacidade.html (o app agora aponta para os documentos oficiais do Fenix-Core).
