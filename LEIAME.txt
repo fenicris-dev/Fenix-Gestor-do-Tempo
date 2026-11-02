@@ -1,11 +1,14 @@
-FÊNIX | Gestor de Tempo v4.9 (core c 5.2, Livro das Regras v5.2)
+FÊNIX | Gestor de Tempo v5.0 (core c 5.2, Livro das Regras v5.2)
 
 Publicar no repositório Fenix-Gestor-do-Tempo (raiz): index.html e sw.js. Os demais arquivos não mudaram.
   index.html .......................... app publicado (cópia neutra)
-  fenix-gestor-de-tempo-v4.9.html ..... cópia idêntica com a versão no nome (só controle interno; não publicar)
-  sw.js ............................... service worker (cache fenix-tempo-v4.9)
+  fenix-gestor-de-tempo-v5.0.html ..... cópia idêntica com a versão no nome (só controle interno; não publicar)
+  sw.js ............................... service worker (cache fenix-tempo-v5.0)
   firestore.rules ..................... sem mudança (nenhuma coleção nova)
-  fenix-gestor-de-tempo-manual-v4.9.md/.pdf ... manual do usuário (o MD também está dentro do app)
-  fenix-gestor-de-tempo-changelog-v4.9.pdf ... Changelog em PDF (gerado pelo core)
+  fenix-gestor-de-tempo-manual-v5.0.md/.pdf ... manual do usuário (o MD também está dentro do app)
+  fenix-gestor-de-tempo-changelog-v5.0.pdf ... Changelog em PDF (gerado pelo core)
 
-Versão de volta (regra 70): v4.8. Esta versão não muda o formato dos dados nem as regras do Firestore; voltar é recolocar index.html e sw.js da v4.8.
+Novidades: Ajustes > Tarefas em acordeão por categoria + busca; Repetição com "Ação" ou "Remédio" (nome da vez: rodada, corrida…); avisos de repetição agrupados em acordeão.
+Atenção: tarefas com repetição por vezes no dia agora são tratadas como Ação. Para remédio, abra Repetir e escolha "Remédio".
+
+Versão de volta (regra 70): v4.9. Esta versão só acrescenta campos opcionais (rep.vez, rep.remedio); o formato dos dados e as regras do Firestore não mudam. Voltar é recolocar index.html e sw.js da v4.9.

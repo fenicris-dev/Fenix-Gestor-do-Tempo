@@ -1,7 +1,7 @@
 /* FÊNIX | Gestor de Tempo — service worker v4.5
    Rede primeiro (para receber atualizações) com cache como reserva offline.
    Também guarda o fenix-core e o Firebase SDK, para o app abrir e sincronizar sem internet. */
-const CACHE = 'fenix-tempo-v4.9';
+const CACHE = 'fenix-tempo-v5.0';
 const ARQUIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const EXTERNOS = ['www.gstatic.com', 'fenicris-dev.github.io'];
 
