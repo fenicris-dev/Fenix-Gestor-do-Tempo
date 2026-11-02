@@ -1,12 +1,11 @@
-FÊNIX | Gestor de Tempo v4.7 (core c 5.2, Livro das Regras v5.2)
+FÊNIX | Gestor de Tempo v4.9 (core c 5.2, Livro das Regras v5.2)
 
 Publicar no repositório Fenix-Gestor-do-Tempo (raiz): index.html e sw.js. Os demais arquivos não mudaram.
   index.html .......................... app publicado (cópia neutra)
-  fenix-gestor-de-tempo-v4.7.html ..... cópia idêntica com a versão no nome (só controle interno; não publicar)
-  sw.js ............................... service worker (cache fenix-tempo-v4.7)
+  fenix-gestor-de-tempo-v4.9.html ..... cópia idêntica com a versão no nome (só controle interno; não publicar)
+  sw.js ............................... service worker (cache fenix-tempo-v4.9)
   firestore.rules ..................... sem mudança (nenhuma coleção nova)
-  fenix-gestor-de-tempo-manual-v4.7.md/.pdf ... manual do usuário (o MD também está dentro do app)
-  fenix-gestor-de-tempo-changelog-v4.7.pdf ... Changelog em PDF (gerado pelo core)
+  fenix-gestor-de-tempo-manual-v4.9.md/.pdf ... manual do usuário (o MD também está dentro do app)
+  fenix-gestor-de-tempo-changelog-v4.9.pdf ... Changelog em PDF (gerado pelo core)
 
-Depois de publicar: Ajustes > Categorias > Sugerir organização por categorias (mostra a prévia antes de aplicar).
-Versão de volta (regra 70): v4.6. Só campos opcionais novos (categoria da sub-ação e do registro); voltar é recolocar index.html e sw.js da v4.6.
+Versão de volta (regra 70): v4.8. Esta versão não muda o formato dos dados nem as regras do Firestore; voltar é recolocar index.html e sw.js da v4.8.
