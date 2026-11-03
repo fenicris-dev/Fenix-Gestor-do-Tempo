@@ -1,0 +1,2904 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 7471
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F2 20 Tf
+23. TL
+0.016 0.071 0.451 rg
+42.5196850393700814 753.8572440944881237 Td
+(Changelog — FÊNIX | Gestor de Tempo) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 728.3522362204723777 Td
+(Criado em 22/10/2026 · Última modificação 03/11/2026) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 690.008551181102348 Td
+(v5.1) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 669.0882992125984856 Td
+(Criada em 03/11/2026 · Modificada em 03/11/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 648.9180944881890127 Td
+(• Fases por tarefa: em Ajustes > Tarefas, o botão Fases cria a sequência de uma atividade \(ex.: Uber:) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 634.0671590551180543 Td
+(Aguardando chamado, Indo até o cliente, Aguardando embarque, Levando ao destino, Desembarque\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 619.2162236220472096 Td
+(Cada fase é Ação ou Espera, e há modelos prontos para Corrida/Entrega e Compras.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 601.5306425196849887 Td
+(• Na tela Hoje, a tarefa com fases ganha um botão grande com a próxima fase. Ao tocar, a fase atual) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 586.6797070866141439 Td
+(termina e a seguinte começa; depois da última, o ciclo recomeça \(nova corrida ou entrega\). O cartão) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 571.8287716535432992 Td
+(mostra o tempo da fase, o tempo do turno e o número do ciclo.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 554.1431905511810783 Td
+(• Parada técnica: durante o turno, o botão Parada técnica suspende o ciclo \(água, lanche,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 539.2922551181102335 Td
+(necessidade fisiológica, alongamento ou outro motivo\) e Voltar ao trabalho retoma de onde parou. O) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 524.4413196850393888 Td
+(turno inteiro continua contando na meta da tarefa \(ex.: 10 horas\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 506.755738582677111 Td
+(• Ajustes > Paradas técnicas: lista editável com meta de duração em minutos \(ex.: lanche 15 min\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 491.9048031496062663 Td
+(Sem meta, o app usa o tempo típico das últimas vezes.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 474.2192220472439885 Td
+(• Ajustar horário: se esquecer de tocar, o botão Ajustar corrige a hora em que a fase atual começou.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 456.5336409448818813 Td
+(• Relatórios: novo bloco Fases por tarefa, com o tempo em ação, espera e parada técnica, o Tempo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 441.6827055118109797 Td
+(não funcional \(espera + paradas\), média e total de cada fase, e, em cada parada, a comparação com) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 426.831770078740135 Td
+(a meta e a evolução semanal \(ex.: 24 -> 20 -> 15 min\). Mostra também as horas do dia com menos e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 411.9808346456692334 Td
+(mais espera.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 394.2952535433070693 Td
+(• As fases não entram no cálculo do tempo típico nem do Necessário × extra, e uma tarefa com fases) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 379.4443181102361677 Td
+(conta uma só vez nas repetições do dia.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 349.2545480314959718 Td
+(v5.0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 328.3342960629920526 Td
+(Criada em 02/11/2026 · Modificada em 02/11/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 308.1640913385825797 Td
+(• Ajustes > Tarefas: as tarefas agora ficam em acordeão por categoria, com o nome e a quantidade) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 293.313155905511735 Td
+(\(Casa \(12\)\). Entram todas fechadas, abrir uma fecha a outra, e a categoria da tarefa que você criar ou) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 278.4622204724408903 Td
+(mover abre sozinha.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 260.7766393700786693 Td
+(• Ajustes > Tarefas: novo campo Buscar tarefa. Ao digitar, só aparecem as categorias e tarefas que) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 245.9257039370078246 Td
+(combinam, já abertas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 228.2401228346456037 Td
+(• Repetição: nova pergunta O que são essas vezes? Escolha Ação \(corrida, rodada…\) ou Remédio.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 213.3891874015746453 Td
+(Em Ação você dá o nome de cada vez \(ex.: rodada\) e os avisos deixam de falar em dose: 99 —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 198.5382519685038005 Td
+(rodada 1 de 3. Os botões viram Feito e Pular rodada. Tarefas antigas passam a ser tratadas como) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 183.6873165354329558 Td
+(Ação; para as de remédio, abra Repetir e escolha Remédio.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 166.0017354330707349 Td
+(• Avisos de repetição pendentes agora ficam agrupados em um único acordeão no topo \( 2 repetições) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 151.1507999999998901 Td
+(pendentes, com os nomes\), fechado por padrão, para não ocupar a tela.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 120.9610299212596374 Td
+(v4.9) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 100.0407779527556613 Td
+(Criada em 01/11/2026 · Modificada em 01/11/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 79.8705732283460748 Td
+(• Tela Hoje: o bloco Recentes e em uso agora abre sozinho ao entrar no app, para iniciar uma tarefa) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 65.01963779527523 Td
+(recente com um toque. Os demais blocos continuam fechados, e abrir um fecha o outro. Se você) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 50.1687023622043853 Td
+(fechar o Recentes, ele fica fechado até a próxima abertura do app.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 1 de 9) Tj
+ET
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 7925
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 750.3536220472440164 Td
+(v4.8) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 729.433370078740154 Td
+(Criada em 01/11/2026 · Modificada em 01/11/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 709.2631653543306811 Td
+(• Tela Hoje em acordeão: Recentes e em uso, Categorias, Repetições, Metas de hoje, Concluídas hoje) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 694.4122299212598364 Td
+(e Ocioso e interrupções viraram blocos que começam fechados. Cada título mostra um resumo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 679.5612944881888779 Td
+(\(quantidade e se há algo rodando\). Ao abrir um bloco, o que estava aberto fecha sozinho. Cronômetro) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 664.7103590551180332 Td
+(Acordou, Em andamento e Rotina continuam sempre à vista.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 647.024777952755926 Td
+(• Botão Abortar na tarefa em andamento: use quando você tocou numa atividade por engano. Pede) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 632.1738425196849676 Td
+(confirmação e descarta a tarefa sem registrar nada. Se ela era a retomada de uma tarefa pausada, a) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 617.3229070866141228 Td
+(tarefa volta a ficar pausada.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 587.1331370078739837 Td
+(v4.7) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 566.2128850393700077 Td
+(Criada em 01/11/2026 · Modificada em 01/11/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 546.0426803149605348 Td
+(• Tela Hoje mais limpa: as favoritas agora ficam agrupadas por categoria. No topo vem “Recentes e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 531.1917448818896901 Td
+(em uso” \(as tarefas em andamento ou pausadas e as 6 usadas há menos tempo\); abaixo, a lista de) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 516.3408094488188453 Td
+(categorias. Toque numa categoria para abrir as tarefas dela \(uma por vez\); a categoria com tarefa) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 501.4898740157480006 Td
+(rodando abre sozinha.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 483.8042929133857797 Td
+(• Sugerir organização por categorias \(Ajustes > Categorias\): o app reconhece as suas tarefas pelo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 468.9533574803148781 Td
+(nome e propõe a categoria de cada uma \(Alimentação, Bico, Casa, Cliente, Espiritual, Estudo, Fênix,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 454.1024220472440334 Td
+(Finanças, Lazer, Saúde e Tempo Perdido\). Mostra o que vai mudar antes de aplicar e cria as) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 439.2514866141731318 Td
+(categorias que faltarem.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 421.5659055118109677 Td
+(• Ajustes > Tarefas agora agrupa as tarefas por categoria. Segure a alça e arraste a tarefa: uma barra) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 406.7149700787400661 Td
+(com todas as categorias aparece embaixo da tela, e é só soltar sobre o destino. A lista de categoria) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 391.8640346456692214 Td
+(de cada tarefa continua valendo.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 374.1784535433070005 Td
+(• Categoria por sub-ação: cada sub-ação pode ter a sua categoria \(Ajustes > Tarefas > Variações\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 359.3275181102360989 Td
+(Exemplo: Redes Sociais > Divulgação conta em Fênix e Redes Sociais > Passatempo conta em) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 344.4765826771652542 Td
+(Lazer.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 326.7910015748030901 Td
+(• Categoria só desta vez: ao iniciar uma tarefa, toque em trocar ao lado da categoria. Em Corrigir) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 311.9400661417321317 Td
+(tarefa há o campo Categoria deste registro. A tarefa continua com a categoria padrão.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 294.2544850393699107 Td
+(• Relatórios: card Necessário × extra. Necessário é o tempo típico da tarefa \(mediana das vezes) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 279.403549606299066 Td
+(anteriores\); extra é o que passou disso, separado pelo “como” \(celular, livro etc.\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 261.7179685039368451 Td
+(• Dados: novos campos opcionais \(categoria da sub-ação e do registro\). Os dados e a sincronia atuais) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 246.8670330708660003 Td
+(não mudam \(esquema 1\).) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 216.6772629921258613 Td
+(v4.6) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 195.7570110236218852 Td
+(Criada em 31/10/2026 · Modificada em 31/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 175.5868062992124123 Td
+(• Saída protegida \(regra 71\): se você estiver no meio de uma edição, ao tocar em X, Cancelar, no) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 160.7358708661415676 Td
+(Voltar do celular, ao trocar de aba durante “Iniciar tarefa”, ao fechar ou recarregar a página, o app) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 145.8849354330707229 Td
+(pergunta “Continuar editando” ou “Sair sem salvar”. Telas só de consulta fecham direto. Na tela Hoje,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 131.0339999999997644 Td
+(o Voltar do celular pergunta “Sair do app?”. Puxar a tela para baixo não atualiza mais a página.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 113.3484188976375435 Td
+(• Core 5.2 e Livro das Regras 5.2: carregador oficial do core com cópia em cache para funcionar sem) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 98.4974834645666988 Td
+(internet, chave do banco de dados \(FENIX_BANCO_ATIVO\) e selo do Livro no app. Selo de versões) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 83.6465480314957404 Td
+(“v4.6 | c 5.2” desenhado pelo core.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 65.9609669291335194 Td
+(• Ajustes: as seções agora são acordeões, fechados ao abrir a tela \(regra 18\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 48.2753858267714122 Td
+(• Rodapé padrão com link do WhatsApp e do Instagram da Fênix \(regra 22\).) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 2 de 9) Tj
+ET
+endstream
+endobj
+7 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 8 0 R
+>>
+endobj
+8 0 obj
+<<
+/Length 8218
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(• Toque de 44 px em todos os botões, ícones e campos clicáveis, foco do teclado visível, rótulos de) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 748.0068755905510898 Td
+(acessibilidade nos botões só com ícone e campos sem rótulo, fontes que respeitam o tamanho do) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 733.155940157480245 Td
+(sistema e contraste reforçado \(regra 69\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 715.4703590551180241 Td
+(• Segurança \(regra 64\): identificadores vindos de dados só entram nos botões se forem seguros; o) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 700.6194236220471794 Td
+(texto digitado continua escapado antes de ir para a tela.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 682.9338425196849585 Td
+(• Versão do esquema dos dados registrada \(regra 65\): esquema 1.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 665.2482614173227375 Td
+(• Somente leitura \(regra 62\): se a nuvem recusar a gravação por fim de teste ou de licença, o app) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 650.3973259842518928 Td
+(avisa e continua permitindo ver os dados e exportar o backup.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 632.7117448818896719 Td
+(• Livro das Regras v5.2: ficha A, B, E e I. Login pelo modelo oficial, onboarding e menu do avatar) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 617.8608094488188271 Td
+(ficam para a próxima versão.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 587.6710393700786881 Td
+(v4.5) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 566.750787401574712 Td
+(Criada em 28/10/2026 · Modificada em 28/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 546.5805826771652391 Td
+(• Tela Hoje reorganizada, de cima para baixo: 1\) cronômetro permanente “Acordou”, 2\) Em andamento) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 531.7296472440943944 Td
+(\(com as pausadas\), 3\) Rotina, 4\) Para hoje \(favoritas, repetições e metas\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 514.0440661417321735 Td
+(• Iniciar tarefa ganhou tela própria, aberta pelo botão Iniciar \(play\) no centro do menu. Ela pergunta,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 499.1931307086613288 Td
+(em passos: 1\) Ação, 2\) Sub-ação, 3\) Detalhe, 4\) Onde, 5\) Como. Tudo depois da ação é opcional; o) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 484.342195275590484 Td
+(Onde e o Como já vêm com o que você usou da última vez nessa tarefa.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 466.6566141732283199 Td
+(• Exemplos: Estudar > Finanças > capítulo 3 > Biblioteca > Livro. Cliente > Orçamento > nome do) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 451.8056787401574184 Td
+(cliente > In loco \(cliente\) > Presencial. Você cria novas sub-ações, lugares e meios na hora, ou em) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 436.9547433070865736 Td
+(Ajustes > Onde e como.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 419.2691622047243527 Td
+(• Detalhe, Onde e Como aparecem nos cartões da tela Hoje e no Histórico, podem ser corrigidos em) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 404.418226771653508 Td
+(“Corrigir tarefa” e têm um card próprio em Relatórios \(tempo por detalhe, por lugar e por meio\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 386.732645669291287 Td
+(• Rotinas: agora você escolhe a ordem. Em Ajustes > Rotinas use \(setas para cima e para baixo\) para) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 371.8817102362203855 Td
+(subir ou descer cada rotina \(vale também na tela Hoje\); “Voltar à ordem alfabética” desfaz. No editor) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 357.0307748031495407 Td
+(da rotina, as tarefas marcadas ficam no topo, numeradas, e \(setas para cima e para baixo\) mudam a) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 342.1798393700786391 Td
+(posição de cada uma na sequência.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 324.4942582677164182 Td
+(• Core: o app passa a usar só o fenix-core 4.8 do endereço oficial; o módulo de login e sincronia que) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 309.6433228346455735 Td
+(vinha embutido no app foi removido \(regra 1\). O caminho dos dados na nuvem continua o mesmo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 294.7923874015747288 Td
+(\(dados_pessoais/{conta}/fenix-tempo_…\), então nada foi migrado.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 277.1068062992125078 Td
+(• Selo de versões desenhado pelo core \(regra 61\): “v4.5 | c 4.8”, no cabeçalho, no rodapé e na tela) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 262.2558708661416631 Td
+(Sobre, com aviso se existir core mais novo.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 244.5702897637794422 Td
+(• Sobre feita pelo core: versão, acessos, datas, dados da Fênix, Changelog com datas de criação e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 229.7193543307085974 Td
+(modificação e botão para baixar em PDF; mais as preferências Som de abertura e Reduzir animações,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 214.868418897637639 Td
+(e o Manual do usuário \(texto e PDF\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 197.1828377952754181 Td
+(• Backup pelo core: arquivo fenix-gestor-de-tempo-backup-aaaa-mm-dd.json e lembrete depois de 7) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 182.3319023622045734 Td
+(dias sem backup.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 164.6463212598423524 Td
+(• Visual do Livro das Regras: botões em Dell Azul, amarelo de destaque, degradê Fênix no topo e no) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 149.7953858267715077 Td
+(rodapé, splash de abertura com holofotes e toque de abertura “Asas” ao entrar na conta.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 132.1098047244092868 Td
+(• Livro das Regras v4.8: aplicadas as etapas 1 \(core\), 2 \(identidade\) e 5 \(Changelog, Sobre, backup\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 117.2588692913384421 Td
+(do roteiro da regra 55. Login pelo modelo oficial e onboarding ficam para a próxima versão.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 87.069099212598303 Td
+(v4.4) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 66.1488472440942132 Td
+(Criada em 24/10/2026 · Modificada em 24/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 45.9786425196846267 Td
+(• Adequação ao Livro das Regras.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 3 de 9) Tj
+ET
+endstream
+endobj
+9 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 10 0 R
+>>
+endobj
+10 0 obj
+<<
+/Length 7093
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(• Selo de versão visível no cabeçalho e no rodapé: “v4.4 | c4.1” \(o “c” é a versão do fenix-core em) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 748.0068755905510898 Td
+(uso\). Os detalhes estão no Sobre.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 730.3212944881889825 Td
+(• Tela Sobre completa: versão, core, acessos, primeiro acesso, última atualização, dados da Fênix,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 715.4703590551180241 Td
+(botão para salvar o changelog em PDF e opção “Reduzir animações”.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 697.7847779527558032 Td
+(• Todas as confirmações agora são janelas do próprio app \(nada de caixa do navegador\), com o nome) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 682.9338425196849585 Td
+(do item.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 665.2482614173227375 Td
+(• Rodapé padrão Fênix, ícone de conexão com símbolo \(sincronizado, … conectando, ? sem internet, !) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 650.3973259842518928 Td
+(erro\) e áreas de toque de pelo menos 44 px.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 632.7117448818896719 Td
+(• Manual do usuário em MD e PDF.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 602.5219748031495328 Td
+(v4.3) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 581.6017228346456704 Td
+(Criada em 24/10/2026 · Modificada em 24/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 561.4315181102361976 Td
+(• Ocioso, produtivo, variações e deslocamento.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 543.7459370078739767 Td
+(• Tempo ocioso: sem tarefa aberta por mais que a tolerância \(1, 2, 5 ou 10 min, em Ajustes\), o app) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 528.8950015748030182 Td
+(pergunta “o que você está fazendo?”. Responder registra a tarefa desde o começo do vazio. Sem) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 514.0440661417321735 Td
+(resposta em 5 minutos, o trecho fica como ocioso. Qualquer trecho ocioso pode virar atividade \(tela) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 499.1931307086613288 Td
+(Hoje ou Histórico\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 481.5075496062991647 Td
+(• Interrupções: o tempo de uma pausa, sem outra tarefa rodando, não é ocioso: aparece à parte, como) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 466.6566141732283199 Td
+(interrupção.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 448.971033070866099 Td
+(• Tempo produtivo: cada categoria \(e cada tarefa\) pode ser marcada como produtiva. O dia mostra) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 434.1200976377952543 Td
+(produtivo, outros, interrupções e ocioso, com percentuais, na tela do dia, no Dormir e em Relatórios.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 416.4345165354330334 Td
+(• Variações: uma tarefa pode ter variações \(Cliente > Domicílio, Laboratório, Orçamento…\). Ao iniciar,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 401.5835811023621318 Td
+(o app pergunta qual; os relatórios mostram a divisão.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 383.8979999999999109 Td
+(• Deslocamento em etapas: variações com “ida” e/ou “retorno” criam as etapas Ida, No local e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 369.0470645669290661 Td
+(Retorno, com os botões Cheguei, Terminei e Voltei à base. “Outro lugar” encerra o retorno ali e já) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 354.1961291338581646 Td
+(inicia a próxima atividade. Os relatórios mostram ida e retorno médios e quanto do tempo foi no local.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 324.0063590551179686 Td
+(v4.2) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 303.0861070866141063 Td
+(Criada em 22/10/2026 · Modificada em 22/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 282.9159023622046334 Td
+(• Endereço oficial do core.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 265.2303212598424125 Td
+(• O app passa a buscar o fenix-core só no endereço oficial \(repositório Fenix-Core\), sem tentativa no) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 250.3793858267715677 Td
+(endereço errado.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 220.189615748031315 Td
+(v4.1) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 199.2693637795273389 Td
+(Criada em 22/10/2026 · Modificada em 22/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 179.0991590551179797 Td
+(• Login e sincronização corrigidos.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 161.4135779527557588 Td
+(• O fenix-core publicado \(v4.1\) não traz os módulos de login com sincronia e acesso que o Gestor usa.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 146.5626425196849141 Td
+(O app agora leva esses módulos embutidos e os usa automaticamente nesse caso, então entrar na) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 131.7117070866139557 Td
+(conta e a sincronização em tempo real entre aparelhos voltam a funcionar.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 114.0261259842517347 Td
+(• Se um dia o core publicado trouxer os módulos, o app passa a usar o do core.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 83.8363559055117094 Td
+(v4.0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 62.9161039370076196 Td
+(Criada em 22/10/2026 · Modificada em 22/10/2026) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 42.745899212598033 Td
+(• Favoritos com cores.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 4 de 9) Tj
+ET
+endstream
+endobj
+11 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/Length 7076
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(• Os favoritos da tela Hoje agora mostram o estado do dia: verde iniciado, laranja pausado, azul) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 748.0068755905510898 Td
+(concluído e azul-claro parcial. As cores valem até o Dormir; ao tocar em Acordei, tudo recomeça.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 730.3212944881889825 Td
+(• Tarefas com repetição ou meta mínima ganham contador e barra de progresso no próprio botão \(ex.:) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 715.4703590551180241 Td
+(água 3/8, estudar 40min/2h\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 697.7847779527558032 Td
+(• A ordem alfabética não muda: só a cor.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 680.0991968503935823 Td
+(• Todas as exclusões \(tarefa, categoria, rotina, registro, dia\) agora perguntam “Tem certeza que quer) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 665.2482614173227375 Td
+(excluir …?” com o nome do item. “Apagar todos os dados” exige digitar APAGAR.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 635.0584913385825985 Td
+(v3.9) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 614.1382393700787361 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 593.9680346456692632 Td
+(• Trocar de conta e novo endereço do core.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 576.2824535433070423 Td
+(• Ajustes > Conta ganhou “Sair / trocar de conta”: sair mantendo os dados do aparelho, trocar de conta) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 561.4315181102361976 Td
+(\(sai e já abre o login\) ou sair apagando os dados deste aparelho \(eles continuam na nuvem da conta\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 543.7459370078739767 Td
+(• Ao entrar com outra conta num aparelho que tem dados da anterior, o app pergunta: usar só os) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 528.8950015748030182 Td
+(dados da nova conta, manter e enviar para ela, ou cancelar.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 511.2094204724408542 Td
+(• O app agora busca o fenix-core em Fenix_Core \(com o antigo como reserva\) e, se faltar algum) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 496.3584850393700094 Td
+(módulo, diz exatamente qual.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 466.1687149606298703 Td
+(v3.8) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 445.2484629921258943 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 425.0782582677164783 Td
+(• Tudo em ordem alfabética.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 407.3926771653542573 Td
+(• Tarefas, metas, categorias, rotinas, favoritas e repetições aparecem sempre em ordem alfabética) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 392.5417417322833558 Td
+(\(sem diferenciar maiúsculas e acentos\), nas telas, nos seletores e nos relatórios. Novos itens já) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 377.690806299212511 Td
+(entram no lugar certo.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 360.0052251968502901 Td
+(• A busca em “Iniciar tarefa” ignora acentos e maiúsculas \(“agua” acha “Água”\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 342.3196440944880692 Td
+(• Listas que dependem do horário ou da urgência \(Em andamento, Concluídas hoje, Para hoje,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 327.4687086614171676 Td
+(Histórico\) continuam na ordem do tempo.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 297.2789385826770285 Td
+(v3.7) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 276.3586866141730525 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 256.1884818897635796 Td
+(• Várias vezes por dia.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 238.5029007874014724 Td
+(• Na repetição por dias da semana, agora dá para definir quantas vezes por dia \(ex.: remédio 3× nas) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 223.6519653543305139 Td
+(segundas, quartas e sextas\), com horários fixos \(08:00, 14:00, 20:00\) ou intervalo mínimo entre as) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 208.8010299212596692 Td
+(vezes \(ex.: 8h\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 191.1154488188974483 Td
+(• Em “Para hoje” aparece o contador \(1/3\), o horário da próxima e os botões Feito \(ou Tomei, se for) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 176.2645133858266036 Td
+(remédio\) e Pular. Em “O que são essas vezes?”, escolha **Ação** \(e dê o nome: rodada, corrida…\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 161.4135779527557588 Td
+(ou **Remédio**. Na hora de cada vez, aviso no topo \(e notificação, se ativada\), agrupado em ** N) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 146.5626425196849141 Td
+(repetições pendentes** \(toque para abrir\) com Feito / Pular / Depois.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 128.8770614173226932 Td
+(• Tomar antes do intervalo mínimo pede confirmação. Desfazer um registro também pede confirmação.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 114.0261259842517347 Td
+(O relatório mostra quantas vezes foram cumpridas.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 83.8363559055117094 Td
+(v3.6) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 62.9161039370076196 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 42.745899212598033 Td
+(• Aviso de aprovações.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 5 de 9) Tj
+ET
+endstream
+endobj
+13 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 14 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 6310
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(• Para o administrador: um selo vermelho com o número de pedidos de acesso pendentes aparece no) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 748.0068755905510898 Td
+(, e um aviso no topo leva direto às Aprovações. A consulta é refeita sozinha a cada 5 minutos e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 733.155940157480245 Td
+(sempre que o app volta para a tela.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 702.966170078740106 Td
+(v3.5) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 682.0459181102362436 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 661.8757133858267707 Td
+(• Repetição das tarefas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 644.1901322834645498 Td
+(• Em Ajustes > Tarefas, o botão define como a tarefa se repete: quantas vezes \(ex.: água 8× por dia,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 629.3391968503937051 Td
+(com botão +1 ou com cronômetro\), dias da semana \(ex.: faxina seg, qui e dom\) ou a cada N dias \(ex.:) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 614.4882614173227466 Td
+(faxina a cada 15 dias, contando da última vez\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 596.8026803149605257 Td
+(• Na tela Hoje, o card “Para hoje” mostra o que está previsto, com Iniciar, Já fiz e Pular; o que passou) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 581.951744881889681 Td
+(do dia sem fazer vira um aviso no topo.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 564.2661637795274601 Td
+(• Relatórios ganharam o card “Repetições” \(dias cumpridos, média por dia ou semana, intervalo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 549.4152283464566153 Td
+(médio\).) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 519.2254582677164763 Td
+(v3.4) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 498.3052062992125002 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 478.1350015748030842 Td
+(• Backup na nuvem.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 460.4494204724408633 Td
+(• Com a conta ativa, o app guarda sozinho uma cópia dos seus dados por dia \(as 20 mais recentes\) e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 445.5984850393700185 Td
+(você restaura qualquer uma em Ajustes > Backup na nuvem.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 427.9129039370077976 Td
+(• Antes de importar um arquivo, apagar tudo ou restaurar, o app guarda uma cópia do estado atual na) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 413.0619685039369529 Td
+(nuvem.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 395.3763874015747319 Td
+(• Os backups são privados e apagados junto com a conta.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 365.186617322834536 Td
+(v3.3) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 344.2663653543306168 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 324.0961606299210871 Td
+(• Painel semanal e mensal.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 306.4105795275589799 Td
+(• Em Relatórios, novos períodos “Semana” \(segunda a domingo\) e “Mês”, com setas \(setas de) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 291.5596440944880214 Td
+(período\) para ver semanas e meses anteriores.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 273.8740629921258005 Td
+(• Comparação com a semana ou o mês anterior, gráfico “Dia a dia” de tempo acordado e card) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 259.0231275590549558 Td
+(“Horários” \(média de acordar e dormir, dia mais cedo e mais tarde\).) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 228.8333574803148167 Td
+(v3.2) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 207.9131055118108407 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 187.7429007874013678 Td
+(• Esqueci de dormir.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 170.0573196850391469 Td
+(• Se o dia ficar aberto por mais de 20 horas, o app pergunta se você já dormiu. “Já dormi” abre o) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 155.2063842519683021 Td
+(encerramento do dia já com o horário da sua última atividade, para você ajustar; “Ainda estou) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 140.3554488188974574 Td
+(acordado” silencia por 2 horas.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 110.1656787401572046 Td
+(v3.1) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 89.2454267716533423 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 69.0752220472437557 Td
+(• Tela Hoje.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 51.3896409448815348 Td
+(• “Em andamento” \(e “Pausadas”\) agora vêm antes de “Metas de hoje”: primeiro o que está) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 6 de 9) Tj
+ET
+endstream
+endobj
+15 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 16 0 R
+>>
+endobj
+16 0 obj
+<<
+/Length 6652
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(acontecendo, depois o acompanhamento das metas.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 732.6680409448817954 Td
+(v3.0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 711.7477889763779331 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 691.5775842519684602 Td
+(• Várias pessoas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 673.8920031496062393 Td
+(• Qualquer pessoa pode criar a própria conta \(> Não tenho conta\). O cadastro é liberado pelo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 659.0410677165353945 Td
+(administrador; enquanto aguarda, o app funciona normalmente no aparelho.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 641.3554866141731736 Td
+(• Cada pessoa vê só os seus dados, em qualquer aparelho. O administrador aprova e bloqueia) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 626.5045511811023289 Td
+(cadastros em > Aprovações.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 608.818970078740108 Td
+(• Excluir minha conta apaga a conta e os dados da nuvem. Política de privacidade disponível no app.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 578.6291999999998552 Td
+(v2.1) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 557.7089480314959928 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 537.5387433070866336 Td
+(• Janelas mais seguras.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 519.8531622047244127 Td
+(• Toda janela agora tem um para fechar. Tocar fora dela ou rolar para cima não fecha mais nem) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 505.0022267716535112 Td
+(atualiza a tela.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 474.8124566929133152 Td
+(v2.0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 453.892204724409396 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 433.7219999999999231 Td
+(• Vários aparelhos, uma conta.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 416.0364188976377022 Td
+(• Entre com a conta do Fênix Core \(no topo\). O que você inicia, pausa ou encerra em um aparelho) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 401.1854834645668575 Td
+(aparece no outro em tempo real.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 383.4999023622046366 Td
+(• Tarefas iniciadas em outro aparelho mostram “iniciada em Tablet”; dê um nome a cada aparelho na) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 368.648966929133735 Td
+(tela da conta.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 350.9633858267715141 Td
+(• Na primeira entrada, os dados que já estão no aparelho sobem para a nuvem sem duplicar \(tarefas e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 336.1124503937006693 Td
+(categorias com o mesmo nome são unidas\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 318.4268692913384484 Td
+(• Funciona sem internet: o que for feito offline sobe sozinho quando a conexão volta. Em edições) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 303.5759338582676037 Td
+(simultâneas vale a última alteração.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 285.8903527559053828 Td
+(• Relógios dos aparelhos são alinhados pelo horário do servidor.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 268.2047716535431618 Td
+(• Seus dados são privados da sua conta. Lembretes e avisos de rotina continuam só com o app) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 253.3538362204723171 Td
+(aberto.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 223.1640661417320644 Td
+(v1.4) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 202.243814173228202 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 182.0736094488187291 Td
+(• Pausa e categorias livres.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 164.3880283464565082 Td
+(• Pausar e retomar: a tarefa em andamento ganhou o botão Pausar. Ela vai para “Pausadas” com o) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 149.5370929133856635 Td
+(tempo acumulado, e dali você retoma \(\) ou conclui. Retomar de novo soma ao que já foi feito.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 131.8515118110234425 Td
+(• O tempo pausado não conta como tempo da tarefa \(nem para metas e relatórios\) e aparece como) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 117.0005763779525978 Td
+(“sem registro”. Lembretes, tempo típico e “quantas vezes” usam a soma da sessão inteira.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 99.3149952755903769 Td
+(• Pausadas ficam no topo da lista de iniciar; tocar em uma retoma. Ao dormir, as pausadas ficam) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 84.4640598425194185 Td
+(concluídas com o tempo acumulado.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 66.7784787401573112 Td
+(• Categorias novas direto no fluxo: ao criar uma tarefa em Iniciar tarefa há “+ Nova categoria” \(nome e) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 51.9275433070863528 Td
+(cor\), e os seletores de categoria em Ajustes ganharam “+ Nova categoria…”.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 7 de 9) Tj
+ET
+endstream
+endobj
+17 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 18 0 R
+>>
+endobj
+18 0 obj
+<<
+/Length 6719
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 750.3536220472440164 Td
+(v1.3) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 729.433370078740154 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 709.2631653543306811 Td
+(• Rotinas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 691.5775842519684602 Td
+(• Modelos de rotina \(Ajustes > Rotinas\): marque quais tarefas fazem parte; cada uma pode começar) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 676.7266488188976155 Td
+(“junto” com a rotina ou “em sequência”, na ordem da lista. Desmarcar o check tira a tarefa da rotina) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 661.8757133858267707 Td
+(sem apagar nada.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 644.1901322834645498 Td
+(• Na sequência, ao encerrar uma tarefa o app oferece a próxima: iniciar agora, iniciar a partir do) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 629.3391968503937051 Td
+(término da anterior, pular ou deixar para depois \(fica em “Rotinas em andamento”\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 611.6536157480314841 Td
+(• Rotina com horário e dias da semana: com o app aberto e o dia iniciado, avisa “atrasada há X min”) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 596.8026803149605257 Td
+(com Iniciar agora, Adiar 10 min e Hoje não.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 579.1170992125983048 Td
+(• Relatórios: atraso médio e quantas vezes cada rotina com horário foi iniciada ou pulada. Backup) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 564.2661637795274601 Td
+(inclui rotinas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 546.5805826771652391 Td
+(• Banco de dados atualizado para a versão 2 sem perder nenhum registro.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 516.3908125984251001 Td
+(v1.2) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 495.4705606299211809 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 475.3003559055117648 Td
+(• Refinando o dia a dia.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 457.6147748031495439 Td
+(• Aviso de limite: quando uma meta “no máximo” estoura com a tarefa ainda rodando \(ex.: TV\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 442.7638393700786992 Td
+(aparece um alerta com Encerrar / “Ainda estou nisso”, e a notificação do sistema, se ativada.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 425.0782582677164783 Td
+(• Tarefas favoritas: toque na em Ajustes > Tarefas e ela vira um atalho na tela Hoje, que inicia a tarefa) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 410.2273228346455767 Td
+(com um toque. Favoritas também ficam no topo da lista de iniciar.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 392.5417417322833558 Td
+(• Relatórios: comparação das médias por dia com o período anterior \(7 ou 30 dias\), por categoria,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 377.690806299212511 Td
+(incluindo as distrações. O dia em andamento fica de fora por ser parcial.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 347.5010362204723151 Td
+(v1.1) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 326.580784251968339 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 306.4105795275589799 Td
+(• Metas por tarefa e ícone oficial.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 288.7249984251967589 Td
+(• Metas diárias por tarefa: “pelo menos” \(ex.: estudar 2h\) ou “no máximo” \(ex.: TV até 1h\), definidas) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 273.8740629921258005 Td
+(em Ajustes > Tarefas \(botão \).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 256.1884818897635796 Td
+(• Card “Metas de hoje” na tela Hoje, com barra de progresso ao vivo, e metas no resumo do dia) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 241.3375464566927349 Td
+(\(Dormir e Histórico\).) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 223.6519653543305139 Td
+(• Relatórios: dias em que cada meta foi cumprida, média diária e sequência atual; o dia em andamento) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 208.8010299212596692 Td
+(não conta como falha antes de terminar.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 191.1154488188974483 Td
+(• Ícone oficial Fênix no app instalado, no cabeçalho e nas notificações.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 173.4298677165352274 Td
+(• Correção: “0 distraçãoões” agora aparece como “0 distrações” \(singular e plural\); cabeçalho ajustado) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 158.5789322834643826 Td
+(para telas pequenas.) Tj
+ET
+BT
+/F2 15 Tf
+17.25 TL
+0.016 0.071 0.451 rg
+42.5196850393700814 128.3891622047242436 Td
+(v1.0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.333 0.357 0.502 rg
+42.5196850393700814 107.4689102362201538 Td
+(Criada em — · Modificada em —) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 87.2987055118106809 Td
+(• Versão inicial.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 69.61312440944846 Td
+(• Botões Acordei e Dormir, com cronômetro do dia.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 51.9275433070862391 Td
+(• Várias tarefas abertas ao mesmo tempo; cada uma só termina quando você encerra.) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 8 de 9) Tj
+ET
+endstream
+endobj
+19 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 20 0 R
+>>
+endobj
+20 0 obj
+<<
+/Length 1915
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 762.8578110236220482 Td
+(• Início de tarefa com lista, busca e criação de nova \(com categoria\) e opção “começou há X min”.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 745.1722299212598273 Td
+(• Ao encerrar: “encerrei agora” ou “esqueci”, informando o horário real; contador de distrações e atraso) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 730.3212944881889825 Td
+(entre o feito e o registro.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 712.6357133858267616 Td
+(• Corrigir depois: editar início/fim de tarefas e do dia, mudar a tarefa, excluir.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 694.9501322834645407 Td
+(• Categorias com cores e gerenciamento de tarefas.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 677.2645511811023198 Td
+(• Lembrete suave para tarefas abertas além do tempo típico, com notificações opcionais.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 659.5789700787400989 Td
+(• Histórico com linha do tempo por dia e relatórios por período, incluindo disciplina.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.008 0.027 0.2 rg
+53.8582677165354369 641.893388976377878 Td
+(• Backup e restauração em JSON, exportação CSV; funciona offline e é instalável \(PWA\).) Tj
+ET
+0.02 0.03 0.6 rg
+0. 841.8899999999999864 595.2755905511811534 -39.6850393700787407 re
+f
+BT
+/F2 10 Tf
+11.5 TL
+1. g
+42.5196850393700814 816.3781889763779418 Td
+(Fênix Soluções Tecnológicas) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+1. g
+504.8559055118111019 816.3781889763779418 Td
+(Changelog) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 0.455 0.588 rg
+270.0977952755906131 14.1734645669290558 Td
+(Página 9 de 9) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R ]
+/Count 9
+>>
+endobj
+21 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+24 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+25 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+26 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+27 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+28 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+29 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+30 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+31 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+32 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+33 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+34 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 21 0 R
+/F2 22 0 R
+/F3 23 0 R
+/F4 24 0 R
+/F5 25 0 R
+/F6 26 0 R
+/F7 27 0 R
+/F8 28 0 R
+/F9 29 0 R
+/F10 30 0 R
+/F11 31 0 R
+/F12 32 0 R
+/F13 33 0 R
+/F14 34 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+35 0 obj
+<<
+/Producer (jsPDF 2.5.1)
+/CreationDate (D:20261103035644-00'00')
+>>
+endobj
+36 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 37
+0000000000 65535 f 
+0000061112 00000 n 
+0000062987 00000 n 
+0000000015 00000 n 
+0000000152 00000 n 
+0000007675 00000 n 
+0000007812 00000 n 
+0000015789 00000 n 
+0000015926 00000 n 
+0000024196 00000 n 
+0000024334 00000 n 
+0000031480 00000 n 
+0000031619 00000 n 
+0000038748 00000 n 
+0000038887 00000 n 
+0000045250 00000 n 
+0000045389 00000 n 
+0000052094 00000 n 
+0000052233 00000 n 
+0000059005 00000 n 
+0000059144 00000 n 
+0000061222 00000 n 
+0000061348 00000 n 
+0000061479 00000 n 
+0000061613 00000 n 
+0000061751 00000 n 
+0000061875 00000 n 
+0000062004 00000 n 
+0000062136 00000 n 
+0000062272 00000 n 
+0000062400 00000 n 
+0000062527 00000 n 
+0000062656 00000 n 
+0000062789 00000 n 
+0000062891 00000 n 
+0000063240 00000 n 
+0000063326 00000 n 
+trailer
+<<
+/Size 37
+/Root 36 0 R
+/Info 35 0 R
+/ID [ <35089A57C65E703B86EEFC881DF22844> <35089A57C65E703B86EEFC881DF22844> ]
+>>
+startxref
+63430
+%%EOF
